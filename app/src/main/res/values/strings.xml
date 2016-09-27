@@ -1,0 +1,57 @@
+<resources>
+    <string name="app_name">OneParkingApp</string>
+
+    <string name="login_error">Usuario o password incorrecto</string>
+    <string name="report_form">Llena todos los campos para continuar</string>
+    <string name="report_image">Agrega una imagen para completar el reporte</string>
+
+    <string name="oneparking">OneParking</string>
+    <string name="splash_rights">Derechos reservados or EzLife Corporation SAS</string>
+    <string name="login_usr">Usuario</string>
+    <string name="login_pass">Contraseña</string>
+    <string name="login_in">Entrar</string>
+    <string name="login_form">Escribe el usuario y contraseña</string>
+    <string name="loading">Cargando…</string>
+    <string name="login_fail">Usuario o contraseña incorrecta</string>
+    <string name="login_reg">Registrate</string>
+
+    <string name="pass_new">Nueva contraseña</string>
+    <string name="pass_new_2">Repetir contraseña</string>
+    <string name="pass_ok">Aceptar</string>
+    <string name="pass_info">Agrega una nueva contraseña para continuar</string>
+    <string name="pass_error">La contraseña no coincide</string>
+    <string name="pass_error_2">Error al actualizar password, intenta de nuevo</string>
+
+    <string name="reg_info">Crea una cuenta en tan solo dos pasos</string>
+    <string name="reg_name">Nombre</string>
+    <string name="reg_identity">Identificación</string>
+    <string name="reg_cel">Celular</string>
+    <string name="reg_next">Siguiente</string>
+    <string name="reg_dis">Uso parqueaderos para discapacitados</string>
+    <string name="reg_back">Atras</string>
+    <string name="reg_ok">Registrar</string>
+    <string name="reg_email">Email</string>
+    <string name="reg_pass">Contraseña</string>
+    <string name="reg_pass2">Repetir Contraseña</string>
+    <string name="reg_form">llena todos los campos</string>
+    <string name="reg_pass_invalid">La contraseña no coincide</string>
+    <string name="reg_success">Registro exitoso !</string>
+    <string name="reg_exist">El correo ya se encuentra registrado</string>
+
+    <string-array name="cities">
+        <item>Popayan</item>
+    </string-array>
+    <string name="title_activity_map">Map</string>
+    <string name="car_plate">Placa</string>
+    <string name="car_nickname">Apodo</string>
+    <string name="car_brand">Marca</string>
+    <string name="car_wellcome">Bienvenido a OneParkingApp</string>
+    <string name="car_wellcome_des">Agrega un Vehiculo y no te preocupes mas adelante puedes agregar mas</string>
+    <string name="car_title">Agregar Carro</string>
+    <string name="add">Agregar</string>
+    <string name="car_insert">Agregado !</string>
+    <string name="car_insert_error">Error al agregar vehiculo</string>
+    <string name="car_insert_error_2">Limite de vehiculos alcanzado</string>
+    <string name="action_refresh">Recargar</string>
+
+</resources>

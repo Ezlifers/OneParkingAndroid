@@ -1,0 +1,116 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <data class="MapBinding">
+        <variable
+            name="handler"
+            type="ezlife.movil.oneparkingapp.activities.MapActivity"/>
+        <variable
+            name="car"
+            type="ezlife.movil.oneparkingapp.net.models.Car"/>
+        <variable
+            name="format"
+            type="java.text.NumberFormat"/>
+        <variable
+            name="money"
+            type="java.lang.Long"/>
+    </data>
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:stretchColumns="0,2"
+        >
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+        <TableRow
+            android:background="@color/colorPrimary"
+            >
+            <LinearLayout
+                style="@style/MapButton"
+                android:onClick="@{()->handler.addMoney()}"
+                >
+
+                <ImageView
+                    android:layout_width="@dimen/map_icon_primary"
+                    android:layout_height="@dimen/map_icon_primary"
+                    app:srcCompat="@drawable/ic_money"
+                    />
+                <TextView
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textPrimaryInvert"
+                    android:gravity="center"
+                    android:text="@{format.format(money)}"
+                    tools:text="10.000"
+                    />
+                <ImageView
+                    android:layout_width="@dimen/map_icon_sec"
+                    android:layout_height="@dimen/map_icon_sec"
+                    app:srcCompat="@drawable/ic_add"
+                    />
+
+            </LinearLayout>
+            <View
+                android:layout_height="?attr/actionBarSize"
+                android:layout_width="1dp"
+                android:background="@color/separatorDark"
+                />
+            <LinearLayout
+                style="@style/MapButton"
+                android:onClick="@{()->handler.selectCar()}"
+                >
+
+                <ImageView
+                    android:layout_width="@dimen/map_icon_primary"
+                    android:layout_height="@dimen/map_icon_primary"
+                    app:srcCompat="@drawable/ic_car"
+                    />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+
+                    <TextView
+                        style="@style/TextAppearance.AppCompat.Subhead"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/textPrimaryInvert"
+                        android:gravity="center"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="@{car.apodo}"
+                        tools:text="Amenaza Roja"
+                        />
+                    <TextView
+                        style="@style/TextAppearance.AppCompat.Body1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/textPrimaryLessInvert"
+                        android:gravity="center"
+                        android:text="@{car.placa.toUpperCase()}"
+                        tools:text="ABC105"
+                        />
+
+                </LinearLayout>
+                <ImageView
+                    android:layout_width="@dimen/map_icon_sec"
+                    android:layout_height="@dimen/map_icon_sec"
+                    app:srcCompat="@drawable/ic_expand"
+                    />
+            </LinearLayout>
+
+
+        </TableRow>
+    </TableLayout>
+
+</layout>
+

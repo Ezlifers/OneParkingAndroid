@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="url_base">http://192.168.0.12:8080/</string>
+    <!--<string name="url_base">http://oneparking7116.cloudapp.net:8080/</string>-->
+    <!--LoginApi-->
+    <string name="url_signin">apix/usuarios/signin</string>
+    <string name="url_login">apix/usuarios/login</string>
+    <string name="url_pass">apix/usuarios/%s/pass</string>
+    <!--CarApi-->
+    <string name="url_car_insert">apix/clientes/vehiculos</string>
+    <string name="url_car_list">apix/clientes/%s/vehiculos</string>
+    <string name="url_car_delete">apix/clientes/vehiculos/%s</string>
+    <!--ReportApi-->
+    <string name="url_report">apix/incidencias</string>
+
+
+
+    <!--AuxiliarApi-->
+    <string name="url_listar_zonas">apix/auxiliares/%s/zonas</string>
+    <string name="url_reservar_bahia">apix/auxiliares/reservar</string>
+    <string name="url_extender_bahia">apix/auxiliares/extender/%s</string>
+    <string name="url_detener_bahia">apix/auxiliares/detener/%s</string>
+    <string name="url_reload_reserve">api/reservas/%s</string>
+    <string name="url_notificacion_id">apix/auxiliares/cliente/%s</string>
+    <string name="url_notificacion_celular">apix/auxiliares/celular/%s</string>
+    <string name="url_notificar_loc">apix/auxiliares/localizacion</string>
+
+    <!--ZonasApi-->
+    <string name="url_zona">apix/zonas/%s?global=false&amp;state=true&amp;bays=true&amp;disability=true</string>
+</resources>

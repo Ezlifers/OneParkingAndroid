@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#005fac</color>
+    <color name="colorPrimaryDark">#004a85</color>
+    <color name="colorAccent">#8fbb22</color>
+    <color name="textPrimaryInvert">#ffffff</color>
+    <color name="textPrimaryLessInvert">#b4ffffff</color>
+    <color name="ezlife">#88ffffff</color>
+    <color name="separatorDark">#1affffff</color>
+    <color name="iconWhite">#ffffff</color>
+    <color name="iconAction">#555555</color>
+    <color name="iconActionDark">#aaffffff</color>
+    <color name="iconActionLessDark">#3cffffff</color>
+</resources>
