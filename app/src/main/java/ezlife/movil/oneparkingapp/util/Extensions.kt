@@ -1,4 +1,4 @@
-package ezlife.movil.oneparkingauxiliar.util
+package ezlife.movil.oneparkingapp.util
 
 import android.support.design.widget.TextInputLayout
 import android.widget.EditText

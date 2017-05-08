@@ -9,11 +9,11 @@ import ezlife.movil.oneparkingapp.util.Preference
 import ezlife.movil.oneparkingapp.util.SessionApp
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.Header
 import retrofit2.http.POST
 import java.util.*
 
-data class Car(val apodo: String, val placa: String, val marca: String)
-data class User(val _id: String, val tipo: String, val nombre: String, val cedula: String, val celular: String, val email: String, val discapasitado: Boolean, val vehiculos: List<Car>, val saldo: Int, val validado:Boolean = true)
+data class User(val _id: String, val tipo: String, val nombre: String, val cedula: String, val celular: String, val email: String, val discapasitado: Boolean, val vehiculos: List<Car>, val saldo: Int, val validado: Boolean = true)
 
 data class LoginReq(val role: String, val user: String, val password: String, val timestamp: Long)
 data class LoginRes(val success: Boolean, val timeout: Boolean, val token: String, val user: User)
@@ -21,19 +21,24 @@ data class LoginRes(val success: Boolean, val timeout: Boolean, val token: Strin
 data class RegisterReq(val tipo: String, val nombre: String, val cedula: String, val celular: String, val email: String, val usuario: String, val password: String, val discapasitado: Boolean)
 data class RegisterRes(val success: Boolean, val token: String, val id: String, val exists: Boolean)
 
+data class UpdatePassReq(val password: String)
+
 interface UserService {
     @POST("usuarios/login")
     fun login(@Body req: LoginReq): Call<LoginRes>
 
     @POST("usuarios/signin")
     fun register(@Body req: RegisterReq): Call<RegisterRes>
+
+    @POST("usuarios/pass")
+    fun updatePassword(@Header("Authorization") auth: String, @Body req: UpdatePassReq): Call<SimpleResponse>
 }
 
 class UserProvider(val activity: AppCompatActivity, val loading: ProgressDialog? = null) {
 
     private val service: UserService = RetrofitHelper.retrofit.create(UserService::class.java)
 
-    fun login(user: String, password: String, callback: (user:User) -> Unit) {
+    fun login(user: String, password: String, callback: (user: User) -> Unit) {
         loading?.show()
         val req = service.login(LoginReq("Cliente", user, password, Date().time))
         req.enqueue(ProviderCallback(activity, loading, R.string.login_error)
@@ -57,6 +62,13 @@ class UserProvider(val activity: AppCompatActivity, val loading: ProgressDialog?
                 SessionApp.token = token
             }
             callback(success, exists)
+        })
+    }
+
+    fun updatePassword(newPass:String, callback: (success: Boolean) -> Unit){
+        val req = service.updatePassword(SessionApp.makeToken(), UpdatePassReq(newPass))
+        req.enqueue(ProviderCallback(activity, loading) { (success) ->
+            callback(success)
         })
     }
 

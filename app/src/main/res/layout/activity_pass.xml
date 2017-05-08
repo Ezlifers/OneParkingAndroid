@@ -95,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/pass_ok"
                 android:textColor="@color/textPrimaryInvert"
-                android:onClick="@{()->handler.changePass()}" />
+                android:onClick="@{()->handler.updatePass()}" />
         </LinearLayout>
 
         <ImageView
