@@ -1,6 +1,16 @@
 <resources>
     <string name="app_name">OneParkingApp</string>
 
+    <string name="url_base">http://192.168.0.12:8080/</string>
+    <string name="http_404">Recurso no encontrado</string>
+    <string name="http_401">Accion no Autorizada</string>
+    <string name="http_server">Error en Servidor</string>
+    <string name="http_connection">Sin Conexion</string>
+    <string name="http_timeout">El servidor no responde</string>
+
+    <string name="alert_positive">Aceptar</string>
+    <string name="alert_negative">Cancelar</string>
+
     <string name="login_error">Usuario o password incorrecto</string>
     <string name="report_form">Llena todos los campos para continuar</string>
     <string name="report_image">Agrega una imagen para completar el reporte</string>

@@ -1,9 +1,5 @@
 package ezlife.movil.oneparkingapp.net.models;
 
-/**
- * Created by Dario Chamorro on 26/09/2016.
- */
-
 public class User {
 
     private String tipo, nombre, cedula, celular, usuario, email, password;

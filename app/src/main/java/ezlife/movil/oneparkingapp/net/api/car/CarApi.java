@@ -3,7 +3,7 @@ package ezlife.movil.oneparkingapp.net.api.car;
 import android.app.ProgressDialog;
 import android.content.Context;
 
-import com.google.common.reflect.TypeToken;
+
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -96,9 +96,9 @@ public class CarApi extends HttpApi {
     }
 
     private void processList(HttpResponse response) {
-        Type type =  new TypeToken<List<Car>>(){}.getType();
-        List<Car> data =  gson.fromJson(response.getMsg(), type);
-        this.onListCar.onListCar(data, response.getError());
+        //Type type =  new TypeToken<List<Car>>(){}.getType();
+        //List<Car> data =  gson.fromJson(response.getMsg(), type);
+        //this.onListCar.onListCar(data, response.getError());
     }
     //endregion
 
