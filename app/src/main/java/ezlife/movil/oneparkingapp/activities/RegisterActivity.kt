@@ -8,7 +8,7 @@ import ezlife.movil.oneparkingapp.R
 import ezlife.movil.oneparkingapp.databinding.RegisterBinding
 import ezlife.movil.oneparkingapp.providers.RegisterReq
 import ezlife.movil.oneparkingapp.providers.UserProvider
-import ezlife.movil.oneparkingauxiliar.util.text
+import ezlife.movil.oneparkingapp.util.text
 
 class RegisterActivity : AppCompatActivity() {
 

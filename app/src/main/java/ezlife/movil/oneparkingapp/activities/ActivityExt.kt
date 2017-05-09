@@ -44,6 +44,20 @@ fun AppCompatActivity.preferences(): SharedPreferences {
     return this.getSharedPreferences(Preference.NAME, AppCompatActivity.MODE_PRIVATE)
 }
 
+fun AppCompatActivity.savePreference(vararg preferences: Pair<String, Any>){
+    val editor = preferences().edit()
+    preferences.forEach{
+        val value = it.second
+        when (value) {
+            is Int -> editor.putInt(it.first, value)
+            is Boolean -> editor.putBoolean(it.first, value)
+            is Long -> editor.putLong(it.first, value)
+            is String -> editor.putString(it.first, value)
+        }
+    }
+    editor.apply()
+}
+
 fun AppCompatActivity.makeLoading(): ProgressDialog {
     val loading = ProgressDialog(this)
     loading.setMessage(getString(R.string.loading))

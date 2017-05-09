@@ -9,7 +9,7 @@
             type="ezlife.movil.oneparkingapp.activities.AddCarActivity"/>
 
         <variable
-            name="fistTime"
+            name="firstTime"
             type="java.lang.Boolean"/>
     </data>
 
@@ -21,7 +21,7 @@
         >
 
         <android.support.design.widget.AppBarLayout
-            android:visibility="@{fistTime ? V.GONE : V.VISIBLE}"
+            android:visibility="@{firstTime ? V.GONE : V.VISIBLE}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
@@ -49,7 +49,7 @@
             >
 
             <TextView
-                android:visibility="@{fistTime ? V.VISIBLE : V.GONE}"
+                android:visibility="@{firstTime ? V.VISIBLE : V.GONE}"
                 style="@style/TextAppearance.AppCompat.Display1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
                 />
 
             <TextView
-                android:visibility="@{fistTime ? V.VISIBLE : V.GONE}"
+                android:visibility="@{firstTime ? V.VISIBLE : V.GONE}"
                 style="@style/TextAppearance.AppCompat.Body1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

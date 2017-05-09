@@ -16,7 +16,8 @@ import android.widget.TextView
 import ezlife.movil.oneparkingapp.R
 import ezlife.movil.oneparkingapp.databinding.LoginBinding
 import ezlife.movil.oneparkingapp.providers.UserProvider
-import ezlife.movil.oneparkingauxiliar.util.text
+import ezlife.movil.oneparkingapp.util.Preference
+import ezlife.movil.oneparkingapp.util.text
 
 class LoginActivity : AppCompatActivity() {
 
@@ -40,13 +41,14 @@ class LoginActivity : AppCompatActivity() {
         provider.login(usr, pass) { user ->
 
             if(user.validado){
-                if(user.vehiculos.isNotEmpty())
+                if(user.vehiculos.isNotEmpty()) {
+                    savePreference(Preference.USER_LOGGED to true)
                     startActivity<MapActivity>()
-                else
+                }else
                     startActivity<AddCarActivity>(AddCarActivity.EXTRA_FIRST_TIME to true)
 
             }else
-                startActivity<PassActivity>()
+                startActivity<PassActivity>(PassActivity.EXTRA_CARS to user.vehiculos.isNotEmpty())
             finish()
         }
     }

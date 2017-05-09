@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.support.v7.app.AppCompatActivity
 import ezlife.movil.oneparkingapp.R
 import ezlife.movil.oneparkingapp.activities.preferences
+import ezlife.movil.oneparkingapp.activities.savePreference
 import ezlife.movil.oneparkingapp.util.Preference
 import ezlife.movil.oneparkingapp.util.SessionApp
 import retrofit2.Call
@@ -73,15 +74,14 @@ class UserProvider(val activity: AppCompatActivity, val loading: ProgressDialog?
     }
 
     private fun saveUser(token: String, id: String, name: String, email: String, cel: String, disability: Boolean) {
-        val edit: SharedPreferences.Editor = activity.preferences().edit()
-        edit.putBoolean(Preference.USER_LOGGED, true)
-        edit.putString(Preference.TOKEN, token)
-        edit.putString(Preference.USER_ID, id)
-        edit.putString(Preference.NAME, name)
-        edit.putString(Preference.USER_CEL, cel)
-        edit.putString(Preference.USER_EMAIL, email)
-        edit.putBoolean(Preference.USER_DISABILITY, disability)
-        edit.apply()
+        activity.savePreference(
+                Preference.TOKEN to token,
+                Preference.USER_ID to id,
+                Preference.NAME to name,
+                Preference.USER_CEL to cel,
+                Preference.USER_EMAIL to email,
+                Preference.USER_DISABILITY to disability
+        )
     }
 
 }

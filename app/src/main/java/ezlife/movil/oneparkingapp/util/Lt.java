@@ -3,7 +3,8 @@ package ezlife.movil.oneparkingapp.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import ezlife.movil.oneparkingapp.net.models.Car;
+import ezlife.movil.oneparkingapp.providers.Car;
+
 
 /**
  * Created by Dario Chamorro on 25/09/2016.
