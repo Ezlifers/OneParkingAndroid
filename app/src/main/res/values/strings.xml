@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">OneParkingApp</string>
 
-    <string name="url_base">http://192.168.0.12:8080/</string>
+    <string name="url_base">http://192.168.0.11:8080/api/</string>
+    <string name="url_io">http://192.168.0.11:8080/</string>
     <string name="http_404">Recurso no encontrado</string>
     <string name="http_401">Accion no Autorizada</string>
     <string name="http_server">Error en Servidor</string>
@@ -63,5 +64,12 @@
     <string name="car_insert_error">Error al agregar vehiculo</string>
     <string name="car_insert_error_2">Limite de vehiculos alcanzado</string>
     <string name="action_refresh">Recargar</string>
+
+    <string name="selected">Seleccionado</string>
+    <string name="delete">Eliminar</string>
+    <string name="dialog_car_title">Mis Vehiculos</string>
+    <string name="dialog_car_subtitle">Selecciona tu vehiculo actual</string>
+    <string name="my_car_remove_error">Debe tener al menos un vehiculo</string>
+
 
 </resources>

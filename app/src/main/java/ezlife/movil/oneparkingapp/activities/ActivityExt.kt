@@ -4,6 +4,7 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.support.v4.app.DialogFragment
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
@@ -62,6 +63,16 @@ fun AppCompatActivity.makeLoading(): ProgressDialog {
     val loading = ProgressDialog(this)
     loading.setMessage(getString(R.string.loading))
     return loading
+}
+
+fun AppCompatActivity.showDialog(fragment: DialogFragment) {
+    val ft = supportFragmentManager.beginTransaction()
+    val prev = supportFragmentManager.findFragmentByTag("dialog")
+    if (prev != null) {
+        ft.remove(prev)
+    }
+    ft.addToBackStack(null)
+    fragment.show(ft, "dialog")
 }
 
 inline fun <reified T : AppCompatActivity> AppCompatActivity.startActivity(bundle: Bundle? = null) {

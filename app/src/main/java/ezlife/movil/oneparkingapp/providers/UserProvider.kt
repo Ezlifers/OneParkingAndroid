@@ -1,11 +1,10 @@
 package ezlife.movil.oneparkingapp.providers
 
 import android.app.ProgressDialog
-import android.content.SharedPreferences
 import android.support.v7.app.AppCompatActivity
 import ezlife.movil.oneparkingapp.R
-import ezlife.movil.oneparkingapp.activities.preferences
 import ezlife.movil.oneparkingapp.activities.savePreference
+import ezlife.movil.oneparkingapp.db.Car
 import ezlife.movil.oneparkingapp.util.Preference
 import ezlife.movil.oneparkingapp.util.SessionApp
 import retrofit2.Call

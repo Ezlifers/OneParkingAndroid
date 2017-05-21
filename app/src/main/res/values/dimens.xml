@@ -15,5 +15,10 @@
     <dimen name="ezlife_h">50dp</dimen>
     <dimen name="map_icon_primary">35dp</dimen>
     <dimen name="map_icon_sec">25dp</dimen>
+    <dimen name="action_icon">30dp</dimen>
+    <dimen name="selected_icon">30dp</dimen>
+    <dimen name="info_icon">25dp</dimen>
+    <dimen name="cam_icon">45dp</dimen>
+    <dimen name="dialog">300dp</dimen>
 
 </resources>

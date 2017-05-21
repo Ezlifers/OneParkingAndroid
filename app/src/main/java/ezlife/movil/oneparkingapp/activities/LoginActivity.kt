@@ -15,14 +15,20 @@ import android.support.v7.app.AppCompatActivity
 import android.widget.TextView
 import ezlife.movil.oneparkingapp.R
 import ezlife.movil.oneparkingapp.databinding.LoginBinding
+import ezlife.movil.oneparkingapp.db.Car
+import ezlife.movil.oneparkingapp.db.CarDao
+import ezlife.movil.oneparkingapp.db.DB
 import ezlife.movil.oneparkingapp.providers.UserProvider
 import ezlife.movil.oneparkingapp.util.Preference
+import ezlife.movil.oneparkingapp.util.asyncUI
+import ezlife.movil.oneparkingapp.util.await
 import ezlife.movil.oneparkingapp.util.text
 
 class LoginActivity : AppCompatActivity() {
 
     lateinit var binding: LoginBinding
     val provider: UserProvider by lazy { UserProvider(this, makeLoading()) }
+    val dao:CarDao by lazy{ DB.con.carDao() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,8 +48,7 @@ class LoginActivity : AppCompatActivity() {
 
             if(user.validado){
                 if(user.vehiculos.isNotEmpty()) {
-                    savePreference(Preference.USER_LOGGED to true)
-                    startActivity<MapActivity>()
+                    goToMap(user.vehiculos)
                 }else
                     startActivity<AddCarActivity>(AddCarActivity.EXTRA_FIRST_TIME to true)
 
@@ -51,6 +56,12 @@ class LoginActivity : AppCompatActivity() {
                 startActivity<PassActivity>(PassActivity.EXTRA_CARS to user.vehiculos.isNotEmpty())
             finish()
         }
+    }
+
+    fun goToMap(cars:List<Car>) = asyncUI{
+        await { dao.insertList(cars) }
+        savePreference(Preference.USER_LOGGED to true)
+        startActivity<MapActivity>()
     }
 
     fun clear() {

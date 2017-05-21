@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewAnimationUtils
 import ezlife.movil.oneparkingapp.R
 import ezlife.movil.oneparkingapp.databinding.SplashBinding
-import ezlife.movil.oneparkingapp.providers.Car
 import ezlife.movil.oneparkingapp.providers.User
 import ezlife.movil.oneparkingapp.util.Preference
 import ezlife.movil.oneparkingapp.util.SessionApp
