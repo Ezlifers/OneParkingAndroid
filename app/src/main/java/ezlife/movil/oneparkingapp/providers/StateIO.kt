@@ -1,4 +1,4 @@
-package ezlife.movil.oneparkingapp.fragments
+package ezlife.movil.oneparkingapp.providers
 
 import android.content.Context
 import com.google.gson.Gson
