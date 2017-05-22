@@ -2,6 +2,9 @@ package ezlife.movil.oneparkingapp.providers
 
 import android.app.ProgressDialog
 import android.support.v7.app.AppCompatActivity
+import ezlife.movil.oneparkingapp.activities.preferences
+import ezlife.movil.oneparkingapp.activities.savePreference
+import ezlife.movil.oneparkingapp.util.Preference
 import ezlife.movil.oneparkingapp.util.SessionApp
 import retrofit2.Call
 import retrofit2.http.GET
@@ -12,7 +15,7 @@ import java.util.*
 interface ZoneService{
 
     @GET("zonas?settings=true&state=false&bays=false&defaults=false")
-    fun getZones(@Header("Authorization") auth: String): Call<List<ZoneBase>>
+    fun getZones(@Header("Authorization") auth: String, @Query("version") version:Int): Call<Version>
 
     @GET("zonas/estados")
     fun getStates(@Header("Authorization") auth: String, @Query("day") day:Int
@@ -26,11 +29,15 @@ interface ZoneService{
 class ZoneProvider(val activity:AppCompatActivity, val loading:ProgressDialog? = null){
 
     private val service: ZoneService = RetrofitHelper.retrofit.create(ZoneService::class.java)
-    fun getZones(callback:(zones:List<ZoneBase>)->Unit){
+
+    fun getZones(novelty:(zones:List<ZoneBase>)->Unit){
         loading?.show()
-        val req = service.getZones(SessionApp.makeToken())
-        req.enqueue(ProviderCallback(activity, loading) { res ->
-            callback(res)
+        val req = service.getZones(SessionApp.makeToken(), SessionApp.version )
+        req.enqueue(ProviderCallback(activity, loading) { (version, zones) ->
+            activity.savePreference( Preference.ZONE_VERSION to 0)
+            if(version != SessionApp.version) {
+                novelty(zones)
+            }
         })
     }
 
@@ -53,5 +60,6 @@ data class ZoneBase(val _id: String
                 , val direccion: String
                 , val localizacion: Point
                 , val configuracion: Config)
+data class Version(val version:Int, val zones:List<ZoneBase>)
 
 data class State(val libre: Date, val bahias: Int, var bahiasOcupadas: Int, val dis: Int, var disOcupadas: Int)

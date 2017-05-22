@@ -16,7 +16,6 @@ import ezlife.movil.oneparkingapp.util.asyncUI
 import ezlife.movil.oneparkingapp.util.await
 import java.text.NumberFormat
 
-
 class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var binding:MapBinding

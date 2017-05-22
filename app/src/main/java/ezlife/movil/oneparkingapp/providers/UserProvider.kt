@@ -79,7 +79,8 @@ class UserProvider(val activity: AppCompatActivity, val loading: ProgressDialog?
                 Preference.NAME to name,
                 Preference.USER_CEL to cel,
                 Preference.USER_EMAIL to email,
-                Preference.USER_DISABILITY to disability
+                Preference.USER_DISABILITY to disability,
+                Preference.ZONE_VERSION to 0
         )
     }
 
