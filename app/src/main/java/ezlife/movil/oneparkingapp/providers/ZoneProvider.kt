@@ -32,7 +32,7 @@ class ZoneProvider(val activity:AppCompatActivity, val loading:ProgressDialog? =
 
     fun getZones(novelty:(zones:List<ZoneBase>)->Unit){
         val calendar = Calendar.getInstance()
-        val currentDay = calendar[Calendar.DAY_OF_WEEK]
+        val currentDay = calendar[Calendar.DAY_OF_MONTH]
         val day = activity.preferences().getInt(Preference.ZONE_DAY, -1)
         if(day != currentDay) {
             loading?.show()
