@@ -17,6 +17,7 @@ public class Preference {
     public static final String USER_DISABILITY = "disability";
 
     public static final String ZONE_VERSION = "zoneVersion";
+    public static final String ZONE_DAY = "zoneDay";
 
     public static final String CITY = "city";
 
