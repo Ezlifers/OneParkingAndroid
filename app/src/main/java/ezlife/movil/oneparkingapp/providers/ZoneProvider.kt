@@ -30,7 +30,7 @@ class ZoneProvider(val activity:AppCompatActivity, val loading:ProgressDialog? =
 
     private val service: ZoneService = RetrofitHelper.retrofit.create(ZoneService::class.java)
 
-    fun getZones(novelty:(zones:List<ZoneBase>)->Unit){
+    fun getZones(novelty:(zones:List<ZoneBase>, firstTime:Boolean)->Unit){
         val calendar = Calendar.getInstance()
         val currentDay = calendar[Calendar.DAY_OF_MONTH]
         val day = activity.preferences().getInt(Preference.ZONE_DAY, -1)
@@ -38,9 +38,11 @@ class ZoneProvider(val activity:AppCompatActivity, val loading:ProgressDialog? =
             loading?.show()
             val req = service.getZones(SessionApp.makeToken(), SessionApp.version)
             req.enqueue(ProviderCallback(activity, loading) { (version, zones) ->
-                activity.savePreference(Preference.ZONE_VERSION to 0, Preference.ZONE_DAY to currentDay)
+                activity.savePreference(Preference.ZONE_VERSION to version, Preference.ZONE_DAY to currentDay)
                 if (version != SessionApp.version) {
-                    novelty(zones)
+                    val firstTime = SessionApp.version == 0
+                    SessionApp.version = version
+                    novelty(zones, firstTime)
                 }
             })
         }
@@ -52,7 +54,6 @@ class ZoneProvider(val activity:AppCompatActivity, val loading:ProgressDialog? =
             callback(res)
         })
     }
-
 }
 
 data class Schedule(val d: Boolean, val ti: Int, val tf: Int, val dias: List<Int>, val p: Int)
