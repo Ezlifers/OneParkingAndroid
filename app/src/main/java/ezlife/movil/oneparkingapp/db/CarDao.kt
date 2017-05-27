@@ -40,7 +40,7 @@ interface CarDao{
     @Query("SELECT * FROM car")
     fun all():MutableList<Car>
 
-    @Query("SELECT * FROM car WHERE selected = true")
+    @Query("SELECT * FROM car WHERE selected = 1")
     fun selected():Car
 
 }

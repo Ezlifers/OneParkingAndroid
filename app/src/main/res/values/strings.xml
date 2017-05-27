@@ -71,5 +71,12 @@
     <string name="dialog_car_subtitle">Selecciona tu vehiculo actual</string>
     <string name="my_car_remove_error">Debe tener al menos un vehiculo</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="map_location_error">No se puede obtener tu localización</string>
+    <string name="map_location_disabled">Sin reconocimiento de localización</string>
+    <string name="money">Mi Dinero</string>
+    <string name="my_Car">Mi vehiculo</string>
+
 
 </resources>

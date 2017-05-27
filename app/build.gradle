@@ -33,6 +33,9 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    compile('io.socket:socket.io-client:0.8.3') {
+        exclude group: 'org.json', module: 'json'
+    }
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.google.code.gson:gson:2.7'
     compile 'com.squareup.retrofit2:retrofit:2.2.0'
@@ -40,13 +43,12 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.android.support:design:25.3.1'
     compile 'com.google.android.gms:play-services-maps:10.2.6'
+    compile 'com.google.android.gms:play-services-location:10.2.6'
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile "android.arch.persistence.room:runtime:1.0.0-alpha1"
-    compile "org.jetbrains.kotlinx:kotlinx-coroutines-android:0.15"
-    compile('io.socket:socket.io-client:0.8.3') {
-        exclude group: 'org.json', module: 'json'
-    }
+    compile 'android.arch.persistence.room:runtime:1.0.0-alpha1'
+    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.15'
+    compile 'com.google.maps.android:android-maps-utils:0.5'
     testCompile 'junit:junit:4.12'
     kapt 'com.android.databinding:compiler:2.3.1'
     kapt 'android.arch.persistence.room:compiler:1.0.0-alpha1'

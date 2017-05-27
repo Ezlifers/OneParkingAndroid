@@ -33,6 +33,7 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:paddingLeft">@dimen/small</item>
         <item name="android:paddingRight">@dimen/small</item>
+        <item name="android:paddingTop">@dimen/xsmall</item>
     </style>
 
 </resources>
