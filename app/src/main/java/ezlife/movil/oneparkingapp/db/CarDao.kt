@@ -37,7 +37,7 @@ interface CarDao{
     @Query("DELETE FROM car")
     fun deleteAll()
 
-    @Query("SELECT * FROM car")
+    @Query("SELECT * FROM car ORDER BY selected DESC, apodo")
     fun all():MutableList<Car>
 
     @Query("SELECT * FROM car WHERE selected = 1")

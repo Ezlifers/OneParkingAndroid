@@ -8,7 +8,7 @@ import ezlife.movil.oneparkingapp.R
 import ezlife.movil.oneparkingapp.databinding.TemplateCarBinding
 import ezlife.movil.oneparkingapp.db.Car
 
-class CarAdapter(private val setup: Boolean, var data:MutableList<Car>, private val removedCar:((position:Int)->Unit)? = null ,private val selectedCallback: ((position:Int) -> Unit)? = null) : RecyclerView.Adapter<CarHolder>() {
+class CarAdapter(private val setup: Boolean, var data:MutableList<Car>, private val removedCar:((position:Int)->Unit)? = null ,private val selectedCallback: ((position:Int, prev:Int) -> Unit)? = null) : RecyclerView.Adapter<CarHolder>() {
 
     private var prev: Int? = null
 
@@ -28,11 +28,12 @@ class CarAdapter(private val setup: Boolean, var data:MutableList<Car>, private 
         if (prev == null) {
             prev = data.indexOfFirst { it.selected!! }
         }
-        data[position].selected = true
         data[prev!!].selected = false
+        data[position].selected = true
+        val prevPos = prev
         prev = position
         notifyDataSetChanged()
-        selectedCallback?.invoke(position)
+        selectedCallback?.invoke(position, prevPos!!)
     }
 
     fun removeCar(position: Int) {

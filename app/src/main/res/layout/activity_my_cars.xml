@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data class="MyCarsBinding">
+
         <variable
             name="handler"
             type="ezlife.movil.oneparkingapp.activities.MyCarsActivity" />
@@ -12,16 +13,30 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/swipe"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/list"
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </android.support.v4.widget.SwipeRefreshLayout>
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="@dimen/small"
+                android:text="@string/my_cars_reload" />
+
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/swipe"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </android.support.v4.widget.SwipeRefreshLayout>
+        </LinearLayout>
+
 
         <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"

@@ -29,6 +29,15 @@ class RegisterActivity : AppCompatActivity() {
         binding.secondScreen = false
     }
 
+    override fun onBackPressed() {
+        if(binding.secondScreen){
+            back()
+        }else{
+            super.onBackPressed()
+        }
+
+    }
+
     fun next() {
         name = "${binding.name.text()}"
         identity = "${binding.identity.text()}"
@@ -67,8 +76,8 @@ class RegisterActivity : AppCompatActivity() {
                 toast(R.string.reg_success)
                 setResult(Activity.RESULT_OK)
                 finish()
-            } else if (exists) {
-                toast(R.string.reg_exist)
+            } else {
+                toast(if (exists) R.string.reg_exist else R.string.reg_fail)
             }
         }
     }

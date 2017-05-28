@@ -19,7 +19,7 @@ data class LoginReq(val role: String, val user: String, val password: String, va
 data class LoginRes(val success: Boolean, val timeout: Boolean, val token: String, val user: User)
 
 data class RegisterReq(val tipo: String, val nombre: String, val cedula: String, val celular: String, val email: String, val usuario: String, val password: String, val discapasitado: Boolean)
-data class RegisterRes(val success: Boolean, val token: String, val id: String, val exists: Boolean)
+data class RegisterRes(val success: Boolean, val token: String, val id: String, val exist: Boolean)
 
 data class UpdatePassReq(val password: String)
 

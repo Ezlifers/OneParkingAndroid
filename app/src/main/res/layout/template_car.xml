@@ -23,10 +23,9 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackgroundBorderless"
+        android:background="?attr/selectableItemBackground"
         android:clickable="true"
-        android:onClick="@{(view)-> handler.selectCar((int) view.tag)}"
-        android:orientation="vertical">
+        android:onClick="@{(view)-> handler.selectCar((int) view.tag)}">
 
         <ImageView
             android:id="@+id/imageView"
@@ -35,7 +34,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
             android:contentDescription="@string/selected"
-            android:visibility="@{safeUnbox(car.selected) ? View.VISIBLE : View.INVISIBLE}"
+            android:visibility="@{car.selected ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -50,11 +49,11 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:onClick="@{()->handler.removeCar(9)}"
+            android:contentDescription="@string/delete"
+            android:onClick="@{(view)->handler.removeCar((int)view.tag)}"
             android:visibility="@{setup ? View.VISIBLE : View.GONE}"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="@string/delete"
             app:srcCompat="@drawable/ic_clear" />
 
         <TextView

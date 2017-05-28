@@ -133,10 +133,10 @@
             android:layout_gravity="bottom|right"
             android:layout_marginBottom="70dp"
             android:layout_marginRight="10dp"
-            android:onClick="@{()->handler.toggleTracing()}"
+            android:onClick="@{()->handler.checkPermLocation()}"
             app:backgroundTint="@android:color/white"
             app:fabSize="mini"
-            app:srcCompat="@drawable/ic_my_location" />
+            app:srcCompat="@drawable/ic_location_disabled" />
     </android.support.design.widget.CoordinatorLayout>
 
 </layout>

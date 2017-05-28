@@ -1,37 +1,44 @@
 package ezlife.movil.oneparkingapp.activities
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.IntentSender
+import android.content.pm.PackageManager
 import android.databinding.DataBindingUtil
 import android.location.Location
 import android.os.Bundle
+import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
-
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.maps.android.SphericalUtil
-
 import ezlife.movil.oneparkingapp.R
 import ezlife.movil.oneparkingapp.databinding.MapBinding
 import ezlife.movil.oneparkingapp.db.DB
 import ezlife.movil.oneparkingapp.fragments.CarsFragment
 import ezlife.movil.oneparkingapp.fragments.GoogleDialogFragment
+import ezlife.movil.oneparkingapp.fragments.OnCarSelectListener
+import ezlife.movil.oneparkingapp.providers.CurrentState
 import ezlife.movil.oneparkingapp.providers.ZoneProvider
+import ezlife.movil.oneparkingapp.providers.ZoneState
+import ezlife.movil.oneparkingapp.util.SessionApp
 import ezlife.movil.oneparkingapp.util.asyncUI
 import ezlife.movil.oneparkingapp.util.await
 import java.text.NumberFormat
 import java.util.*
 
-
-class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+class MapActivity : AppCompatActivity(), OnCarSelectListener,OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     private lateinit var binding: MapBinding
     private lateinit var locationRequest: LocationRequest
@@ -53,9 +60,10 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Con
             else -> 0
         }
     }
-
-
-    val provider: ZoneProvider by lazy { ZoneProvider(this, null) }
+    private val provider: ZoneProvider by lazy { ZoneProvider(this, null) }
+    private var markers: Map<String, Marker> = mutableMapOf()
+    private var pendingStates: List<ZoneState>? = null
+    private var permLocation: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,10 +71,12 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Con
         binding.handler = this
         binding.money = 10_000
         binding.format = NumberFormat.getInstance()
+        binding.tracing = false
         val mapFragment = supportFragmentManager
                 .findFragmentById(R.id.map) as SupportMapFragment
-        mapFragment.getMapAsync(this)
 
+        permLocation = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+        mapFragment.getMapAsync(this)
         updateStates(savedInstanceState)
         buildGoogleApiClient()
         createLocationRequest()
@@ -231,7 +241,9 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Con
     //region Map
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
-        map?.isMyLocationEnabled = true
+        if (permLocation) {
+            map?.isMyLocationEnabled = true
+        }
         map?.uiSettings?.isMyLocationButtonEnabled = false
         map?.uiSettings?.isZoomControlsEnabled = false
         map?.uiSettings?.isZoomGesturesEnabled = false
@@ -239,13 +251,22 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Con
             movedByUser = reason == GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE
         }
         map?.setOnCameraMoveListener {
-            if(movedByUser){
+            if (movedByUser) {
                 stopLocationUpdates()
                 val position = map!!.cameraPosition.target
                 validateDistance(position.latitude, position.longitude)
             }
         }
-        moveCamera(LatLng(lastLocation!!.latitude, lastLocation!!.longitude), false)
+        map?.setOnMarkerClickListener { marker ->
+            val state = marker.tag as ZoneState
+
+            true
+        }
+        if (pendingStates != null) {
+            addMarkers(pendingStates!!)
+        }
+        if (lastLocation != null)
+            moveCamera(LatLng(lastLocation!!.latitude, lastLocation!!.longitude), false)
     }
 
     fun moveCamera(latLng: LatLng, animated: Boolean) {
@@ -253,6 +274,32 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Con
             map?.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, ZOOM))
         else
             map?.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, ZOOM))
+    }
+
+    fun addMarkers(states: List<ZoneState>) {
+        if (map != null) {
+            states.forEach {
+                val marker: Marker = if (markers.containsKey(it._id)) {
+                    markers[it._id]!!
+                } else {
+                    map!!.addMarker(MarkerOptions().position(LatLng(it.localizacion.coordinates[0], it.localizacion.coordinates[1])))
+                }
+                marker.tag = it.estado
+                changeColor(it.estado, marker)
+            }
+        } else {
+            pendingStates = states
+        }
+    }
+
+    fun changeColor(state: CurrentState, marker: Marker) {
+        if (SessionApp.user.discapasitado && (state.bahias < state.bahiasOcupadas || state.dis < state.disOcupadas)) {
+            marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
+        } else if (state.bahias < state.bahiasOcupadas) {
+            marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
+        } else {
+            marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+        }
     }
 
 
@@ -268,8 +315,31 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Con
         showDialog(CarsFragment.instance())
     }
 
+    override fun onCarSelected() {
+        loadSelectedCar()
+    }
+
     fun addMoney() {
 
+    }
+
+    fun checkPermLocation() {
+        if (permLocation) {
+            toggleTracing()
+        } else {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_PERM_LOCATION)
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        if (requestCode == REQUEST_PERM_LOCATION) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                map?.isMyLocationEnabled = true
+                toggleTracing()
+            } else {
+                toast(R.string.map_location_disabled)
+            }
+        }
     }
 
     fun toggleTracing() = when (requestingLocationUpdates) {
@@ -305,13 +375,14 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Con
         val calendar = Calendar.getInstance();
         val time = (calendar[Calendar.HOUR_OF_DAY] * 60) + calendar[Calendar.MINUTE]
         provider.getStates(day, time, lat, lng, prevLat, prevLng) { states ->
-
+            addMarkers(states)
         }
     }
 
     companion object {
         private val REQUEST_RESOLVE_ERROR = 1001
         private val REQUEST_CHECK_SETTINGS = 1002
+        private val REQUEST_PERM_LOCATION = 1003
         private val STATE_RESOLVING_ERROR = "resolving_error"
         private val LOCATION = "location"
         private val MIN_METERS = 250

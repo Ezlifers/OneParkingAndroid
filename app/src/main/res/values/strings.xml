@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">OneParkingApp</string>
+    <string name="title_activity_map">Popayan</string>
+    <string name="title_activity_my_cars">Mis Vehiculos</string>
+    <string name="title_activity_add_car">Agregar Vehiculo</string>
 
     <string name="url_base">http://192.168.0.11:8080/api/</string>
     <string name="url_io">http://192.168.0.11:8080/</string>
@@ -47,12 +50,12 @@
     <string name="reg_form">llena todos los campos</string>
     <string name="reg_pass_invalid">La contraseña no coincide</string>
     <string name="reg_success">Registro exitoso !</string>
-    <string name="reg_exist">El correo ya se encuentra registrado</string>
+    <string name="reg_exist">El correo o el celular ya se encuentra registrado</string>
 
     <string-array name="cities">
         <item>Popayan</item>
     </string-array>
-    <string name="title_activity_map">Map</string>
+
     <string name="car_plate">Placa</string>
     <string name="car_nickname">Apodo</string>
     <string name="car_brand">Marca</string>
@@ -67,9 +70,10 @@
 
     <string name="selected">Seleccionado</string>
     <string name="delete">Eliminar</string>
-    <string name="dialog_car_title">Mis Vehiculos</string>
+    <string name="dialog_car_title">@string/title_activity_my_cars</string>
     <string name="dialog_car_subtitle">Selecciona tu vehiculo actual</string>
-    <string name="my_car_remove_error">Debe tener al menos un vehiculo</string>
+    <string name="my_car_remove_alert">Debe tener al menos un vehiculo</string>
+    <string name="my_car_remove_error">Error al eliminar vehiculo, intenta de nuevo</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -77,6 +81,10 @@
     <string name="map_location_disabled">Sin reconocimiento de localización</string>
     <string name="money">Mi Dinero</string>
     <string name="my_Car">Mi vehiculo</string>
+    <string name="reg_fail">Error al registrar, intenta de nuevo</string>
+    <string name="login_email">Email</string>
+    <string name="my_car_remove">Vehiculo eliminado</string>
+    <string name="my_cars_reload">Desliza hacia abajo para recargar los vehiculos</string>
 
 
 </resources>

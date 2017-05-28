@@ -3,6 +3,8 @@ package ezlife.movil.oneparkingapp.activities
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
+import android.view.MenuItem
 import ezlife.movil.oneparkingapp.R
 import ezlife.movil.oneparkingapp.adapters.CarAdapter
 import ezlife.movil.oneparkingapp.databinding.MyCarsBinding
@@ -18,17 +20,26 @@ class MyCarsActivity : AppCompatActivity() {
     lateinit var binding: MyCarsBinding
     val provider: CarProvider by lazy { CarProvider(this, null) }
     val dao: CarDao by lazy { DB.con.carDao() }
-    val adapter: CarAdapter = CarAdapter(false, mutableListOf(), this::removeCar, this::selectedCar)
+    val adapter: CarAdapter = CarAdapter(true, mutableListOf(), this::removeCar, this::selectedCar)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_my_cars)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         binding.handler = this
         binding.swipe.setOnRefreshListener {
             binding.swipe.isRefreshing = false
             provider.getCars { reloadCars(it) }
         }
         binding.list.adapter = adapter
+        binding.list.layoutManager = LinearLayoutManager(this)
+
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        finish()
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onResume() {
@@ -42,6 +53,9 @@ class MyCarsActivity : AppCompatActivity() {
     }
 
     fun reloadCars(cars: MutableList<Car>) = asyncUI {
+        if(cars.isNotEmpty()){
+            cars[0].selected = true
+        }
         await {
             dao.deleteAll()
             dao.insertList(cars)
@@ -54,17 +68,37 @@ class MyCarsActivity : AppCompatActivity() {
         startActivity<AddCarActivity>(AddCarActivity.EXTRA_FIRST_TIME to false)
     }
 
-    fun selectedCar(position: Int) = asyncUI {
-        await { dao.update(adapter.data[position]) }
+    fun selectedCar(position: Int, prev:Int) = asyncUI {
+        await {
+            dao.update(adapter.data[position])
+            dao.update(adapter.data[prev])
+        }
     }
 
-    fun removeCar(position:Int) = asyncUI{
-        if(adapter.data.size > 0){
-            await { dao.delete(adapter.data[position]) }
-            adapter.data.removeAt(position)
-            adapter.notifyDataSetChanged()
+    fun removeCar(position:Int){
+        if(adapter.data.size > 1){
+            binding.swipe.isRefreshing = true
+            provider.deleteCar(adapter.data[position].placa){success ->
+                if(success){
+                    asyncUI{
+                        val car = adapter.data.removeAt(position)
+                        await {
+                            if(car.selected != null && car.selected!!){
+                                adapter.data[0].selected = true
+                                dao.update(adapter.data[0])
+                            }
+                            dao.delete(car)
+                        }
+                        adapter.notifyDataSetChanged()
+                        binding.swipe.isRefreshing = false
+                        toast(R.string.my_car_remove)
+                    }
+                }else{
+                    toast(R.string.my_car_remove_error)
+                }
+            }
         }else{
-            toast(R.string.my_car_remove_error)
+            toast(R.string.my_car_remove_alert)
         }
     }
 }

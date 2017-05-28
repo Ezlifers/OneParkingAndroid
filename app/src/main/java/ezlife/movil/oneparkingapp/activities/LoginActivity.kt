@@ -59,6 +59,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun goToMap(cars:List<Car>) = asyncUI{
+        cars[0].selected = true
         await { dao.insertList(cars) }
         savePreference(Preference.USER_LOGGED to true)
         startActivity<MapActivity>()
@@ -85,14 +86,12 @@ class LoginActivity : AppCompatActivity() {
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
                 || ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
-                || ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED
-                || ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 ) {
 
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE
                     , Manifest.permission.CAMERA
-                    , Manifest.permission.SEND_SMS
-                    , Manifest.permission.CALL_PHONE), 101)
+                    , Manifest.permission.ACCESS_FINE_LOCATION), 101)
 
         }
     }

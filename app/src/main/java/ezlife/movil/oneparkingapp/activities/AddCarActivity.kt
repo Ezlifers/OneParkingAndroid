@@ -33,6 +33,7 @@ class AddCarActivity : AppCompatActivity() {
         if (!firstTime) {
             setSupportActionBar(binding.toolbar)
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.setTitle(R.string.title_activity_add_car)
         }
     }
 
@@ -44,14 +45,14 @@ class AddCarActivity : AppCompatActivity() {
     fun add() {
         val plate = "${binding.plate.text()}"
         val brand = "${binding.brand.text()}"
-        val nickname = "${binding.brand.text()}"
+        val nickname = "${binding.nickname.text()}"
 
         if (plate == "" || brand == "" || nickname == "") {
             toast(R.string.report_form)
             return
         }
 
-        newCar = Car(nickname, plate, brand)
+        newCar = Car(plate, nickname, brand)
         provider.insertCar(newCar) { success, outRange ->
             when (success) {
                 true -> asyncUI {

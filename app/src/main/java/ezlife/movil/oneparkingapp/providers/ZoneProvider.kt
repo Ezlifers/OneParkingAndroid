@@ -14,7 +14,7 @@ import java.util.*
 
 interface ZoneService{
 
-    @GET("zonas?settings=true&state=false&bays=false&defaults=false")
+    @GET("zonas?settings=true&state=false&bays=false&defaults=false&location=false")
     fun getZones(@Header("Authorization") auth: String, @Query("version") version:Int): Call<Version>
 
     @GET("zonas/estados")
@@ -23,7 +23,7 @@ interface ZoneService{
                   , @Query("lat") lat:Double
                   , @Query("lon") lon:Double
                   , @Query("prevLat") prevLat:Double?
-                  , @Query("prevLon") prevLon:Double?):Call<List<State>>
+                  , @Query("prevLon") prevLon:Double?):Call<List<ZoneState>>
 }
 
 class ZoneProvider(val activity:AppCompatActivity, val loading:ProgressDialog? = null){
@@ -48,7 +48,7 @@ class ZoneProvider(val activity:AppCompatActivity, val loading:ProgressDialog? =
         }
     }
 
-    fun getStates(day:Int, timeHour:Int, lat:Double, lon:Double, prevLat:Double?, prevLon:Double?, callback: (states: List<State>) -> Unit){
+    fun getStates(day:Int, timeHour:Int, lat:Double, lon:Double, prevLat:Double?, prevLon:Double?, callback: (states: List<ZoneState>) -> Unit){
         val req = service.getStates(SessionApp.makeToken(), day, timeHour, lat, lon, prevLat, prevLon)
         req.enqueue(ProviderCallback(activity) { res ->
             callback(res)
@@ -64,8 +64,8 @@ data class ZoneBase(val _id: String
                 , val codigo: Int
                 , val nombre: String
                 , val direccion: String
-                , val localizacion: Point
                 , val configuracion: Config)
 data class Version(val version:Int, val zones:List<ZoneBase>)
 
-data class State(val libre: Date, val bahias: Int, var bahiasOcupadas: Int, val dis: Int, var disOcupadas: Int)
+data class CurrentState(val libre: Date, val bahias: Int, var bahiasOcupadas: Int, val dis: Int, var disOcupadas: Int)
+data class ZoneState(val _id:String, val localizacion: Point, val estado:CurrentState)

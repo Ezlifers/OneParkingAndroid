@@ -3,7 +3,7 @@
     <color name="colorPrimary">#005fac</color>
     <color name="colorPrimaryDark">#004a85</color>
     <color name="colorAccent">#8fbb22</color>
-    <color name="divider">#d9d9d9</color>
+    <color name="divider">#eeeeee</color>
     <color name="textPrimaryInvert">#ffffff</color>
     <color name="textPrimaryLessInvert">#b4ffffff</color>
     <color name="ezlife">#88ffffff</color>
