@@ -5,18 +5,22 @@ import android.os.Bundle
 
 import ezlife.movil.oneparkingapp.R
 
-class TimeActivity : AppCompatActivity() {
+class AddTimeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_time)
+        setContentView(R.layout.activity_add_time)
     }
 
     fun addTime(){
 
     }
 
-    fun stopTime(){
+    fun lessTime(){
+
+    }
+
+    fun doneRequestTime(){
 
     }
 }

@@ -1,9 +1,224 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="ezlife.movil.oneparkingapp.activities.TimeActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-</android.support.constraint.ConstraintLayout>
+    <data class="CarBinding">
+
+        <variable
+            name="reserve"
+            type="ezlife.movil.oneparkingapp.db.Reserve" />
+
+        <variable
+            name="handler"
+            type="ezlife.movil.oneparkingapp.activities.TimeActivity" />
+
+        <variable
+            name="min"
+            type="java.lang.String" />
+
+        <variable
+            name="sec"
+            type="java.lang.String" />
+
+    </data>
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <FrameLayout
+                android:id="@+id/frame_time"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@color/timerBg">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center_horizontal|bottom"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/TextAppearance.AppCompat.Display4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/small"
+                        android:gravity="center"
+                        android:text="@{min}"
+                        tools:text="00:00" />
+
+                    <TextView
+                        style="@style/TextAppearance.AppCompat.Display1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@{sec}"
+                        tools:text="00" />
+                </LinearLayout>
+
+
+            </FrameLayout>
+
+            <TableLayout>
+
+                <TableRow
+                    android:paddingBottom="@dimen/small"
+                    android:paddingLeft="@dimen/medium"
+                    android:paddingRight="@dimen/medium"
+                    android:paddingTop="@dimen/medium">
+
+                    <ImageView
+                        android:layout_width="@dimen/iconMini"
+                        android:layout_height="@dimen/iconMini"
+                        android:layout_marginRight="@dimen/large"
+                        app:srcCompat="@drawable/ic_attach_money" />
+
+                    <LinearLayout android:orientation="vertical">
+
+                        <TextView
+                            style="@style/TextAppearance.AppCompat.Title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/timer_value" />
+
+                        <TextView
+                            style="@style/TextAppearance.AppCompat.Body1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text='@{""+reserve.costo}'
+                            tools:text="10000" />
+                    </LinearLayout>
+
+                </TableRow>
+
+                <TableRow
+                    android:paddingBottom="@dimen/small"
+                    android:paddingLeft="@dimen/medium"
+                    android:paddingRight="@dimen/medium"
+                    android:paddingTop="@dimen/small">
+
+                    <ImageView
+                        android:layout_width="@dimen/iconMini"
+                        android:layout_height="@dimen/iconMini"
+                        android:layout_marginRight="@dimen/large"
+                        app:srcCompat="@drawable/ic_directions_car" />
+
+                    <LinearLayout android:orientation="vertical">
+
+                        <TextView
+                            style="@style/TextAppearance.AppCompat.Title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="Rojo" />
+
+                        <TextView
+                            style="@style/TextAppearance.AppCompat.Body1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{reserve.placa}"
+                            tools:text="ABC" />
+                    </LinearLayout>
+
+                </TableRow>
+
+                <TableRow
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:paddingBottom="@dimen/small"
+                    android:paddingLeft="@dimen/medium"
+                    android:paddingRight="@dimen/medium"
+                    android:paddingTop="@dimen/small">
+
+                    <ImageView
+                        android:layout_width="@dimen/iconMini"
+                        android:layout_height="@dimen/iconMini"
+                        android:layout_marginRight="@dimen/large"
+                        app:srcCompat="@drawable/ic_place" />
+
+                    <LinearLayout android:orientation="vertical">
+
+                        <TextView
+                            style="@style/TextAppearance.AppCompat.Title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="Parque Caldas" />
+
+                        <TextView
+                            style="@style/TextAppearance.AppCompat.Body1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{reserve.direccion}"
+                            tools:text="Calle 9 # 8 - 04 " />
+                    </LinearLayout>
+
+                </TableRow>
+
+                <TableRow
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:onClick="@{()->handler.stopTime()}"
+                    android:paddingBottom="@dimen/small"
+                    android:paddingLeft="@dimen/medium"
+                    android:paddingRight="@dimen/medium"
+                    android:paddingTop="@dimen/small">
+
+                    <ImageView
+                        android:layout_width="@dimen/iconMini"
+                        android:layout_height="@dimen/iconMini"
+                        android:layout_marginRight="@dimen/large"
+                        app:srcCompat="@drawable/ic_time" />
+
+                    <LinearLayout android:orientation="vertical">
+
+                        <TextView
+                            style="@style/TextAppearance.AppCompat.Title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/timer_time" />
+
+                        <TextView
+                            style="@style/TextAppearance.AppCompat.Body1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:carTimeComplete="@{reserve}"
+                            tools:text="9:00 am - 10:00 am" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        style="@style/TextAppearance.AppCompat.Caption"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/timer_stop" />
+
+
+                </TableRow>
+
+
+            </TableLayout>
+
+
+        </TableLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/medium"
+            android:onClick="@{()->handler.addTime()}"
+            app:fabSize="normal"
+            app:layout_anchor="@id/frame_time"
+            app:layout_anchorGravity="bottom|end"
+            app:srcCompat="@drawable/ic_add_white" />
+    </android.support.design.widget.CoordinatorLayout>
+
+
+</layout>

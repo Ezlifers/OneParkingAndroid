@@ -18,4 +18,12 @@ class ReportFragment : DialogFragment() {
         return inflater!!.inflate(R.layout.fragment_report, container, false)
     }
 
+    fun takePhoto(){
+
+    }
+
+    fun report(){
+
+    }
+
 }

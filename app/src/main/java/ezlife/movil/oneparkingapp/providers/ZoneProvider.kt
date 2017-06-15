@@ -68,4 +68,4 @@ data class ZoneBase(val _id: String
 data class Version(val version:Int, val zones:List<ZoneBase>)
 
 data class CurrentState(val libre: Date, val bahias: Int, var bahiasOcupadas: Int, val dis: Int, var disOcupadas: Int)
-data class ZoneState(val _id:String, val localizacion: Point, val estado:CurrentState)
+data class ZoneState(val _id:String, val tipo:String, val localizacion: Point, val estado:CurrentState)

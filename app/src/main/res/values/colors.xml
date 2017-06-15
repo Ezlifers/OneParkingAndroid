@@ -3,6 +3,7 @@
     <color name="colorPrimary">#005fac</color>
     <color name="colorPrimaryDark">#004a85</color>
     <color name="colorAccent">#8fbb22</color>
+    <color name="colorAccentLight">#a0c150</color>
     <color name="divider">#eeeeee</color>
     <color name="textPrimaryInvert">#ffffff</color>
     <color name="textPrimaryLessInvert">#b4ffffff</color>
@@ -12,4 +13,13 @@
     <color name="iconAction">#555555</color>
     <color name="iconActionDark">#aaffffff</color>
     <color name="iconActionLessDark">#3cffffff</color>
+    <color name="imgEmpty">#444</color>
+    <color name="buttonText">#ffffff</color>
+    <color name="active">#277bbf</color>
+    <color name="activeLight">#4285ba</color>
+    <color name="report">#e94e1b</color>
+    <color name="reportLight">#df6942</color>
+    <color name="notAvailable">#ff4444</color>
+    <color name="reserveAlert">#ffaa00</color>
+    <color name="timerBg">#eeeeee</color>
 </resources>

@@ -5,12 +5,14 @@ import android.app.Activity
 import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
+import android.content.res.ColorStateList
 import android.databinding.DataBindingUtil
 import android.location.Location
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.*
@@ -282,7 +284,7 @@ class MapActivity : AppCompatActivity(), OnCarSelectListener,OnMapReadyCallback,
                 val marker: Marker = if (markers.containsKey(it._id)) {
                     markers[it._id]!!
                 } else {
-                    map!!.addMarker(MarkerOptions().position(LatLng(it.localizacion.coordinates[0], it.localizacion.coordinates[1])))
+                    map!!.addMarker(MarkerOptions().position(LatLng(it.localizacion.coordinates[1], it.localizacion.coordinates[0])))
                 }
                 marker.tag = it.estado
                 changeColor(it.estado, marker)
@@ -293,12 +295,12 @@ class MapActivity : AppCompatActivity(), OnCarSelectListener,OnMapReadyCallback,
     }
 
     fun changeColor(state: CurrentState, marker: Marker) {
-        if (SessionApp.user.discapasitado && (state.bahias < state.bahiasOcupadas || state.dis < state.disOcupadas)) {
-            marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
-        } else if (state.bahias < state.bahiasOcupadas) {
-            marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
+        if (SessionApp.user.discapasitado && (state.bahiasOcupadas < state.bahias || state.disOcupadas < state.dis)) {
+            marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+        } else if (state.bahiasOcupadas < state.bahias) {
+            marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
         } else {
-            marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+            marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
         }
     }
 
@@ -349,11 +351,13 @@ class MapActivity : AppCompatActivity(), OnCarSelectListener,OnMapReadyCallback,
 
     fun changeLocationFabState(state: Boolean) = when (state) {
         true -> {
-            binding.fabLocation.setBackgroundResource(R.color.colorAccent)
+            val color = ContextCompat.getColor(this, R.color.colorAccent)
+            binding.fabLocation.backgroundTintList = ColorStateList.valueOf(color)
             binding.fabLocation.setImageResource(R.drawable.ic_my_location)
         }
         else -> {
-            binding.fabLocation.setBackgroundResource(android.R.color.white)
+            val color = ContextCompat.getColor(this, android.R.color.white)
+            binding.fabLocation.backgroundTintList = ColorStateList.valueOf(color)
             binding.fabLocation.setImageResource(R.drawable.ic_location_disabled)
         }
     }
@@ -375,6 +379,7 @@ class MapActivity : AppCompatActivity(), OnCarSelectListener,OnMapReadyCallback,
         val calendar = Calendar.getInstance();
         val time = (calendar[Calendar.HOUR_OF_DAY] * 60) + calendar[Calendar.MINUTE]
         provider.getStates(day, time, lat, lng, prevLat, prevLng) { states ->
+            Log.i("ESTADOOS", states.toString())
             addMarkers(states)
         }
     }

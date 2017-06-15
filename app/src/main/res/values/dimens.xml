@@ -20,5 +20,11 @@
     <dimen name="info_icon">25dp</dimen>
     <dimen name="cam_icon">45dp</dimen>
     <dimen name="dialog">300dp</dimen>
+    <dimen name="btnText">10sp</dimen>
+    <dimen name="report_img">160dp</dimen>
+    <dimen name="report_img_icon">45dp</dimen>
+    <dimen name="dialog_reserve_counter">150dp</dimen>
+    <dimen name="icon">30dp</dimen>
+    <dimen name="iconMini">20dp</dimen>
 
 </resources>

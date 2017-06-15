@@ -75,8 +75,6 @@
     <string name="my_car_remove_alert">Debe tener al menos un vehiculo</string>
     <string name="my_car_remove_error">Error al eliminar vehiculo, intenta de nuevo</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="map_location_error">No se puede obtener tu localización</string>
     <string name="map_location_disabled">Sin reconocimiento de localización</string>
     <string name="money">Mi Dinero</string>
@@ -85,6 +83,23 @@
     <string name="login_email">Email</string>
     <string name="my_car_remove">Vehiculo eliminado</string>
     <string name="my_cars_reload">Desliza hacia abajo para recargar los vehiculos</string>
+    <string name="report_description">Descripción</string>
+    <string name="report">Reportar</string>
 
+    <string name="zone_btn_reserve">Reservar</string>
+    <string name="zone_btn_disability">Especiales</string>
+    <string name="zone_btn_report">Reportar</string>
+    <string name="zone_info">Información de Horarios</string>
+    <string name="bay_available">%1$d de %2$d</string>
+    <string name="dialog_reserve_title">Tiempo Solicitado</string>
+    <string name="dialog_reserve_money">Saldo</string>
+    <string name="dialog_reserve_less">Disminuir Tiempo</string>
+    <string name="dialog_reserve_add">Incrementar Tiempo</string>
+    <string name="reserve_to">Tarificación hasta </string>
+
+    <string name="timer_time">Tiempo</string>
+    <string name="timer_value">Valor</string>
+    <string name="timer_stop">Detener</string>
 
 </resources>
+

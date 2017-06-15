@@ -1,8 +1,58 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="ezlife.movil.oneparkingapp.fragments.ReportFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="handler"
+            type="ezlife.movil.oneparkingapp.fragments.ReportFragment" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="@dimen/dialog"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/report_img"
+                android:onClick="@{()->handler.takePhoto()}">
+
+                <ImageView
+                    android:id="@+id/img"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/imgEmpty" />
+
+                <ImageView
+                    android:layout_width="@dimen/report_img_icon"
+                    android:layout_height="@dimen/report_img_icon"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/ic_add_photo" />
+
+            </FrameLayout>
+
+            <EditText
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/msmall"
+                android:hint="@string/report_description" />
+
+            <TextView
+                style="@style/ButtonReportNormal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="@{()->handler.report()}"
+                android:text="@string/report" />
+
+        </LinearLayout>
 
 
-</FrameLayout>
+    </FrameLayout>
+</layout>
+

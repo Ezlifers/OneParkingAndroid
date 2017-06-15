@@ -36,4 +36,38 @@
         <item name="android:paddingTop">@dimen/xsmall</item>
     </style>
 
+    <style name="SmallButton" parent="TextAppearance.AppCompat.Button">
+        <item name="android:padding">@dimen/small</item>
+        <item name="android:textColor">@color/buttonText</item>
+        <item name="android:gravity">center</item>
+        <item name="android:clickable">true</item>
+        <item name="android:textSize">@dimen/btnText</item>
+        <item name="android:drawablePadding">@dimen/xsmall</item>
+        <item name="android:layout_margin">0dp</item>
+    </style>
+
+    <style name="ButtonReserve" parent="SmallButton">
+        <item name="android:background">@drawable/btn_reserve</item>
+    </style>
+
+    <style name="ButtonReport" parent="SmallButton">
+        <item name="android:background">@drawable/btn_report</item>
+    </style>
+
+    <style name="ButtonDisability" parent="SmallButton">
+        <item name="android:background">@drawable/btn_disability</item>
+    </style>
+
+    <style name="NormalButton" parent="TextAppearance.AppCompat.Button">
+        <item name="android:padding">@dimen/msmall</item>
+        <item name="android:textColor">@color/buttonText</item>
+        <item name="android:gravity">center</item>
+        <item name="android:clickable">true</item>
+        <item name="android:layout_margin">0dp</item>
+    </style>
+
+    <style name="ButtonReportNormal" parent="NormalButton">
+        <item name="android:background">@drawable/btn_report</item>
+    </style>
+
 </resources>
