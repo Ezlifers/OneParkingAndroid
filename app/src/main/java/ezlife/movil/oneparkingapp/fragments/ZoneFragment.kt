@@ -11,6 +11,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 
 import ezlife.movil.oneparkingapp.R
+import ezlife.movil.oneparkingapp.providers.ZoneState
+import java.util.*
 
 class ZoneFragment : DialogFragment() {
 
@@ -20,19 +22,57 @@ class ZoneFragment : DialogFragment() {
         return inflater!!.inflate(R.layout.fragment_zone, container, false)
     }
 
-    fun reserve(dis:Boolean){
+    fun reserve(dis: Boolean) {
 
     }
 
-    fun report(){
+    fun report() {
 
     }
 
-    fun goToInfo(){
+    fun goToInfo() {
 
     }
 
+    //region Statics & Consts
     companion object {
+
+        private val KEY_ID = "id"
+        private val KEY_TYPE = "type"
+        private val KEY_DIS = "dis"
+        private val KEY_BUSY_DIS = "busyDis"
+        private val KEY_BAYS = "bays"
+        private val KEY_BUSY_BAYS = "busyBays"
+        private val KEY_FREE = "free"
+
+
+        fun instance(state: ZoneState): ZoneFragment {
+            val fragment = ZoneFragment()
+            val bayState = state.estado
+            fragment.setupArgs(KEY_ID to state._id
+                    , KEY_TYPE to state.tipo
+                    , KEY_BAYS to bayState.bahias
+                    , KEY_BUSY_BAYS to bayState.bahiasOcupadas
+                    , KEY_DIS to bayState.dis
+                    , KEY_BUSY_DIS to bayState.disOcupadas
+                    , KEY_FREE to bayState.libre.time
+            )
+            return fragment
+        }
+
+        fun getState(args: Bundle): State {
+            val id = args.getString(KEY_ID)
+            val type = args.getString(KEY_TYPE)
+            val bays = args.getInt(KEY_BAYS)
+            val busyBays = args.getInt(KEY_BUSY_BAYS)
+            val dis = args.getInt(KEY_DIS)
+            val busyDis = args.getInt(KEY_BUSY_DIS)
+            val freeMilis = args.getLong(KEY_FREE)
+            val free = Date(freeMilis)
+
+            val state = State(id, type, bays, busyBays, dis, busyDis, free)
+            return state
+        }
 
         @JvmStatic
         @BindingAdapter("app:bays", "app:baysSize")
@@ -42,5 +82,14 @@ class ZoneFragment : DialogFragment() {
             view.setTextColor(ContextCompat.getColor(view.context, color))
         }
     }
+    //endregion
 
 }
+
+data class State(val id: String
+                 , val type: String
+                 , val bays: Int
+                 , var busyBays: Int
+                 , val dis: Int
+                 , var busyDis: Int
+                 , var free: Date)
