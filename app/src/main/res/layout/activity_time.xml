@@ -186,7 +186,7 @@
                             style="@style/TextAppearance.AppCompat.Body1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:carTimeComplete="@{reserve}"
+                            app:timeComplete="@{reserve}"
                             tools:text="9:00 am - 10:00 am" />
                     </LinearLayout>
 

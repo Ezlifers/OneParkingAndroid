@@ -51,7 +51,8 @@
         <activity
             android:name=".activities.MyCarsActivity"
             android:label="@string/title_activity_my_cars" />
-        <activity android:name=".activities.AddTimeActivity"></activity>
+        <activity android:name=".activities.AddTimeActivity" />
+        <activity android:name=".activities.InfoZoneActivity"></activity>
     </application>
 
 </manifest>

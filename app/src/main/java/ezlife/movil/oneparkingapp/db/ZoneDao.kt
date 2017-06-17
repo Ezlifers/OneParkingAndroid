@@ -34,10 +34,10 @@ interface ZoneDao{
     @Insert
     fun insert(zone:List<Zone>)
 
-    @Query("DELETE FROM zone WHERE zone IN (:ids)")
+    @Query("DELETE FROM zone WHERE zone IN (:p0)")
     fun delete(ids:List<String>)
 
-    @Query("SELECT * FROM zone WHERE zone = :id")
+    @Query("SELECT * FROM zone WHERE zone = :p0")
     fun zoneById(id:String):Zone
 
 

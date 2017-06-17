@@ -37,7 +37,7 @@ interface ScheduleDao {
     @Insert
     fun insert(schedule: List<Schedule>)
 
-    @Query("SELECT * from schedule WHERE zone_id == :zoneId AND dia == :day")
+    @Query("SELECT * FROM schedule WHERE zone_id == :p0 AND dia == :p1 ORDER BY ti ASC")
     fun allByZone(zoneID: String, day: Int): List<Schedule>
 
 }

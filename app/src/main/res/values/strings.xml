@@ -90,6 +90,8 @@
     <string name="zone_btn_disability">Especiales</string>
     <string name="zone_btn_report">Reportar</string>
     <string name="zone_info">Información de Horarios</string>
+    <string name="zone_to_last">El resto del día</string>
+    <string name="zone_to">Hasta las %s</string>
     <string name="bay_available">%1$d de %2$d</string>
     <string name="dialog_reserve_title">Tiempo Solicitado</string>
     <string name="dialog_reserve_money">Saldo</string>
@@ -100,6 +102,13 @@
     <string name="timer_time">Tiempo</string>
     <string name="timer_value">Valor</string>
     <string name="timer_stop">Detener</string>
+
+    <string name="reserve_busy">No hay cupos disponibles</string>
+    <string-array name="zone_states">
+        <item>Gratuito</item>
+        <item>Tarificación</item>
+        <item>Prohibido</item>
+    </string-array>
 
 </resources>
 

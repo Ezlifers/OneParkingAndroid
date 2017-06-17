@@ -17,28 +17,25 @@
             type="ezlife.movil.oneparkingapp.db.Zone" />
 
         <variable
-            name="busyBays"
-            type="java.lang.Integer" />
+            name="state"
+            type="ezlife.movil.oneparkingapp.fragments.State" />
 
         <variable
-            name="busyDis"
-            type="java.lang.Integer" />
+            name="stateType"
+            type="int" />
 
         <variable
-            name="bays"
-            type="java.lang.Integer" />
+            name="stateTo"
+            type="String" />
 
-        <variable
-            name="dis"
-            type="java.lang.Integer" />
     </data>
 
     <android.support.constraint.ConstraintLayout
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/dialog"
         android:layout_height="wrap_content">
 
         <android.support.constraint.ConstraintLayout
-            android:id="@+id/constraintLayout2"
+            android:id="@+id/head"
             android:layout_width="@dimen/dialog"
             android:layout_height="wrap_content"
             android:background="@color/colorAccent"
@@ -94,25 +91,95 @@
         </android.support.constraint.ConstraintLayout>
 
         <android.support.constraint.ConstraintLayout
-            android:id="@+id/constraintLayout3"
+            android:id="@+id/baysState"
             android:layout_width="@dimen/dialog"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/medium"
-            android:background="@color/colorPrimary"
-            android:padding="@dimen/medium"
+            android:visibility="@{stateType == 1 ? V.VISIBLE : V.GONE}"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/labelDis">
+            app:layout_constraintTop_toBottomOf="@+id/head">
+
+            <TextView
+                android:id="@+id/labelBays"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="0dp"
+                android:layout_marginLeft="@dimen/medium"
+                android:layout_marginRight="0dp"
+                android:layout_marginStart="@dimen/medium"
+                android:layout_marginTop="@dimen/medium"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/busyBays"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Bahias Ocupadas " />
+
+            <TextView
+                android:id="@+id/busyBays"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/medium"
+                android:layout_marginRight="@dimen/medium"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                app:bays="@{state.busyBays}"
+                app:baysSize="@{state.bays}"
+                app:layout_constraintBottom_toBottomOf="@+id/labelBays"
+                app:layout_constraintRight_toRightOf="parent"
+                tools:text="0 de 10" />
+
+            <TextView
+                android:id="@+id/labelDis"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/medium"
+                android:layout_marginEnd="0dp"
+                android:layout_marginLeft="@dimen/medium"
+                android:layout_marginRight="0dp"
+                android:layout_marginStart="@dimen/medium"
+                android:layout_marginTop="@dimen/xsmall"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:visibility="@{state.dis > 0 ? V.VISIBLE : V.GONE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/busyDis"
+                app:layout_constraintTop_toBottomOf="@+id/labelBays"
+                tools:text="Discapasidad" />
+
+            <TextView
+                android:id="@+id/busyDis"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="0dp"
+                android:layout_marginEnd="@dimen/medium"
+                android:layout_marginRight="@dimen/medium"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:visibility="@{state.dis > 0 ? V.VISIBLE : V.GONE}"
+                app:bays="@{state.busyDis}"
+                app:baysSize="@{state.dis}"
+                app:layout_constraintBottom_toBottomOf="@+id/labelDis"
+                app:layout_constraintRight_toRightOf="parent"
+                tools:text="0 de 12" />
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/boardState"
+            android:layout_width="@dimen/dialog"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:padding="@dimen/medium"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/baysState">
 
 
             <ImageView
                 android:id="@+id/imageView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="0dp"
-                android:layout_marginEnd="0dp"
-                android:layout_marginRight="0dp"
-                android:layout_marginTop="0dp"
                 android:contentDescription="@string/zone_info"
                 android:onClick="@{()->handler.goToInfo()}"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -122,13 +189,11 @@
                 app:srcCompat="@drawable/ic_info" />
 
             <TextView
-                android:id="@+id/textView18"
+                android:id="@+id/stateTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="0dp"
-                android:layout_marginTop="0dp"
                 android:gravity="center"
+                android:text="@{@stringArray/zone_states[stateType]}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@color/textPrimaryInvert"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -138,117 +203,67 @@
                 tools:text="Tarificación" />
 
             <TextView
-                android:id="@+id/textView19"
+                android:id="@+id/stateSubtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="0dp"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="0dp"
-                android:layout_marginTop="0dp"
                 android:gravity="center"
+                android:text="@{stateTo}"
                 android:textColor="@color/textPrimaryLessInvert"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/imageView2"
-                app:layout_constraintTop_toBottomOf="@+id/textView18"
+                app:layout_constraintTop_toBottomOf="@+id/stateTitle"
                 tools:text="Hasta las 6:00pm" />
+
         </android.support.constraint.ConstraintLayout>
 
-        <TextView
-            android:id="@+id/labelBays"
-            android:layout_width="0dp"
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/actions"
+            android:layout_width="@dimen/dialog"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/medium"
-            android:layout_marginStart="@dimen/medium"
-            android:layout_marginTop="@dimen/medium"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:visibility="@{stateType == 1 ? V.VISIBLE : V.GONE}"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/busyBays"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
-            tools:text="Bahias Ocupadas " />
-
-        <TextView
-            android:id="@+id/busyBays"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/medium"
-            android:layout_marginRight="@dimen/medium"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            app:bays="@{busyBays}"
-            app:baysSize="@{bays}"
-            app:layout_constraintBottom_toBottomOf="@+id/labelBays"
             app:layout_constraintRight_toRightOf="parent"
-            tools:text="0 de 10" />
+            app:layout_constraintTop_toBottomOf="@+id/boardState">
 
-        <TextView
-            android:id="@+id/labelDis"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/medium"
-            android:layout_marginStart="@dimen/medium"
-            android:layout_marginTop="@dimen/xsmall"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:visibility="@{dis > 0 ? V.VISIBLE : V.GONE}"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/busyDis"
-            app:layout_constraintTop_toBottomOf="@+id/labelBays"
-            tools:text="Discapasidad" />
+            <TextView
+                android:id="@+id/btnReport"
+                style="@style/ButtonReport"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/ic_report"
+                android:onClick="@{()->handler.report()}"
+                android:text="@string/zone_btn_report"
+                app:layout_constraintLeft_toRightOf="@+id/btnDisability"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/btnDisability" />
 
-        <TextView
-            android:id="@+id/busyDis"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/medium"
-            android:layout_marginRight="@dimen/medium"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:visibility="@{dis > 0 ? V.VISIBLE : V.GONE}"
-            app:bays="@{busyDis}"
-            app:baysSize="@{dis}"
-            app:layout_constraintBottom_toBottomOf="@+id/labelDis"
-            app:layout_constraintRight_toRightOf="parent"
-            tools:text="0 de 12" />
+            <TextView
+                android:id="@+id/btnDisability"
+                style="@style/ButtonDisability"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/ic_accessible_white"
+                android:onClick="@{()->handler.reserve(false)}"
+                android:text="@string/zone_btn_disability"
+                android:visibility="@{state.dis > 0 ? V.VISIBLE : V.GONE}"
+                app:layout_constraintLeft_toRightOf="@+id/btnReserve"
+                app:layout_constraintRight_toLeftOf="@+id/btnReport"
+                app:layout_constraintTop_toTopOf="@+id/btnReserve" />
 
-        <TextView
-            android:id="@+id/btnReserve"
-            style="@style/ButtonReserve"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="0dp"
-            android:layout_marginTop="0dp"
-            android:drawableTop="@drawable/ic_reserve"
-            android:text="@string/zone_btn_reserve"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/btnDisability"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout3"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <TextView
-            android:id="@+id/btnDisability"
-            style="@style/ButtonDisability"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
-            android:drawableTop="@drawable/ic_accessible_white"
-            android:text="@string/zone_btn_disability"
-            android:visibility="@{dis > 0 ? V.VISIBLE : V.GONE}"
-            app:layout_constraintLeft_toRightOf="@+id/btnReserve"
-            app:layout_constraintRight_toLeftOf="@+id/btnReport"
-            app:layout_constraintTop_toTopOf="@+id/btnReserve" />
-
-        <TextView
-            android:id="@+id/btnReport"
-            style="@style/ButtonReport"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
-            android:drawableTop="@drawable/ic_report"
-            android:text="@string/zone_btn_report"
-            app:layout_constraintLeft_toRightOf="@+id/btnDisability"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/btnDisability" />
+            <TextView
+                android:id="@+id/btnReserve"
+                style="@style/ButtonReserve"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/ic_reserve"
+                android:onClick="@{()->handler.reserve(false)}"
+                android:text="@string/zone_btn_reserve"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/btnDisability"
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
 
 
     </android.support.constraint.ConstraintLayout>
