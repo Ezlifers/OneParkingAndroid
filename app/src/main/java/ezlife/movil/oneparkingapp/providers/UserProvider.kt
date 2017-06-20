@@ -13,7 +13,7 @@ import retrofit2.http.Header
 import retrofit2.http.POST
 import java.util.*
 
-data class User(val _id: String, val tipo: String, val nombre: String, val cedula: String, val celular: String, val email: String, val discapasitado: Boolean, val vehiculos: List<Car>, val saldo: Int, val validado: Boolean = true)
+data class User(val _id: String, val tipo: String, val nombre: String, val cedula: String, val celular: String, val email: String, val discapasitado: Boolean, val vehiculos: List<Car>, val saldo: Long, val validado: Boolean = true)
 
 data class LoginReq(val role: String, val user: String, val password: String, val timestamp: Long)
 data class LoginRes(val success: Boolean, val timeout: Boolean, val token: String, val user: User)
@@ -44,7 +44,7 @@ class UserProvider(val activity: AppCompatActivity, val loading: ProgressDialog?
         req.enqueue(ProviderCallback(activity, loading, R.string.login_error)
         { (success, _, token, user) ->
             if (success) {
-                saveUser(token, user._id, user.nombre, user.email, user.celular, user.discapasitado)
+                saveUser(token, user._id, user.nombre, user.email, user.celular, user.discapasitado, user.saldo)
                 SessionApp.user = user
                 SessionApp.token = token
                 callback(user)
@@ -57,7 +57,7 @@ class UserProvider(val activity: AppCompatActivity, val loading: ProgressDialog?
         val req = service.register(newUser)
         req.enqueue(ProviderCallback(activity, loading) { (success, token, id, exists) ->
             if (success) {
-                saveUser(token, id, newUser.nombre, newUser.email, newUser.celular, newUser.discapasitado)
+                saveUser(token, id, newUser.nombre, newUser.email, newUser.celular, newUser.discapasitado, 0)
                 SessionApp.user = User(id, "Cliente", newUser.nombre, newUser.cedula, newUser.celular, newUser.email, newUser.discapasitado, emptyList(), 0)
                 SessionApp.token = token
             }
@@ -72,7 +72,7 @@ class UserProvider(val activity: AppCompatActivity, val loading: ProgressDialog?
         })
     }
 
-    private fun saveUser(token: String, id: String, name: String, email: String, cel: String, disability: Boolean) {
+    private fun saveUser(token: String, id: String, name: String, email: String, cel: String, disability: Boolean, cash:Long) {
         activity.savePreference(
                 Preference.TOKEN to token,
                 Preference.USER_ID to id,
@@ -80,7 +80,8 @@ class UserProvider(val activity: AppCompatActivity, val loading: ProgressDialog?
                 Preference.USER_CEL to cel,
                 Preference.USER_EMAIL to email,
                 Preference.USER_DISABILITY to disability,
-                Preference.ZONE_VERSION to 0
+                Preference.USER_CASH to cash,
+                Preference.SETUP_VERSION to 0
         )
     }
 

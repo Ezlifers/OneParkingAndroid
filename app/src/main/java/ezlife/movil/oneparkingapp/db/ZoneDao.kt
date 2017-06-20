@@ -1,6 +1,7 @@
 package ezlife.movil.oneparkingapp.db
 
 import android.arch.persistence.room.*
+import ezlife.movil.oneparkingapp.providers.ZoneBase
 
 @Entity
 class Zone() {
@@ -10,21 +11,17 @@ class Zone() {
     lateinit var nombre: String
     var codigo: Int = 0
     lateinit var direccion: String
-    var tiempoMax: Int = 0
-    var tiempoMin: Int = 0
     var lon: Double = 0.0
     var lat: Double = 0.0
 
     @Ignore
-    constructor(zone: String, nombre: String, codigo: Int, direccion: String, lat: Double, lon: Double, tiempoMax: Int, tiempoMin: Int) : this() {
-        this.zone = zone
-        this.nombre = nombre
-        this.codigo = codigo
-        this.direccion = direccion
-        this.lon = lon
-        this.lat = lat
-        this.tiempoMax = tiempoMax
-        this.tiempoMin = tiempoMin
+    constructor(base:ZoneBase) : this() {
+        this.zone = base._id
+        this.nombre = base.nombre
+        this.codigo = base.codigo
+        this.direccion = base.direccion
+        this.lon = base.localización.coordinates[0]
+        this.lat = base.localización.coordinates[1]
     }
 }
 

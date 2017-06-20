@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="day"
+            type="int" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/small"
+            android:text="@string/schedule_day_0"
+            android:visibility="@{day == 0 ? View.VISIBLE : View.GONE}" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/small"
+            android:text="@string/schedule_day_1"
+            android:visibility="@{day == 1 ? View.VISIBLE : View.GONE}" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/small"
+            android:text="@string/schedule_day_2"
+            android:visibility="@{day == 2 ? View.VISIBLE : View.GONE}" />
+
+    </LinearLayout>
+</layout>
+
+

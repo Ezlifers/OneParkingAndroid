@@ -27,19 +27,16 @@ import com.google.maps.android.SphericalUtil
 import ezlife.movil.oneparkingapp.R
 import ezlife.movil.oneparkingapp.databinding.MapBinding
 import ezlife.movil.oneparkingapp.db.DB
-import ezlife.movil.oneparkingapp.fragments.CarsFragment
-import ezlife.movil.oneparkingapp.fragments.OnCarSelectListener
-import ezlife.movil.oneparkingapp.fragments.ZoneFragment
-import ezlife.movil.oneparkingapp.providers.CurrentState
-import ezlife.movil.oneparkingapp.providers.ZoneProvider
-import ezlife.movil.oneparkingapp.providers.ZoneState
+import ezlife.movil.oneparkingapp.fragments.*
+import ezlife.movil.oneparkingapp.providers.*
+import ezlife.movil.oneparkingapp.util.Preference
 import ezlife.movil.oneparkingapp.util.SessionApp
 import ezlife.movil.oneparkingapp.util.asyncUI
 import ezlife.movil.oneparkingapp.util.await
 import java.text.NumberFormat
 import java.util.*
 
-class MapActivity : AppCompatActivity(), OnCarSelectListener, OnMapReadyCallback {
+class MapActivity : AppCompatActivity(), OnCarSelectListener, OnMapReadyCallback, ZoneDialogListener {
 
     private lateinit var binding: MapBinding
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -63,7 +60,9 @@ class MapActivity : AppCompatActivity(), OnCarSelectListener, OnMapReadyCallback
             else -> 0
         }
     }
-    private val provider: ZoneProvider by lazy { ZoneProvider(this, null) }
+    private val provider: StateProvider by lazy { StateProvider(this) }
+    private val cashProvider: CashProvider by lazy { CashProvider(this) }
+
     private var markers: Map<String, Marker> = mutableMapOf()
     private var pendingStates: List<ZoneState>? = null
 
@@ -72,7 +71,11 @@ class MapActivity : AppCompatActivity(), OnCarSelectListener, OnMapReadyCallback
         binding = DataBindingUtil.setContentView(this, R.layout.activity_map)
         binding.handler = this
         binding.money = 10_000
-        binding.format = NumberFormat.getInstance()
+
+        val numberFormat = NumberFormat.getInstance()
+        numberFormat.maximumFractionDigits = 0
+
+        binding.format = numberFormat
         binding.tracing = false
         val mapFragment = supportFragmentManager
                 .findFragmentById(R.id.map) as SupportMapFragment
@@ -86,7 +89,12 @@ class MapActivity : AppCompatActivity(), OnCarSelectListener, OnMapReadyCallback
         createLocationRequest()
         createLocationCallback()
         buildLocationSettingsRequest()
+
+        setupApp(this)
+        loadMoney()
     }
+
+
 
     //region Cicle Life
     override fun onStart() {
@@ -298,6 +306,18 @@ class MapActivity : AppCompatActivity(), OnCarSelectListener, OnMapReadyCallback
     //endregion
 
     //region Money
+
+    fun loadMoney(){
+
+        val cash = preferences().getLong(Preference.USER_CASH, 0)
+        binding.money = cash
+
+        cashProvider.getCash { (saldo) ->
+            binding.money = saldo
+            savePreference(Preference.USER_CASH to saldo)
+        }
+    }
+
     fun addMoney() {
 
     }
@@ -363,6 +383,18 @@ class MapActivity : AppCompatActivity(), OnCarSelectListener, OnMapReadyCallback
     }
     //endregion
 
+    override fun onReserveDialog(state: State, disability: Boolean) {
+
+    }
+
+    override fun onReportDialog(id:String, code:Int, name:String) {
+        showDialog(ReportFragment.instance(id, code, name))
+    }
+
+    override fun updateMark(idZone: String, state: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     //region Attrs & Consts
     companion object {
         private val REQUEST_CHECK_SETTINGS = 1002
@@ -375,4 +407,5 @@ class MapActivity : AppCompatActivity(), OnCarSelectListener, OnMapReadyCallback
         private val ZOOM = 17F
     }
     //endregion
+
 }

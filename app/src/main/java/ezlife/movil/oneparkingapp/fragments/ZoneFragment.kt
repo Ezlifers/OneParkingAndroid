@@ -68,7 +68,7 @@ class ZoneFragment : DialogFragment() {
         val lastIndex = times.size - 1
         val currentState:Int
 
-        for(i in 0 until times.size){
+        for(i in 0 .. lastIndex){
             val time = times[i]
             if(min < time.ti){
                 betweenTime = true
@@ -127,11 +127,13 @@ class ZoneFragment : DialogFragment() {
     }
 
     fun report() {
-        listener.onReportDialog(state)
+        dismiss()
+        listener.onReportDialog(state.id, binding.zone.codigo, binding.zone.nombre)
     }
 
     fun goToInfo() {
-        startActivity<InfoZoneActivity>(InfoZoneActivity.EXTRA_ID to state.id)
+        startActivity<InfoZoneActivity>(InfoZoneActivity.EXTRA_ID to state.id
+                , InfoZoneActivity.EXTRA_NAME to binding.zone.nombre)
     }
 
     fun updateState(type: Int, dis: Boolean) = when (type) {
@@ -208,7 +210,7 @@ class ZoneFragment : DialogFragment() {
 
 interface ZoneDialogListener {
     fun onReserveDialog(state: State, disability: Boolean)
-    fun onReportDialog(state: State)
+    fun onReportDialog(id:String, code:Int, name:String)
     fun updateMark(idZone: String, state: Int)
 }
 

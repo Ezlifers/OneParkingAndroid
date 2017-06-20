@@ -1,10 +1,12 @@
 package ezlife.movil.oneparkingapp.fragments
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
+import ezlife.movil.oneparkingapp.R
 
 fun Fragment.setupArgs(vararg args:Pair<String, Any>){
     val bundle = Bundle()
@@ -36,4 +38,10 @@ inline fun <reified T : AppCompatActivity> Fragment.startActivity(vararg extras:
         }
     }
     this.startActivity(intent)
+}
+
+fun Fragment.makeLoading(): ProgressDialog {
+    val loading = ProgressDialog(activity)
+    loading.setMessage(getString(R.string.loading))
+    return loading
 }

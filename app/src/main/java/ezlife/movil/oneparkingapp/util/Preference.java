@@ -15,9 +15,10 @@ public class Preference {
     public static final String USER_CEL = "cel";
     public static final String USER_EMAIL = "email";
     public static final String USER_DISABILITY = "disability";
+    public static final String USER_CASH = "cash";
 
-    public static final String ZONE_VERSION = "zoneVersion";
-    public static final String ZONE_DAY = "zoneDay";
+    public static final String SETUP_DAY = "day";
+    public static final String SETUP_VERSION = "version";
 
     public static final String CITY = "city";
 
