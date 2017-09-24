@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ezlife.movil.oneparkingapp.R
-import ezlife.movil.oneparkingapp.activities.MyCarsActivity
 import ezlife.movil.oneparkingapp.adapters.CarAdapter
 import ezlife.movil.oneparkingapp.databinding.FragmentCarsBinding
 import ezlife.movil.oneparkingapp.db.CarDao
@@ -40,21 +39,21 @@ class CarsFragment : DialogFragment() {
     }
 
     fun loadCars() = asyncUI {
-        adapter.data = await { dao.all() }
+        //adapter.data = await { dao.all() }
         adapter.notifyDataSetChanged()
     }
 
     fun selectedCar(position: Int, prev:Int) = asyncUI {
         await {
-            dao.update(adapter.data[position])
-            dao.update(adapter.data[prev])
+            //dao.update(adapter.data[position])
+            //dao.update(adapter.data[prev])
         }
         listener?.onCarSelected()
         dismiss()
     }
 
     fun goToMyCars() {
-        startActivity<MyCarsActivity>()
+        //startActivity<MyCarsActivity>()
         dismiss()
     }
 
