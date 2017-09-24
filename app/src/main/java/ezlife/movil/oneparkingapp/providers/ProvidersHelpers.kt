@@ -43,7 +43,7 @@ class ProviderCallback<T>(val activity: AppCompatActivity
     override fun onResponse(call: Call<T>?, response: Response<T>) {
         loading?.dismiss()
         if (response.isSuccessful) {
-            callback(response.body())
+           // callback(response.body())
         } else {
             when (response.code()) {
                 404 -> activity.toast(res404)

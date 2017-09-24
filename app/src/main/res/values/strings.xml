@@ -4,8 +4,8 @@
     <string name="title_activity_my_cars">Mis Vehiculos</string>
     <string name="title_activity_add_car">Agregar Vehiculo</string>
 
-    <string name="url_base">http://192.168.0.11:8080/api/</string>
-    <string name="url_io">http://192.168.0.11:8080/</string>
+    <string name="url_base">http://192.168.0.12:8080/api/</string>
+    <string name="url_io">http://192.168.0.12:8080/</string>
     <string name="http_404">Recurso no encontrado</string>
     <string name="http_401">Accion no Autorizada</string>
     <string name="http_server">Error en Servidor</string>
@@ -15,19 +15,23 @@
     <string name="alert_positive">Aceptar</string>
     <string name="alert_negative">Cancelar</string>
 
-    <string name="login_error">Usuario o password incorrecto</string>
     <string name="report_form">Llena todos los campos para continuar</string>
     <string name="report_image">Agrega una imagen para completar el reporte</string>
 
+    <string name="loading">Cargando…</string>
     <string name="oneparking">OneParking</string>
     <string name="splash_rights">Derechos reservados or EzLife Corporation SAS</string>
+
+    <string name="login_email">Email</string>
     <string name="login_usr">Usuario</string>
     <string name="login_pass">Contraseña</string>
     <string name="login_in">Entrar</string>
-    <string name="login_form">Escribe el usuario y contraseña</string>
-    <string name="loading">Cargando…</string>
-    <string name="login_fail">Usuario o contraseña incorrecta</string>
+    <string name="login_form">Escribe el email y contraseña</string>
+    <string name="login_fail">Email o contraseña incorrecta</string>
     <string name="login_reg">Registrate</string>
+    <string name="login_error">Usuario o password incorrecto</string>
+    <string name="login_error_timeout">Error al iniciar sesión, verifica la hora de tu equipo</string>
+    <string name="login_error_unknown">Error al iniciar sesión, intenta de nuevo</string>
 
     <string name="pass_new">Nueva contraseña</string>
     <string name="pass_new_2">Repetir contraseña</string>
@@ -80,7 +84,6 @@
     <string name="money">Mi Dinero</string>
     <string name="my_Car">Mi vehiculo</string>
     <string name="reg_fail">Error al registrar, intenta de nuevo</string>
-    <string name="login_email">Email</string>
     <string name="my_car_remove">Vehiculo eliminado</string>
     <string name="my_cars_reload">Desliza hacia abajo para recargar los vehiculos</string>
     <string name="report_description">Descripción</string>
@@ -126,6 +129,11 @@
         <item>Horarios</item>
         <item>Precios</item>
     </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="pass_form">Llena todos los campos</string>
+    <string name="pass_success">Actualización exitosa</string>
 
 </resources>
 

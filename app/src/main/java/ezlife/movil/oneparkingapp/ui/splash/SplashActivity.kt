@@ -1,4 +1,4 @@
-package ezlife.movil.oneparkingapp.activities
+package ezlife.movil.oneparkingapp.ui.splash
 
 import android.animation.Animator
 import android.animation.AnimatorSet
@@ -8,25 +8,27 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.ViewAnimationUtils
+import dagger.android.AndroidInjection
 import ezlife.movil.oneparkingapp.R
+import ezlife.movil.oneparkingapp.activities.MapActivity
+import ezlife.movil.oneparkingapp.activities.startActivity
 import ezlife.movil.oneparkingapp.databinding.SplashBinding
-import ezlife.movil.oneparkingapp.providers.User
-import ezlife.movil.oneparkingapp.util.Preference
-import ezlife.movil.oneparkingapp.util.SessionApp
+import ezlife.movil.oneparkingapp.ui.entry.EntryActivity
+import javax.inject.Inject
 
 class SplashActivity : AppCompatActivity(), Animator.AnimatorListener {
 
-    lateinit var binding: SplashBinding
-    lateinit var set: AnimatorSet
-    lateinit var reveal: Animator
-    val logged:Boolean by lazy {preferences().getBoolean(Preference.USER_LOGGED, false)}
+    @Inject
+    lateinit var viewModel: SplashViewModel
+
+    private lateinit var binding: SplashBinding
+    private lateinit var set: AnimatorSet
+    private lateinit var reveal: Animator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AndroidInjection.inject(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
-        if(logged){
-            retrieveUser()
-        }
         binding.root.viewTreeObserver.addOnGlobalLayoutListener {
 
             val textLogo: ObjectAnimator = ObjectAnimator.ofFloat(binding.oneparking, "alpha", 0f, 1f)
@@ -41,28 +43,17 @@ class SplashActivity : AppCompatActivity(), Animator.AnimatorListener {
             binding.logo.visibility = View.VISIBLE
 
             set = AnimatorSet()
+
             set.play(reveal).before(textLogo)
             set.play(textLogo).before(wait)
-
             set.addListener(this)
             set.start()
+
         }
+
     }
 
-    fun retrieveUser(){
-        val preference = preferences()
-        val id = preference.getString(Preference.USER_ID, "")
-        val email = preference.getString(Preference.USER_EMAIL, "")
-        val cel = preference.getString(Preference.USER_CEL, "")
-        val name = preference.getString(Preference.USER_NAME, "")
-        val disability = preference.getBoolean(Preference.USER_DISABILITY, false)
-        val token = preference.getString(Preference.TOKEN, "")
-        val user:User = User(id, "Cliente", name, "", cel, email, disability, emptyList(), 0)
-        SessionApp.token = token
-        SessionApp.user = user
-    }
-
-    fun revealLogo(): Animator {
+    private fun revealLogo(): Animator {
         val animator: Animator = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP)
             ViewAnimationUtils.createCircularReveal(binding.logo
                     , (binding.logo.right / 2)
@@ -74,10 +65,7 @@ class SplashActivity : AppCompatActivity(), Animator.AnimatorListener {
         return animator
     }
 
-    override fun onAnimationRepeat(animation: Animator?) {}
-
     override fun onAnimationEnd(animation: Animator?) {
-        animation?.removeAllListeners()
         when (animation) {
             reveal -> {
                 reveal.removeAllListeners()
@@ -85,17 +73,14 @@ class SplashActivity : AppCompatActivity(), Animator.AnimatorListener {
             }
             set -> {
                 set.removeAllListeners()
-                if(logged) {
-                    startActivity<MapActivity>()
-                }else{
-                    startActivity<LoginActivity>()
-                }
+                if (viewModel.isLogged()) startActivity<MapActivity>()
+                else startActivity<EntryActivity>()
             }
         }
     }
 
-    override fun onAnimationCancel(animation: Animator?) {}
-
-    override fun onAnimationStart(animation: Animator?) {}
+    override fun onAnimationRepeat(p0: Animator?) {}
+    override fun onAnimationCancel(p0: Animator?) {}
+    override fun onAnimationStart(p0: Animator?) {}
 
 }

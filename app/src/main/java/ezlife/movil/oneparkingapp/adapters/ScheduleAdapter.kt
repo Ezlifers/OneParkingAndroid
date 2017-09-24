@@ -16,12 +16,13 @@ class ScheduleAdapter(val data: List<Any>) : RecyclerView.Adapter<RecyclerView.V
         else -> ScheduleHolder(parent.inflate(R.layout.template_schedule))
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) = when (holder) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int){}
+    /*= when (holder) {
         is DayHolder -> holder.binding.day = data[position] as Int
         is ScheduleHolder -> holder.binding.time = data[position] as Schedule
         else -> {
         }
-    }
+    }*/
 
     override fun getItemCount(): Int = data.size
 

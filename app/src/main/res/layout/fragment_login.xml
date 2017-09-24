@@ -1,0 +1,106 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import
+            alias="V"
+            type="android.view.View" />
+
+        <variable
+            name="city"
+            type="String" />
+
+        <variable
+            name="loader"
+            type="ezlife.movil.oneparkingapp.util.Loader" />
+    </data>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/username"
+            android:layout_marginBottom="@dimen/medium">
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/login_email"
+                android:inputType="textEmailAddress"
+
+                />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/password"
+            android:layout_marginBottom="@dimen/medium">
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/login_pass"
+                android:inputType="textPassword" />
+        </android.support.design.widget.TextInputLayout>
+
+        <Spinner
+            android:id="@+id/citySpinner"
+            android:layout_marginBottom="@dimen/medium"
+            android:entries="@array/cities"
+            android:visibility="@{city == null ? V.VISIBLE : V.GONE}" />
+
+        <TableRow
+            android:layout_marginBottom="@dimen/medium"
+            android:gravity="center_vertical"
+            android:visibility="@{city == null ? V.GONE : V.VISIBLE}">
+
+            <ImageView
+                android:id="@+id/btn_clear"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="@dimen/small"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                app:srcCompat="@drawable/ic_cancel" />
+
+            <TextView
+                android:text="@{city}"
+                tools:text="Popayan" />
+        </TableRow>
+
+
+        <LinearLayout android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnReg"
+                style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:enabled="@{!loader.loading.get()}"
+                android:text="@string/login_reg" />
+
+            <Button
+                android:id="@+id/btnIn"
+                style="@style/Base.Widget.AppCompat.Button.Colored"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/login_in"
+                android:textColor="@color/textPrimaryInvert"
+                android:enabled="@{!loader.loading.get()}" />
+
+        </LinearLayout>
+        <TextView
+            style="@style/TextAppearance.AppCompat.Caption"
+            android:visibility="@{loader.loading.get() ? V.VISIBLE : V.INVISIBLE}"
+            android:layout_marginTop="@dimen/small"
+            android:gravity="center"
+            android:text="@string/loading"
+            />
+
+    </TableLayout>
+</layout>

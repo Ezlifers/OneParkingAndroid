@@ -26,6 +26,10 @@ fun Fragment.toast(resId: Int) {
     Toast.makeText(activity, resId, Toast.LENGTH_SHORT).show()
 }
 
+fun Fragment.toast(msg:String){
+    Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show()
+}
+
 inline fun <reified T : AppCompatActivity> Fragment.startActivity(vararg extras: Pair<String, Any>) {
     val intent = Intent(activity, T::class.java)
     extras.forEach {

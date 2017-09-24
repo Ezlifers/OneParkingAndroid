@@ -23,7 +23,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.maps.android.SphericalUtil
 import ezlife.movil.oneparkingapp.R
 import ezlife.movil.oneparkingapp.databinding.MapBinding
 import ezlife.movil.oneparkingapp.db.DB
@@ -367,9 +366,9 @@ class MapActivity : AppCompatActivity(), OnCarSelectListener, OnMapReadyCallback
             lastRequest = LatLng(lat, lng)
             loadStates(lat, lng)
         } else {
-            val meters = SphericalUtil.computeDistanceBetween(lastRequest, LatLng(lat, lng))
-            if (meters >= MIN_METERS)
-                loadStates(lat, lng, lastRequest?.latitude, lastRequest?.longitude)
+            //val meters = SphericalUtil.computeDistanceBetween(lastRequest, LatLng(lat, lng))
+            //if (meters >= MIN_METERS)
+              //  loadStates(lat, lng, lastRequest?.latitude, lastRequest?.longitude)
         }
     }
 

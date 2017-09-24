@@ -30,13 +30,13 @@ interface ScheduleDao {
     @Insert
     fun insert(schedule: List<Schedule>)
 
-    @Query("DELETE FROM schedule WHERE zone IN (:p0)")
+    @Query("DELETE FROM schedule WHERE zone IN (:ids)")
     fun deleteByZone(ids:List<String>)
 
-    @Query("SELECT * FROM schedule WHERE zone == :p0 AND dia == :p1 ORDER BY ti ASC")
+    @Query("SELECT * FROM schedule WHERE zone == :zoneID AND dia == :day ORDER BY ti ASC")
     fun allByZone(zoneID: String, day: Int): List<Schedule>
 
-    @Query("SELECT * FROM schedule WHERE zone == :p0")
+    @Query("SELECT * FROM schedule WHERE zone == :zoneID")
     fun all(zoneID: String): List<Schedule>
 
 }
