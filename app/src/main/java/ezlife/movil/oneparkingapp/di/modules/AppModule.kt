@@ -12,10 +12,10 @@ import dagger.Module
 import dagger.Provides
 import ezlife.movil.oneparkingapp.R
 import ezlife.movil.oneparkingapp.data.db.AppDatabase
+import ezlife.movil.oneparkingapp.data.db.dao.CarDao
 import ezlife.movil.oneparkingapp.util.AppViewModelFactory
 import ezlife.movil.oneparkingapp.util.Loader
 import ezlife.movil.oneparkingapp.util.Preference
-import io.reactivex.schedulers.Schedulers
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -39,6 +39,11 @@ class AppModule {
     fun provideDatabase(context: Context): AppDatabase
             = Room.databaseBuilder(context, AppDatabase::class.java, "oneparkingapp")
             .build()
+
+    @Singleton
+    @Provides
+    fun provideCarDao(database: AppDatabase): CarDao
+            = database.carDao()
 
     @Singleton
     @Provides

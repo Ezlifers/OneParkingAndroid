@@ -2,6 +2,7 @@ package ezlife.movil.oneparkingapp.data.db.dao
 
 import android.arch.persistence.room.*
 import ezlife.movil.oneparkingapp.data.db.model.Car
+import io.reactivex.Flowable
 
 
 @Dao
@@ -22,9 +23,13 @@ interface CarDao{
     fun deleteAll()
 
     @Query("SELECT * FROM car ORDER BY selected DESC, apodo")
-    fun all():MutableList<Car>
+    fun all(): Flowable<List<Car>>
 
     @Query("SELECT * FROM car WHERE selected = 1")
     fun selected(): Car
+
+    @Query("SELECT * FROM car ORDER BY apodo LIMIT 1")
+    fun next(): Car
+
 
 }

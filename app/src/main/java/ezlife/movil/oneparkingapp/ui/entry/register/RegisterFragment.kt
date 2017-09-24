@@ -13,10 +13,7 @@ import ezlife.movil.oneparkingapp.data.api.model.RegisterReq
 import ezlife.movil.oneparkingapp.databinding.FragmentRegisterBinding
 import ezlife.movil.oneparkingapp.fragments.toast
 import ezlife.movil.oneparkingapp.ui.entry.EntryNavigationController
-import ezlife.movil.oneparkingapp.util.push
-import ezlife.movil.oneparkingapp.util.subscribeWithError
-import ezlife.movil.oneparkingapp.util.text
-import ezlife.movil.oneparkingapp.util.validateForm
+import ezlife.movil.oneparkingapp.util.*
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_register.*
@@ -28,6 +25,8 @@ class RegisterFragment : Fragment() {
     lateinit var viewModel: RegisterViewModel
     @Inject
     lateinit var navigation: EntryNavigationController
+    @Inject
+    lateinit var loader:Loader
     lateinit var binding: FragmentRegisterBinding
     val dis: CompositeDisposable = CompositeDisposable()
 
@@ -40,6 +39,7 @@ class RegisterFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_register, container, false)
         binding.secondScreen = false
+        binding.loader = loader
         return binding.root
     }
 
@@ -55,6 +55,7 @@ class RegisterFragment : Fragment() {
         dis push btnReg.clicks()
                 .flatMap { validateForm(R.string.reg_form, email.text(), pass.text(), pass2.text()) }
                 .flatMap { viewModel.validatePasswords(it[0], it[1]) }
+                .loader(loader)
                 .flatMap {
                     viewModel.signIn(RegisterReq("Cliente", name.text(), identity.text(),
                             cel.text(), email.text(), email.text(), pass.text(), disability.isChecked))

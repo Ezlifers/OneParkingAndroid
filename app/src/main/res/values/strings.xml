@@ -68,7 +68,8 @@
     <string name="car_title">Agregar Carro</string>
     <string name="add">Agregar</string>
     <string name="car_insert">Agregado !</string>
-    <string name="car_insert_error">Error al agregar vehiculo</string>
+    <string name="car_inserting">Insertando ...</string>
+    <string name="car_insert_error">Error al agregar vehiculo, intenta de nuevo</string>
     <string name="car_insert_error_2">Limite de vehiculos alcanzado</string>
     <string name="action_refresh">Recargar</string>
 

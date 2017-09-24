@@ -36,15 +36,12 @@
             android:name=".activities.MapActivity"
             android:label="@string/title_activity_map" />
         <activity
-            android:name=".activities.AddCarActivity"
+            android:name=".ui.cars.CarsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.TimeActivity" />
-        <activity
-            android:name=".activities.MyCarsActivity"
-            android:label="@string/title_activity_my_cars" />
         <activity android:name=".activities.AddTimeActivity" />
-        <activity android:name=".activities.InfoZoneActivity"/>
+        <activity android:name=".activities.InfoZoneActivity" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

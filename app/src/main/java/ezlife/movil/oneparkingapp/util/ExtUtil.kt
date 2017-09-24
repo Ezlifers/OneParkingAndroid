@@ -2,18 +2,18 @@ package ezlife.movil.oneparkingapp.util
 
 import android.content.SharedPreferences
 import android.support.design.widget.TextInputLayout
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.EditText
-import ezlife.movil.oneparkingapp.R
-import ezlife.movil.oneparkingapp.activities.preferences
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import kotlinx.android.synthetic.main.activity_login.*
 
 fun EditText.text(): String = text.toString()
 
 fun TextInputLayout.text(): String = editText?.text.toString()
+
+fun ViewGroup.inflate(layoutId: Int): View = LayoutInflater.from(context).inflate(layoutId, this, false)
 
 infix fun CompositeDisposable.push(disposable: Disposable) {
     add(disposable)
@@ -33,12 +33,12 @@ fun Int.toTimeFormat(): String {
 }
 
 fun Int.toHourFormat(onlyMin: Boolean): String {
-    if (onlyMin) {
-        return if (this < 10) "0$this" else "$this"
+    return if (onlyMin) {
+        if (this < 10) "0$this" else "$this"
     } else {
         val h = this / 60
         val m = this % 60
-        return "${if (this < 10) "0$h" else "$h"} h ${if (this < 10) "0$m" else "$m"} min"
+        "${if (this < 10) "0$h" else "$h"} h ${if (this < 10) "0$m" else "$m"} min"
     }
 }
 

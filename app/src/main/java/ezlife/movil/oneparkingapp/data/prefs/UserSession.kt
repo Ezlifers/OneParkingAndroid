@@ -3,6 +3,7 @@ package ezlife.movil.oneparkingapp.data.prefs
 import android.content.SharedPreferences
 import ezlife.movil.oneparkingapp.data.api.model.User
 import ezlife.movil.oneparkingapp.util.Preference
+import ezlife.movil.oneparkingapp.util.SessionApp
 import ezlife.movil.oneparkingapp.util.edit
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -10,7 +11,7 @@ import javax.inject.Singleton
 @Singleton
 class UserSession @Inject constructor(val prefs: SharedPreferences) {
 
-    val token: String by lazy { prefs.getString(Preference.TOKEN, "") }
+    private val token: String by lazy { prefs.getString(Preference.TOKEN, "") }
     val userID: String by lazy { prefs.getString(Preference.USER_ID, "") }
     val userName: String by lazy { prefs.getString(Preference.USER_NAME, "") }
     val userCel: String by lazy { prefs.getString(Preference.USER_CEL, "") }
@@ -40,5 +41,6 @@ class UserSession @Inject constructor(val prefs: SharedPreferences) {
                 Preference.SETUP_VERSION to 0)
     }
 
+    fun makeToken(): String = "${SessionApp.token}_&&_${System.currentTimeMillis()}"
 
 }

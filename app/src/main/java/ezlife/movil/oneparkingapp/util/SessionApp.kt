@@ -1,6 +1,7 @@
 package ezlife.movil.oneparkingapp.util
 
-import ezlife.movil.oneparkingapp.providers.User
+import ezlife.movil.oneparkingapp.data.api.model.User
+
 
 object SessionApp {
     lateinit var token: String

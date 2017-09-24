@@ -2,17 +2,21 @@ package ezlife.movil.oneparkingapp.di.modules
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
+import android.arch.lifecycle.ViewModelProviders
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.IntoMap
-import ezlife.movil.oneparkingapp.data.api.LoginApi
-import ezlife.movil.oneparkingapp.data.db.AppDatabase
-import ezlife.movil.oneparkingapp.data.db.dao.CarDao
+import ezlife.movil.oneparkingapp.activities.AddCarActivity
+import ezlife.movil.oneparkingapp.data.api.CarApi
 import ezlife.movil.oneparkingapp.di.ActivityScope
 import ezlife.movil.oneparkingapp.di.FragmentScope
 import ezlife.movil.oneparkingapp.di.ViewModelKey
+import ezlife.movil.oneparkingapp.ui.cars.add.AddCarFragment
+import ezlife.movil.oneparkingapp.ui.cars.add.AddCarViewModel
+import ezlife.movil.oneparkingapp.ui.cars.list.ListCarFragment
+import ezlife.movil.oneparkingapp.ui.cars.list.ListCarViewModel
 import ezlife.movil.oneparkingapp.ui.entry.login.LoginFragment
 import ezlife.movil.oneparkingapp.ui.entry.login.LoginViewModel
 import ezlife.movil.oneparkingapp.ui.entry.pass.PassFragment
@@ -25,52 +29,45 @@ import javax.inject.Named
 import javax.inject.Provider
 
 @Module
-class EntryModule {
+class CarsModule {
 
     @ActivityScope
     @Provides
-    fun provideLoginApi(retrofit: Retrofit): LoginApi
-            = retrofit.create(LoginApi::class.java)
+    fun provideCarApi(retrofit: Retrofit): CarApi
+            = retrofit.create(CarApi::class.java)
 
     @ActivityScope
     @Provides
-    @Named("entry")
+    @Named("cars")
     fun bindViewModelFactory(creators: Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>): ViewModelProvider.Factory
             = AppViewModelFactory(creators)
+
 }
 
 @Module
-abstract class EntryFragmentsBuilder {
+abstract class CarsFragmentsBuilder {
 
     @FragmentScope
-    @ContributesAndroidInjector(modules = arrayOf(LoginModule::class))
-    abstract fun bindLoginFragment(): LoginFragment
+    @ContributesAndroidInjector(modules = arrayOf(AddCarModule::class))
+    abstract fun bindAddCarFragment(): AddCarFragment
 
     @FragmentScope
-    @ContributesAndroidInjector(modules = arrayOf(RegisterModule::class))
-    abstract fun bindRegisterFragment(): RegisterFragment
+    @ContributesAndroidInjector(modules = arrayOf(ListCarModule::class))
+    abstract fun bindListCarFragment(): ListCarFragment
 
-    @FragmentScope
-    @ContributesAndroidInjector(modules = arrayOf(PassModule::class))
-    abstract fun bindPassFragment(): PassFragment
 }
 
 @Module
-abstract class EntryViewModelBuilder{
+abstract class CarsViewModelBuilder {
 
     @Binds
     @IntoMap
-    @ViewModelKey(LoginViewModel::class)
-    abstract fun bindLoginViewModel(viewModel: LoginViewModel): ViewModel
+    @ViewModelKey(AddCarViewModel::class)
+    abstract fun bindAddCarViewModel(viewModel: AddCarViewModel): ViewModel
 
     @Binds
     @IntoMap
-    @ViewModelKey(RegisterViewModel::class)
-    abstract fun bindRegisterViewModel(viewModel: RegisterViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(PassViewModel::class)
-    abstract fun bindPassViewModel(viewModel: PassViewModel): ViewModel
+    @ViewModelKey(ListCarViewModel::class)
+    abstract fun bindListCArViewModel(viewModel: ListCarViewModel): ViewModel
 
 }

@@ -2,10 +2,8 @@ package ezlife.movil.oneparkingapp.di
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import ezlife.movil.oneparkingapp.di.modules.EntryFragmentsBuilder
-import ezlife.movil.oneparkingapp.di.modules.EntryModule
-import ezlife.movil.oneparkingapp.di.modules.EntryViewModelBuilder
-import ezlife.movil.oneparkingapp.di.modules.SplashModule
+import ezlife.movil.oneparkingapp.di.modules.*
+import ezlife.movil.oneparkingapp.ui.cars.CarsActivity
 import ezlife.movil.oneparkingapp.ui.entry.EntryActivity
 import ezlife.movil.oneparkingapp.ui.splash.SplashActivity
 
@@ -21,4 +19,11 @@ abstract class ActivityBuilder {
     @ActivityScope
     @ContributesAndroidInjector(modules = arrayOf(SplashModule::class))
     abstract fun bindSplashActivity(): SplashActivity
+
+    @ActivityScope
+    @ContributesAndroidInjector(modules = arrayOf(CarsModule::class,
+            CarsFragmentsBuilder::class,
+            CarsViewModelBuilder::class))
+    abstract fun bindCarsActivity(): CarsActivity
+
 }

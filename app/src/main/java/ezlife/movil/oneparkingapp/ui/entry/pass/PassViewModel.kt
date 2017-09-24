@@ -16,7 +16,7 @@ class PassViewModel @Inject constructor(private val api: LoginApi,
                                         private val session: UserSession) : ViewModel() {
 
     fun updatePass(newPass: String): Observable<SimpleResponse>
-            = api.updatePassword(session.token, UpdatePassReq(newPass))
+            = api.updatePassword(session.makeToken(), UpdatePassReq(newPass))
             .flatMap(this::validateSuccess)
             .applyShedures()
 

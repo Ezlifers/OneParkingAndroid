@@ -1,6 +1,8 @@
 package ezlife.movil.oneparkingapp.ui.entry.pass
 
 
+import android.databinding.DataBindingUtil
+import android.os.Binder
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -10,14 +12,12 @@ import com.jakewharton.rxbinding2.view.clicks
 import dagger.android.support.AndroidSupportInjection
 
 import ezlife.movil.oneparkingapp.R
+import ezlife.movil.oneparkingapp.databinding.FragmentPassBinding
 import ezlife.movil.oneparkingapp.fragments.setupArgs
 import ezlife.movil.oneparkingapp.fragments.toast
 import ezlife.movil.oneparkingapp.ui.entry.EntryNavigationController
 import ezlife.movil.oneparkingapp.ui.entry.register.RegisterFragment
-import ezlife.movil.oneparkingapp.util.push
-import ezlife.movil.oneparkingapp.util.subscribeWithError
-import ezlife.movil.oneparkingapp.util.text
-import ezlife.movil.oneparkingapp.util.validateForm
+import ezlife.movil.oneparkingapp.util.*
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_pass.*
@@ -30,6 +30,9 @@ class PassFragment : Fragment() {
     lateinit var viewModel: PassViewModel
     @Inject
     lateinit var navigation: EntryNavigationController
+    @Inject
+    lateinit var loader:Loader
+    lateinit var binding:FragmentPassBinding
 
     private val hasCars: Boolean by lazy { arguments.getBoolean(EXTRA_CARS, false) }
     private val dis: CompositeDisposable = CompositeDisposable()
@@ -40,14 +43,19 @@ class PassFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View?
-            = inflater!!.inflate(R.layout.fragment_pass, container, false)
+                              savedInstanceState: Bundle?): View?{
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_pass, container, false)
+        binding.loader = loader
+        return binding.root
+    }
+
 
     override fun onResume() {
         super.onResume()
         dis push btnOk.clicks()
                 .flatMap { validateForm(R.string.pass_form, pass.text(), pass1.text()) }
                 .flatMap { form -> viewModel.validatePasswords(form[0], form[1]).map { form[0] } }
+                .loader(loader)
                 .flatMap { viewModel.updatePass(it) }
                 .subscribeWithError(
                         onNext = {
