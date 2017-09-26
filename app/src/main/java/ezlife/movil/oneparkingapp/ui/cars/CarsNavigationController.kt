@@ -2,7 +2,7 @@ package ezlife.movil.oneparkingapp.ui.cars
 
 import android.support.v4.app.FragmentManager
 import ezlife.movil.oneparkingapp.R
-import ezlife.movil.oneparkingapp.di.ActivityScope
+import ezlife.movil.oneparkingapp.di.util.ActivityScope
 import ezlife.movil.oneparkingapp.ui.cars.add.AddCarFragment
 import ezlife.movil.oneparkingapp.ui.cars.list.ListCarFragment
 import javax.inject.Inject

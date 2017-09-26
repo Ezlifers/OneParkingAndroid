@@ -1,5 +1,8 @@
 package ezlife.movil.oneparkingapp.ui.main
 
-/**
- * Created by darfe on 24/09/2017.
- */
+import android.arch.lifecycle.ViewModel
+import javax.inject.Inject
+
+class MainViewModel @Inject constructor():ViewModel(){
+
+}

@@ -4,7 +4,7 @@ import android.support.v4.app.FragmentManager
 import ezlife.movil.oneparkingapp.R
 import ezlife.movil.oneparkingapp.activities.MapActivity
 import ezlife.movil.oneparkingapp.data.prefs.UserSession
-import ezlife.movil.oneparkingapp.di.ActivityScope
+import ezlife.movil.oneparkingapp.di.util.ActivityScope
 import ezlife.movil.oneparkingapp.ui.cars.CarsActivity
 import ezlife.movil.oneparkingapp.ui.entry.login.LoginFragment
 import ezlife.movil.oneparkingapp.ui.entry.pass.PassFragment

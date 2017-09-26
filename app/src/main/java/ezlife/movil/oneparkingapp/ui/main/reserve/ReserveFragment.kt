@@ -1,4 +1,4 @@
-package ezlife.movil.oneparkingapp.fragments
+package ezlife.movil.oneparkingapp.ui.main.reserve
 
 
 import android.os.Bundle

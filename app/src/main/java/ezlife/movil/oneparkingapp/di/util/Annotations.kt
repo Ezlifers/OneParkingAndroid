@@ -1,4 +1,4 @@
-package ezlife.movil.oneparkingapp.di
+package ezlife.movil.oneparkingapp.di.util
 
 import android.arch.lifecycle.ViewModel
 import dagger.MapKey

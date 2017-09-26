@@ -28,6 +28,7 @@ class SplashActivity : AppCompatActivity(), Animator.AnimatorListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AndroidInjection.inject(this)
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
         binding.root.viewTreeObserver.addOnGlobalLayoutListener {
 

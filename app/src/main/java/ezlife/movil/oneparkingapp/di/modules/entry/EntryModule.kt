@@ -1,4 +1,4 @@
-package ezlife.movil.oneparkingapp.di.modules
+package ezlife.movil.oneparkingapp.di.modules.entry
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
@@ -8,11 +8,9 @@ import dagger.Provides
 import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.IntoMap
 import ezlife.movil.oneparkingapp.data.api.LoginApi
-import ezlife.movil.oneparkingapp.data.db.AppDatabase
-import ezlife.movil.oneparkingapp.data.db.dao.CarDao
-import ezlife.movil.oneparkingapp.di.ActivityScope
-import ezlife.movil.oneparkingapp.di.FragmentScope
-import ezlife.movil.oneparkingapp.di.ViewModelKey
+import ezlife.movil.oneparkingapp.di.util.ActivityScope
+import ezlife.movil.oneparkingapp.di.util.FragmentScope
+import ezlife.movil.oneparkingapp.di.util.ViewModelKey
 import ezlife.movil.oneparkingapp.ui.entry.login.LoginFragment
 import ezlife.movil.oneparkingapp.ui.entry.login.LoginViewModel
 import ezlife.movil.oneparkingapp.ui.entry.pass.PassFragment

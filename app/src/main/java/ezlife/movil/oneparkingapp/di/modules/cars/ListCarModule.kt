@@ -1,10 +1,10 @@
-package ezlife.movil.oneparkingapp.di.modules
+package ezlife.movil.oneparkingapp.di.modules.cars
 
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import dagger.Module
 import dagger.Provides
-import ezlife.movil.oneparkingapp.di.FragmentScope
+import ezlife.movil.oneparkingapp.di.util.FragmentScope
 import ezlife.movil.oneparkingapp.ui.adapter.CarAdapter
 import ezlife.movil.oneparkingapp.ui.cars.list.ListCarFragment
 import ezlife.movil.oneparkingapp.ui.cars.list.ListCarViewModel

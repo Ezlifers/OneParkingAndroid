@@ -14,7 +14,6 @@ import ezlife.movil.oneparkingapp.databinding.FragmentRegisterBinding
 import ezlife.movil.oneparkingapp.fragments.toast
 import ezlife.movil.oneparkingapp.ui.entry.EntryNavigationController
 import ezlife.movil.oneparkingapp.util.*
-import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_register.*
 import javax.inject.Inject
@@ -26,7 +25,7 @@ class RegisterFragment : Fragment() {
     @Inject
     lateinit var navigation: EntryNavigationController
     @Inject
-    lateinit var loader:Loader
+    lateinit var loader: Loader
     lateinit var binding: FragmentRegisterBinding
     val dis: CompositeDisposable = CompositeDisposable()
 

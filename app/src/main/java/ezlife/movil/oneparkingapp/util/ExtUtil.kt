@@ -1,13 +1,19 @@
 package ezlife.movil.oneparkingapp.util
 
+import android.arch.lifecycle.ViewModel
+import android.arch.lifecycle.ViewModelProvider
+import android.arch.lifecycle.ViewModelProviders
 import android.content.SharedPreferences
 import android.support.design.widget.TextInputLayout
+import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import kotlin.reflect.KClass
 
 fun EditText.text(): String = text.toString()
 
@@ -55,3 +61,10 @@ fun SharedPreferences.edit(vararg preferences: Pair<String, Any>) {
     }
     editor.apply()
 }
+
+inline fun <reified T : ViewModel> AppCompatActivity.getViewModel(factory: ViewModelProvider.Factory): T
+        = ViewModelProviders.of(this, factory).get(T::class.java)
+
+
+inline fun <reified T : ViewModel> Fragment.getViewModel(factory: ViewModelProvider.Factory): T
+        = ViewModelProviders.of(this, factory).get(T::class.java)

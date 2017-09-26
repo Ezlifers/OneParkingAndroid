@@ -4,7 +4,7 @@ import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import dagger.Module
 import dagger.Provides
-import ezlife.movil.oneparkingapp.di.ActivityScope
+import ezlife.movil.oneparkingapp.di.util.ActivityScope
 import ezlife.movil.oneparkingapp.ui.splash.SplashActivity
 import ezlife.movil.oneparkingapp.ui.splash.SplashViewModel
 
