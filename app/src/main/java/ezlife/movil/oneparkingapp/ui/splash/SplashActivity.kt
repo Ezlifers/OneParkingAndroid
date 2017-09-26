@@ -14,6 +14,7 @@ import ezlife.movil.oneparkingapp.activities.MapActivity
 import ezlife.movil.oneparkingapp.activities.startActivity
 import ezlife.movil.oneparkingapp.databinding.SplashBinding
 import ezlife.movil.oneparkingapp.ui.entry.EntryActivity
+import ezlife.movil.oneparkingapp.ui.main.MainActivity
 import javax.inject.Inject
 
 class SplashActivity : AppCompatActivity(), Animator.AnimatorListener {
@@ -74,7 +75,7 @@ class SplashActivity : AppCompatActivity(), Animator.AnimatorListener {
             }
             set -> {
                 set.removeAllListeners()
-                if (viewModel.isLogged()) startActivity<MapActivity>()
+                if (viewModel.isLogged()) startActivity<MainActivity>()
                 else startActivity<EntryActivity>()
             }
         }

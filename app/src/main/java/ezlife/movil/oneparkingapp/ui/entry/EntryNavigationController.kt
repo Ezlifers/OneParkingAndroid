@@ -9,6 +9,7 @@ import ezlife.movil.oneparkingapp.ui.cars.CarsActivity
 import ezlife.movil.oneparkingapp.ui.entry.login.LoginFragment
 import ezlife.movil.oneparkingapp.ui.entry.pass.PassFragment
 import ezlife.movil.oneparkingapp.ui.entry.register.RegisterFragment
+import ezlife.movil.oneparkingapp.ui.main.MainActivity
 import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
@@ -45,9 +46,9 @@ class EntryNavigationController @Inject constructor(private val activity: EntryA
         activity.finish()
     }
 
-    fun navigateToMap() {
+    fun navigateToMain() {
         session.logged = true
-        activity.startActivity<MapActivity>()
+        activity.startActivity<MainActivity>()
         activity.finish()
     }
 

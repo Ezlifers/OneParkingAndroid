@@ -22,7 +22,7 @@ class ListCarViewModel @Inject constructor(private val dao: CarDao,
     fun getCars(): Flowable<List<Car>> = dao.all()
             .applyShedures()
 
-    fun selectCar(car: Car): Observable<Unit> = Observable.fromCallable { dao.selected() }
+    fun selectCar(car: Car): Observable<Unit> = Observable.fromCallable { dao.onlySelected() }
             .flatMap {
                 it.selected = false
                 Observable.fromCallable { dao.update(it) }
@@ -31,6 +31,7 @@ class ListCarViewModel @Inject constructor(private val dao: CarDao,
                 car.selected = true
                 Observable.fromCallable { dao.update(car) }
             }
+            .applyShedures()
 
 
     fun reloadCars(): Observable<Unit> = api.getCars(session.makeToken(), session.userID)

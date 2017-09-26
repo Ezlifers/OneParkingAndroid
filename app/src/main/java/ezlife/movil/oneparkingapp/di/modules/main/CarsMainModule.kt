@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders
 import dagger.Module
 import dagger.Provides
 import ezlife.movil.oneparkingapp.di.util.FragmentScope
+import ezlife.movil.oneparkingapp.ui.adapter.CarAdapter
 import ezlife.movil.oneparkingapp.ui.main.cars.CarsFragment
 import ezlife.movil.oneparkingapp.ui.main.cars.CarsViewModel
 import javax.inject.Named
@@ -16,5 +17,9 @@ class CarsMainModule {
     @Provides
     fun provideCarsVieModel(fragment: CarsFragment, @Named("main") factory: ViewModelProvider.Factory): CarsViewModel
             = ViewModelProviders.of(fragment, factory).get(CarsViewModel::class.java)
+
+    @FragmentScope
+    @Provides
+    fun provideAdapter(): CarAdapter = CarAdapter(false)
 
 }

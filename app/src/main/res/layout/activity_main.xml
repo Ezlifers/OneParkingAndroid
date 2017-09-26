@@ -2,11 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data class="MapBinding">
-
-        <variable
-            name="handler"
-            type="ezlife.movil.oneparkingapp.activities.MapActivity" />
+    <data class="MainBinding">
 
         <variable
             name="tracing"
@@ -14,7 +10,7 @@
 
         <variable
             name="car"
-            type="ezlife.movil.oneparkingapp.db.Car" />
+            type="ezlife.movil.oneparkingapp.data.db.model.Car" />
 
         <variable
             name="money"
@@ -42,8 +38,7 @@
 
                 <LinearLayout
                     android:id="@+id/btnMoney"
-                    style="@style/MapButton"
-                    android:onClick="@{()->handler.addMoney()}">
+                    style="@style/MapButton">
 
                     <ImageView
                         android:layout_width="@dimen/map_icon_primary"
@@ -76,8 +71,7 @@
 
                 <LinearLayout
                     android:id="@+id/btnCar"
-                    style="@style/MapButton"
-                    >
+                    style="@style/MapButton">
 
                     <ImageView
                         android:layout_width="@dimen/map_icon_primary"
@@ -125,13 +119,12 @@
         </TableLayout>
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_location"
+            android:id="@+id/btnLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
             android:layout_marginBottom="70dp"
             android:layout_marginRight="@dimen/small"
-            android:onClick="@{()->handler.checkPermLocation()}"
             app:backgroundTint="@android:color/white"
             app:fabSize="mini"
             app:srcCompat="@drawable/ic_location_disabled" />

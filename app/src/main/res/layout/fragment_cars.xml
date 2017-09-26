@@ -1,11 +1,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
-        <variable
-            name="handler"
-            type="ezlife.movil.oneparkingapp.fragments.CarsFragment" />
-    </data>
+    <data></data>
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="wrap_content"
@@ -47,16 +43,18 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/list"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                />
 
 
         </LinearLayout>
 
         <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btnSetup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/small"
-            android:onClick="@{()->handler.goToMyCars()}"
             app:fabSize="normal"
             app:layout_anchor="@id/header"
             app:layout_anchorGravity="bottom|right"

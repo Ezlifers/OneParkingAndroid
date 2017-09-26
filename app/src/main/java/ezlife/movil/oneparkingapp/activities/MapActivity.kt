@@ -26,7 +26,10 @@ import com.google.android.gms.maps.model.MarkerOptions
 import ezlife.movil.oneparkingapp.R
 import ezlife.movil.oneparkingapp.databinding.MapBinding
 import ezlife.movil.oneparkingapp.db.DB
-import ezlife.movil.oneparkingapp.fragments.*
+import ezlife.movil.oneparkingapp.fragments.ReportFragment
+import ezlife.movil.oneparkingapp.fragments.State
+import ezlife.movil.oneparkingapp.fragments.ZoneDialogListener
+import ezlife.movil.oneparkingapp.fragments.ZoneFragment
 import ezlife.movil.oneparkingapp.providers.*
 import ezlife.movil.oneparkingapp.util.Preference
 import ezlife.movil.oneparkingapp.util.SessionApp
@@ -35,7 +38,7 @@ import ezlife.movil.oneparkingapp.util.await
 import java.text.NumberFormat
 import java.util.*
 
-class MapActivity : AppCompatActivity(), OnCarSelectListener, OnMapReadyCallback, ZoneDialogListener {
+class MapActivity : AppCompatActivity(), OnMapReadyCallback, ZoneDialogListener {
 
     private lateinit var binding: MapBinding
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -74,7 +77,7 @@ class MapActivity : AppCompatActivity(), OnCarSelectListener, OnMapReadyCallback
         val numberFormat = NumberFormat.getInstance()
         numberFormat.maximumFractionDigits = 0
 
-        binding.format = numberFormat
+        //binding.format = numberFormat
         binding.tracing = false
         val mapFragment = supportFragmentManager
                 .findFragmentById(R.id.map) as SupportMapFragment
@@ -92,7 +95,6 @@ class MapActivity : AppCompatActivity(), OnCarSelectListener, OnMapReadyCallback
         setupApp(this)
         loadMoney()
     }
-
 
 
     //region Cicle Life
@@ -295,18 +297,11 @@ class MapActivity : AppCompatActivity(), OnCarSelectListener, OnMapReadyCallback
         binding.car = car
     }
 
-    fun selectCar() {
-        showDialog(CarsFragment.instance())
-    }
-
-    override fun onCarSelected() {
-        loadSelectedCar()
-    }
     //endregion
 
     //region Money
 
-    fun loadMoney(){
+    fun loadMoney() {
 
         val cash = preferences().getLong(Preference.USER_CASH, 0)
         binding.money = cash
@@ -368,7 +363,7 @@ class MapActivity : AppCompatActivity(), OnCarSelectListener, OnMapReadyCallback
         } else {
             //val meters = SphericalUtil.computeDistanceBetween(lastRequest, LatLng(lat, lng))
             //if (meters >= MIN_METERS)
-              //  loadStates(lat, lng, lastRequest?.latitude, lastRequest?.longitude)
+            //  loadStates(lat, lng, lastRequest?.latitude, lastRequest?.longitude)
         }
     }
 
@@ -386,7 +381,7 @@ class MapActivity : AppCompatActivity(), OnCarSelectListener, OnMapReadyCallback
 
     }
 
-    override fun onReportDialog(id:String, code:Int, name:String) {
+    override fun onReportDialog(id: String, code: Int, name: String) {
         showDialog(ReportFragment.instance(id, code, name))
     }
 

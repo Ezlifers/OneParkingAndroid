@@ -41,6 +41,6 @@ class UserSession @Inject constructor(val prefs: SharedPreferences) {
                 Preference.SETUP_VERSION to 0)
     }
 
-    fun makeToken(): String = "${SessionApp.token}_&&_${System.currentTimeMillis()}"
+    fun makeToken(): String = "${token}_&&_${System.currentTimeMillis()}"
 
 }

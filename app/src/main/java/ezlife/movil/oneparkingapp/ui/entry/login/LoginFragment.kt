@@ -68,7 +68,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun loginSuccess(user: User) {
-        if (user.validado && user.vehiculos.isNotEmpty()) navigation.navigateToMap()
+        if (user.validado && user.vehiculos.isNotEmpty()) navigation.navigateToMain()
         else if (user.validado) navigation.navigateToAddCar()
         else navigation.navigateToPass(user.vehiculos.isNotEmpty())
     }

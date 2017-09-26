@@ -33,7 +33,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppDarkTheme.NoActionBar" />
         <activity
-            android:name=".activities.MapActivity"
+            android:name=".ui.main.MainActivity"
             android:label="@string/title_activity_map" />
         <activity
             android:name=".ui.cars.CarsActivity"
@@ -52,8 +52,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
-
-        <activity android:name=".ui.main.MainActivity"></activity>
     </application>
 
 </manifest>

@@ -60,10 +60,11 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"
 
-    compile 'com.reyurnible.rxanimation:rxanimations-kotlin:2.0.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.google.android.gms:play-services-maps:11.0.4'
-    compile 'com.google.android.gms:play-services-location:11.0.4'
+    compile 'com.google.android.gms:play-services-maps:11.2.0'
+    //compile 'com.google.android.gms:play-services-location:11.0.4'
+    compile 'io.nlopez.smartlocation:library:3.3.2'
+    compile 'io.nlopez.smartlocation:rx:3.3.2'
     compile 'org.jetbrains.anko:anko-commons:0.10.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'io.reactivex.rxjava2:rxjava:2.1.3'

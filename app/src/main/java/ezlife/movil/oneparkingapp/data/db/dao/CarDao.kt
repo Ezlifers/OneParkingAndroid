@@ -6,9 +6,9 @@ import io.reactivex.Flowable
 
 
 @Dao
-interface CarDao{
+interface CarDao {
     @Insert
-    fun insertList(cars:List<Car>)
+    fun insertList(cars: List<Car>)
 
     @Insert
     fun insert(car: Car)
@@ -22,11 +22,14 @@ interface CarDao{
     @Query("DELETE FROM car")
     fun deleteAll()
 
-    @Query("SELECT * FROM car ORDER BY selected DESC, apodo")
+    @Query("SELECT * FROM car ORDER BY apodo")
     fun all(): Flowable<List<Car>>
 
     @Query("SELECT * FROM car WHERE selected = 1")
-    fun selected(): Car
+    fun selected(): Flowable<Car>
+
+    @Query("SELECT * FROM car WHERE selected = 1")
+    fun onlySelected(): Car
 
     @Query("SELECT * FROM car ORDER BY apodo LIMIT 1")
     fun next(): Car

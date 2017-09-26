@@ -34,9 +34,9 @@ class MainModule {
     fun bindViewModelFactory(creators: Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>): ViewModelProvider.Factory
             = AppViewModelFactory(creators)
 
-    @FragmentScope
+    @ActivityScope
     @Provides
-    fun provideMainVieModel(activity: MainActivity, @Named("main") factory: ViewModelProvider.Factory): MainViewModel
+    fun provideMainVieModel(activity: MainActivity, factory: ViewModelProvider.Factory): MainViewModel
             = ViewModelProviders.of(activity, factory).get(MainViewModel::class.java)
 }
 
@@ -62,11 +62,6 @@ abstract class MainFragmentsBuilder {
 
 @Module
 abstract class MainViewModelBuilder {
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(MainViewModel::class)
-    abstract fun bindMainViewModel(viewModel: MainViewModel): ViewModel
 
     @Binds
     @IntoMap

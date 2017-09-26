@@ -57,7 +57,7 @@ class PassFragment : Fragment() {
                 .subscribeWithError(
                         onNext = {
                             toast(R.string.pass_success)
-                            if (hasCars) navigation.navigateToMap()
+                            if (hasCars) navigation.navigateToMain()
                             else navigation.navigateToAddCar()
                         },
                         onError = { toast(it.message!!) },

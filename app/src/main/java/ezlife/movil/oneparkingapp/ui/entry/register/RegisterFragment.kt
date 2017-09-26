@@ -53,7 +53,7 @@ class RegisterFragment : Fragment() {
 
         dis push btnReg.clicks()
                 .flatMap { validateForm(R.string.reg_form, email.text(), pass.text(), pass2.text()) }
-                .flatMap { viewModel.validatePasswords(it[0], it[1]) }
+                .flatMap { viewModel.validatePasswords(it[1], it[2]) }
                 .loader(loader)
                 .flatMap {
                     viewModel.signIn(RegisterReq("Cliente", name.text(), identity.text(),

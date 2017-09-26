@@ -16,4 +16,6 @@ class SplashModule {
     fun provideLoginVieModel(activity: SplashActivity, factory: ViewModelProvider.Factory): SplashViewModel
             = ViewModelProviders.of(activity, factory).get(SplashViewModel::class.java)
 
+
+
 }

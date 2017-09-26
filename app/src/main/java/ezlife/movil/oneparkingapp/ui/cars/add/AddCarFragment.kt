@@ -10,11 +10,9 @@ import android.view.ViewGroup
 import com.jakewharton.rxbinding2.view.clicks
 import dagger.android.support.AndroidSupportInjection
 import ezlife.movil.oneparkingapp.R
-import ezlife.movil.oneparkingapp.activities.MapActivity
 import ezlife.movil.oneparkingapp.data.db.model.Car
 import ezlife.movil.oneparkingapp.databinding.FragmentAddCarBinding
 import ezlife.movil.oneparkingapp.fragments.setupArgs
-import ezlife.movil.oneparkingapp.fragments.startActivity
 import ezlife.movil.oneparkingapp.fragments.toast
 import ezlife.movil.oneparkingapp.ui.cars.CarsNavigationController
 import ezlife.movil.oneparkingapp.util.*
@@ -57,7 +55,7 @@ class AddCarFragment : Fragment() {
                 .subscribeWithError(
                         onNext = {
                             toast(R.string.car_insert)
-                            if (firstTime) startActivity<MapActivity>()
+                            if (firstTime) navigation.navigateToMain()
                             navigation.goToBack(firstTime)
                         },
                         onError = { toast(it.message!!) },
