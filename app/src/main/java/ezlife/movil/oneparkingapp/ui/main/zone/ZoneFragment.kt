@@ -1,6 +1,5 @@
 package ezlife.movil.oneparkingapp.ui.main.zone
 
-import android.content.Context
 import android.databinding.BindingAdapter
 import android.databinding.DataBindingUtil
 import android.os.Bundle
@@ -10,191 +9,146 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.jakewharton.rxbinding2.view.clicks
+import dagger.android.support.AndroidSupportInjection
 import ezlife.movil.oneparkingapp.R
-import ezlife.movil.oneparkingapp.activities.InfoZoneActivity
+import ezlife.movil.oneparkingapp.data.api.model.CurrentState
+import ezlife.movil.oneparkingapp.data.api.model.ZoneState
+import ezlife.movil.oneparkingapp.data.observer.MarkObserver
+import ezlife.movil.oneparkingapp.data.observer.MarkerState
 import ezlife.movil.oneparkingapp.databinding.FragmentZoneBinding
-import ezlife.movil.oneparkingapp.db.DB
-import ezlife.movil.oneparkingapp.db.ScheduleDao
-import ezlife.movil.oneparkingapp.db.ZoneDao
 import ezlife.movil.oneparkingapp.fragments.setupArgs
-import ezlife.movil.oneparkingapp.fragments.toast
-import ezlife.movil.oneparkingapp.providers.ZoneState
-import ezlife.movil.oneparkingapp.util.asyncUI
-import ezlife.movil.oneparkingapp.util.await
-import ezlife.movil.oneparkingapp.util.toTimeFormat
-import java.util.*
+import ezlife.movil.oneparkingapp.ui.main.MainNavigationController
+import ezlife.movil.oneparkingapp.util.push
+import io.reactivex.Observable
+import io.reactivex.disposables.CompositeDisposable
+import kotlinx.android.synthetic.main.fragment_zone.*
+import javax.inject.Inject
 
+//TODO: Cuando hay un cambio de tipo Free -> trarification no se ocultan bn las partes
 class ZoneFragment : DialogFragment() {
 
-    lateinit var binding: FragmentZoneBinding
-    lateinit var listener: ZoneDialogListener
-    val state: State by lazy { getState(arguments) }
-    val zoneDao: ZoneDao = DB.con.zoneDao()
-    val scheduleDao: ScheduleDao = DB.con.scheduleDao()
+    @Inject
+    lateinit var viewModel: ZoneViewModel
+    @Inject
+    lateinit var navigation: MainNavigationController
+    @Inject
+    lateinit var markObserver: MarkObserver
 
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        when (context) {
-            is ZoneDialogListener -> listener = context
-            else -> throw RuntimeException("${context.toString()} must implement ZoneDialogListener")
-        }
+    lateinit var binding: FragmentZoneBinding
+    private val state: ZoneViewModel.State by lazy { viewModel.getState(arguments) }
+    private val dis: CompositeDisposable = CompositeDisposable()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        AndroidSupportInjection.inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_zone, container, false)
-        //binding.handler = this
-        //binding.state = state
-        binding.stateType = state.type
-
-        loadZone()
+        binding.state = state
+        binding.type = state.type
         return binding.root
     }
 
-    private fun loadZone() = asyncUI {
-        binding.zone = await { zoneDao.zoneById(state.id) }
+    override fun onResume() {
+        super.onResume()
 
-        val calendar = Calendar.getInstance()
-        val day = when (calendar[Calendar.DAY_OF_WEEK]) {
-            in 1..5 -> 0
-            6 -> 1
-            else -> 2
-        }
-        val min = calendar[Calendar.HOUR_OF_DAY] * 60 + calendar[Calendar.MINUTE]
-        val times = await { scheduleDao.allByZone(state.id, day) }
+        dis push btnInfo.clicks()
+                .subscribe { navigation.navigateToInfo(state.id, binding.zone.nombre) }
 
-        var current = -1
-        var betweenTime = false
-        var step = -1
-        val lastIndex = times.size - 1
-        val currentState: Int
+        dis push btnReport.clicks()
+                .subscribe {
+                    dismiss()
+                    navigation.showDialogReport(state.id, binding.zone.codigo, binding.zone.nombre)
+                }
 
-        for (i in 0..lastIndex) {
-            val time = times[i]
-            if (min < time.ti) {
-                betweenTime = true
-                step = i
-                break
-            } else if (min in time.ti until time.tf) {
-                current = i
-                break
-            }
-            step = i
-        }
+        dis push btnDisability.clicks()
+                .flatMap { validateBays(state.busyDis, state.dis) }
+                .subscribe {
+                    dismiss()
+                    navigation.showDialogReserve(state, true)
+                }
 
-        if (current > -1) {
-            val time = times[current]
-            currentState = if (time.d) TYPE_TARIFICATION else TYPE_PROHIBITED
-            updateStateBoard(currentState, time.tf)
-        } else if (betweenTime && step != lastIndex) {
-            currentState = TYPE_FREE
-            val timeNext = times[step + 1]
-            updateStateBoard(currentState, timeNext.ti)
-        } else {
-            currentState = TYPE_FREE
-            updateStateBoard(currentState, -1)
-        }
+        dis push btnReserve.clicks()
+                .flatMap { validateBays(state.busyBays, state.bays) }
+                .subscribe {
+                    dismiss()
+                    navigation.showDialogReserve(state, false)
+                }
 
-        if (state.type != currentState) {
-            binding.stateType = currentState
-            listener.updateMark(state.id, currentState)
-        }
+        dis push viewModel.getZone(state.id)
+                .subscribe { binding.zone = it }
+
+        dis push viewModel.getTypeAndSateTo(state.id, state.day)
+                .subscribe {
+                    boardState.setBackgroundResource(it["color"] as Int)
+                    binding.stateTo = it["message"] as String
+                    val currentState = it["state"] as Int
+                    if (state.type != currentState) {
+                        binding.type = currentState
+                        markObserver.markerState.onNext(MarkerState(state.id, currentState))
+                    }
+                }
+
+        dis push markObserver.makerBusy
+                .subscribe { updateState(it.type, it.dis) }
+
 
     }
 
-    fun updateStateBoard(type:Int, timeEnd:Int)= when(type){
-        TYPE_PROHIBITED->{
-            binding.boardState.setBackgroundResource(R.color.notAvailable)
-            binding.stateTo = getString(R.string.zone_to, timeEnd.toTimeFormat())
-        }
-        TYPE_TARIFICATION->{
-            binding.boardState.setBackgroundResource(R.color.colorPrimary)
-            binding.stateTo = getString(R.string.zone_to, timeEnd.toTimeFormat())
-        }
-        else->{
-            binding.boardState.setBackgroundResource(R.color.colorPrimary)
-            binding.stateTo = if(timeEnd > 0) getString(R.string.zone_to, timeEnd.toTimeFormat()) else getString(R.string.zone_to_last)
-        }
+    override fun onStop() {
+        super.onStop()
+        dis.dispose()
     }
 
-    fun reserve(dis: Boolean) {
-        if (dis && state.busyDis < state.dis) {
-            listener.onReserveDialog(state, true)
-        } else if (state.busyBays < state.bays) {
-            listener.onReserveDialog(state, false)
-        } else {
-            toast(R.string.reserve_busy)
-        }
-    }
-
-    fun report() {
-        dismiss()
-        listener.onReportDialog(state.id, binding.zone.codigo, binding.zone.nombre)
-    }
-
-    fun goToInfo() {
-        //startActivity<InfoZoneActivity>(InfoZoneActivity.EXTRA_ID to state.id
-          //      , InfoZoneActivity.EXTRA_NAME to binding.zone.nombre)
-    }
-
-    fun updateState(type: Int, dis: Boolean) = when (type) {
+    private fun updateState(type: Int, dis: Boolean) = when (type) {
         RESERVE_START -> {
-            if(dis) state.busyDis += 1 else state.busyBays += 1
-            //binding.state = state
+            if (dis) state.busyDis += 1 else state.busyBays += 1
+            binding.state = state
         }
         RESERVE_END -> {
-            if(dis) state.busyDis -= 1 else state.busyBays -= 1
-          //  binding.state = state
+            if (dis) state.busyDis -= 1 else state.busyBays -= 1
+            binding.state = state
         }
         else -> {
         }
     }
 
-    //region Statics & Consts
+    private fun validateBays(taken: Int, max: Int): Observable<Unit> = Observable.create {
+        if (taken < max) it.onNext(Unit)
+        it.onComplete()
+    }
+
+    //region Statics , Consts
     companion object {
 
         private val RESERVE_END = 1
         private val RESERVE_START = 0
 
-        private val TYPE_FREE = 0
-        private val TYPE_TARIFICATION = 1
-        private val TYPE_PROHIBITED = 2
-
-        private val KEY_ID = "id"
-        private val KEY_TYPE = "type"
-        private val KEY_DIS = "dis"
-        private val KEY_BUSY_DIS = "busyDis"
-        private val KEY_BAYS = "bays"
-        private val KEY_BUSY_BAYS = "busyBays"
-        private val KEY_FREE = "free"
+        val KEY_ID = "id"
+        val KEY_TYPE = "type"
+        val KEY_DIS = "dis"
+        val KEY_BUSY_DIS = "busyDis"
+        val KEY_BAYS = "bays"
+        val KEY_BUSY_BAYS = "busyBays"
+        val KEY_FREE = "free"
+        val KEY_DAY = "day"
 
 
-        fun instance(state: ZoneState): ZoneFragment {
+        fun instance(state: ZoneState, day: Int): ZoneFragment {
             val fragment = ZoneFragment()
-            val bayState = state.estado
-            fragment.setupArgs(KEY_ID to state._id
-                    , KEY_TYPE to state.tipo
-                    , KEY_BAYS to bayState.bahias
-                    , KEY_BUSY_BAYS to bayState.bahiasOcupadas
-                    , KEY_DIS to bayState.dis
-                    , KEY_BUSY_DIS to bayState.disOcupadas
-                    , KEY_FREE to bayState.libre.time
-            )
+            val bayState: CurrentState? = state.estado
+            fragment.setupArgs(KEY_ID to state._id,
+                    KEY_TYPE to state.tipo,
+                    KEY_BAYS to (bayState?.bahias ?: 0),
+                    KEY_BUSY_BAYS to (bayState?.bahiasOcupadas ?: 0),
+                    KEY_DIS to (bayState?.dis ?: 0),
+                    KEY_BUSY_DIS to (bayState?.disOcupadas ?: 0),
+                    KEY_FREE to (bayState?.libre?.time ?: 0),
+                    KEY_DAY to day)
             return fragment
-        }
-
-        fun getState(args: Bundle): State {
-            val id = args.getString(KEY_ID)
-            val type = args.getInt(KEY_TYPE)
-            val bays = args.getInt(KEY_BAYS)
-            val busyBays = args.getInt(KEY_BUSY_BAYS)
-            val dis = args.getInt(KEY_DIS)
-            val busyDis = args.getInt(KEY_BUSY_DIS)
-            val freeMilis = args.getLong(KEY_FREE)
-            val free = Date(freeMilis)
-
-            val state = State(id, type, bays, busyBays, dis, busyDis, free)
-            return state
         }
 
         @JvmStatic
@@ -205,20 +159,8 @@ class ZoneFragment : DialogFragment() {
             view.setTextColor(ContextCompat.getColor(view.context, color))
         }
     }
+
+
     //endregion
-
 }
 
-interface ZoneDialogListener {
-    fun onReserveDialog(state: State, disability: Boolean)
-    fun onReportDialog(id:String, code:Int, name:String)
-    fun updateMark(idZone: String, state: Int)
-}
-
-data class State(val id: String
-                 , val type: Int
-                 , val bays: Int
-                 , var busyBays: Int
-                 , val dis: Int = 0
-                 , var busyDis: Int
-                 , var free: Date)

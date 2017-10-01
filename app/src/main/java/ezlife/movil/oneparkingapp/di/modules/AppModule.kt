@@ -11,8 +11,14 @@ import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import ezlife.movil.oneparkingapp.R
+import ezlife.movil.oneparkingapp.data.api.CashApi
+import ezlife.movil.oneparkingapp.data.api.SetupApi
+import ezlife.movil.oneparkingapp.data.api.ZoneStateApi
 import ezlife.movil.oneparkingapp.data.db.AppDatabase
 import ezlife.movil.oneparkingapp.data.db.dao.CarDao
+import ezlife.movil.oneparkingapp.data.db.dao.ConfigDao
+import ezlife.movil.oneparkingapp.data.db.dao.ScheduleDao
+import ezlife.movil.oneparkingapp.data.db.dao.ZoneDao
 import ezlife.movil.oneparkingapp.util.AppViewModelFactory
 import ezlife.movil.oneparkingapp.util.Loader
 import ezlife.movil.oneparkingapp.util.Preference
@@ -38,12 +44,28 @@ class AppModule {
     @Provides
     fun provideDatabase(context: Context): AppDatabase
             = Room.databaseBuilder(context, AppDatabase::class.java, "oneparkingapp")
+            .fallbackToDestructiveMigration()
             .build()
 
     @Singleton
     @Provides
     fun provideCarDao(database: AppDatabase): CarDao
             = database.carDao()
+
+    @Singleton
+    @Provides
+    fun proviceConfigDao(database: AppDatabase): ConfigDao
+            = database.configDao()
+
+    @Singleton
+    @Provides
+    fun proviceZoneDao(database: AppDatabase): ZoneDao
+            = database.zoneDao()
+
+    @Singleton
+    @Provides
+    fun proviceScheduleDao(database: AppDatabase): ScheduleDao
+            = database.scheduleDao()
 
     @Singleton
     @Provides
@@ -58,6 +80,21 @@ class AppModule {
     @Singleton
     @Provides
     fun provideLoader(): Loader = Loader()
+
+    @Singleton
+    @Provides
+    fun provideCashApi(retrofit: Retrofit): CashApi
+            = retrofit.create(CashApi::class.java)
+
+    @Singleton
+    @Provides
+    fun provideSetupApi(retrofit: Retrofit): SetupApi
+            = retrofit.create(SetupApi::class.java)
+
+    @Singleton
+    @Provides
+    fun provideZoneStateApi(retrofit: Retrofit): ZoneStateApi
+            = retrofit.create(ZoneStateApi::class.java)
 
     @Singleton
     @Provides

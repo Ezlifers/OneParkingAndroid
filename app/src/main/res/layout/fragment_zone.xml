@@ -8,20 +8,18 @@
             alias="V"
             type="android.view.View" />
 
-        <variable
-            name="handler"
-            type="ezlife.movil.oneparkingapp.fragments.ZoneFragment" />
+        <import type="ezlife.movil.oneparkingapp.data.api.model.ZoneState"/>
 
         <variable
             name="zone"
-            type="ezlife.movil.oneparkingapp.db.Zone" />
+            type="ezlife.movil.oneparkingapp.data.db.model.Zone" />
 
         <variable
             name="state"
-            type="ezlife.movil.oneparkingapp.fragments.State" />
+            type="ezlife.movil.oneparkingapp.ui.main.zone.ZoneViewModel.State" />
 
         <variable
-            name="stateType"
+            name="type"
             type="int" />
 
         <variable
@@ -51,7 +49,7 @@
                 android:layout_height="70dp"
                 android:background="@drawable/zone_code"
                 android:gravity="center"
-                android:text="@{zone.codigo}"
+                android:text='@{""+zone.codigo}'
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                 android:textColor="@color/colorAccent"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -94,7 +92,7 @@
             android:id="@+id/baysState"
             android:layout_width="@dimen/dialog"
             android:layout_height="wrap_content"
-            android:visibility="@{stateType == 1 ? V.VISIBLE : V.GONE}"
+            android:visibility="@{type == ZoneState.TARIFICATION ? V.VISIBLE : V.GONE}"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -114,7 +112,8 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/busyBays"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Bahias Ocupadas " />
+                android:text="@string/zone_bays"
+                />
 
             <TextView
                 android:id="@+id/busyBays"
@@ -146,7 +145,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/busyDis"
                 app:layout_constraintTop_toBottomOf="@+id/labelBays"
-                tools:text="Discapasidad" />
+                android:text="@string/zone_dis"/>
 
             <TextView
                 android:id="@+id/busyDis"
@@ -177,11 +176,10 @@
 
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/btnInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/zone_info"
-                android:onClick="@{()->handler.goToInfo()}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -193,12 +191,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@{@stringArray/zone_states[stateType]}"
+                android:text="@{@stringArray/zone_states[type]}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@color/textPrimaryInvert"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@+id/imageView2"
+                app:layout_constraintRight_toLeftOf="@+id/btnInfo"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Tarificación" />
 
@@ -211,7 +209,7 @@
                 android:textColor="@color/textPrimaryLessInvert"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@+id/imageView2"
+                app:layout_constraintRight_toLeftOf="@+id/btnInfo"
                 app:layout_constraintTop_toBottomOf="@+id/stateTitle"
                 tools:text="Hasta las 6:00pm" />
 
@@ -221,7 +219,7 @@
             android:id="@+id/actions"
             android:layout_width="@dimen/dialog"
             android:layout_height="wrap_content"
-            android:visibility="@{stateType == 1 ? V.VISIBLE : V.GONE}"
+            android:visibility="@{type == ZoneState.TARIFICATION ? V.VISIBLE : V.GONE}"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -233,7 +231,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:drawableTop="@drawable/ic_report"
-                android:onClick="@{()->handler.report()}"
                 android:text="@string/zone_btn_report"
                 app:layout_constraintLeft_toRightOf="@+id/btnDisability"
                 app:layout_constraintRight_toRightOf="parent"
@@ -245,7 +242,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:drawableTop="@drawable/ic_accessible_white"
-                android:onClick="@{()->handler.reserve(false)}"
                 android:text="@string/zone_btn_disability"
                 android:visibility="@{state.dis > 0 ? V.VISIBLE : V.GONE}"
                 app:layout_constraintLeft_toRightOf="@+id/btnReserve"
@@ -258,7 +254,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:drawableTop="@drawable/ic_reserve"
-                android:onClick="@{()->handler.reserve(false)}"
                 android:text="@string/zone_btn_reserve"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/btnDisability"

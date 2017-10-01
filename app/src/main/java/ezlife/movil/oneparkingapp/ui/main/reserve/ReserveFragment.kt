@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 
 import ezlife.movil.oneparkingapp.R
+import ezlife.movil.oneparkingapp.ui.main.zone.ZoneFragment
+import ezlife.movil.oneparkingapp.ui.main.zone.ZoneViewModel
 
 class ReserveFragment : DialogFragment() {
 
@@ -15,6 +17,11 @@ class ReserveFragment : DialogFragment() {
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater!!.inflate(R.layout.fragment_reserve, container, false)
+    }
+
+    companion object {
+        fun instance(state: ZoneViewModel.State, disability: Boolean): ReserveFragment =
+                ReserveFragment()
     }
 
 }

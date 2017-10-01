@@ -91,6 +91,8 @@
     <string name="report">Reportar</string>
 
     <string name="zone_btn_reserve">Reservar</string>
+    <string name="zone_bays">Bahias Ocupadas</string>
+    <string name="zone_dis">Discapacidad</string>
     <string name="zone_btn_disability">Especiales</string>
     <string name="zone_btn_report">Reportar</string>
     <string name="zone_info">Información de Horarios</string>
@@ -131,8 +133,6 @@
         <item>Precios</item>
     </string-array>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="pass_form">Llena todos los campos</string>
     <string name="pass_success">Actualización exitosa</string>
 

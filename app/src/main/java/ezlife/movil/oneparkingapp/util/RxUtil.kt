@@ -27,6 +27,7 @@ fun AppCompatActivity.validateForm(emptyMsg: Int, vararg fields: String): Observ
             it.onComplete()
         }
 
+
 fun Fragment.validateForm(emptyMsg: Int, vararg fields: String): Observable<Array<out String>> =
         Observable.create<Array<out String>> {
             val empty = fields.contains("")
@@ -37,7 +38,6 @@ fun Fragment.validateForm(emptyMsg: Int, vararg fields: String): Observable<Arra
             }
             it.onComplete()
         }
-
 
 class Loader {
     val loading: ObservableBoolean = ObservableBoolean(false)
@@ -59,6 +59,8 @@ fun <T> Flowable<T>.applyShedures(): Flowable<T> = compose {
             .observeOn(AndroidSchedulers.mainThread())
 }
 
+//TODO:  Especificar si se mantiene conectado o si se corta la conexión para un reintento
+//TODO: Como esta actualmente solo se desuscribe y ya
 fun <T> Observable<T>.subscribeWithError(onNext: (T) -> Unit, onHttpError: (resString: Int) -> Unit,
                                          onError: ((error: Throwable) -> Unit)? = null): Disposable =
         doOnError {
@@ -74,5 +76,6 @@ fun <T> Observable<T>.subscribeWithError(onNext: (T) -> Unit, onHttpError: (resS
                 else -> onError?.invoke(it)
             }
         }
-                .retry()
-                .subscribe(onNext)
+                //.retry()
+                .subscribe(onNext, {})
+

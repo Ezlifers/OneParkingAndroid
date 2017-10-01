@@ -27,9 +27,6 @@ import ezlife.movil.oneparkingapp.R
 import ezlife.movil.oneparkingapp.databinding.MapBinding
 import ezlife.movil.oneparkingapp.db.DB
 import ezlife.movil.oneparkingapp.fragments.ReportFragment
-import ezlife.movil.oneparkingapp.fragments.State
-import ezlife.movil.oneparkingapp.fragments.ZoneDialogListener
-import ezlife.movil.oneparkingapp.fragments.ZoneFragment
 import ezlife.movil.oneparkingapp.providers.*
 import ezlife.movil.oneparkingapp.util.Preference
 import ezlife.movil.oneparkingapp.util.SessionApp
@@ -38,7 +35,7 @@ import ezlife.movil.oneparkingapp.util.await
 import java.text.NumberFormat
 import java.util.*
 
-class MapActivity : AppCompatActivity(), OnMapReadyCallback, ZoneDialogListener {
+class MapActivity : AppCompatActivity(), OnMapReadyCallback{
 
     private lateinit var binding: MapBinding
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -242,7 +239,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, ZoneDialogListener 
         }
         map?.setOnMarkerClickListener { marker ->
             val state = marker.tag as ZoneState
-            showDialog(ZoneFragment.instance(state))
+            //showDialog(ZoneFragment.instance(state))
             true
         }
         if (pendingStates != null) {
@@ -376,18 +373,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, ZoneDialogListener 
         }
     }
     //endregion
-
-    override fun onReserveDialog(state: State, disability: Boolean) {
-
-    }
-
-    override fun onReportDialog(id: String, code: Int, name: String) {
-        showDialog(ReportFragment.instance(id, code, name))
-    }
-
-    override fun updateMark(idZone: String, state: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
     //region Attrs & Consts
     companion object {

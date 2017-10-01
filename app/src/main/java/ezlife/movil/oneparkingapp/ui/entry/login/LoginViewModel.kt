@@ -24,6 +24,7 @@ class LoginViewModel @Inject constructor(private val carDao: CarDao,
             = api.login(LoginReq("Cliente", username, password, Date().time))
             .flatMap(this::saveSession)
             .flatMap { user ->
+                if (user.vehiculos.isNotEmpty()) user.vehiculos[0].selected = true
                 Observable.fromCallable { carDao.insertList(user.vehiculos) }
                         .map { user }
             }.applyShedures()

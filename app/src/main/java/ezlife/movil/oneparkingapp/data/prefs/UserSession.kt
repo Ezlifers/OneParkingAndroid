@@ -16,7 +16,7 @@ class UserSession @Inject constructor(val prefs: SharedPreferences) {
     val userName: String by lazy { prefs.getString(Preference.USER_NAME, "") }
     val userCel: String by lazy { prefs.getString(Preference.USER_CEL, "") }
     val userEmail: String by lazy { prefs.getString(Preference.USER_EMAIL, "") }
-    val userDisability: String by lazy { prefs.getString(Preference.USER_DISABILITY, "") }
+    val userDisability: Boolean by lazy { prefs.getBoolean(Preference.USER_DISABILITY, false) }
 
     var userCash: Long
         get() = prefs.getLong(Preference.USER_CASH, 0)
@@ -30,6 +30,10 @@ class UserSession @Inject constructor(val prefs: SharedPreferences) {
         get() = prefs.getInt(Preference.SETUP_VERSION, 0)
         set(value) = prefs.edit(Preference.SETUP_VERSION to value)
 
+    var setupDay: Int
+        get() = prefs.getInt(Preference.SETUP_DAY, -1)
+        set(value) = prefs.edit(Preference.SETUP_DAY to value)
+
     fun initSession(token: String, user: User) {
         prefs.edit(Preference.TOKEN to token,
                 Preference.USER_ID to user._id,
@@ -38,7 +42,7 @@ class UserSession @Inject constructor(val prefs: SharedPreferences) {
                 Preference.USER_EMAIL to user.email,
                 Preference.USER_DISABILITY to user.discapasitado,
                 Preference.USER_CASH to user.saldo,
-                Preference.SETUP_VERSION to 0)
+                Preference.SETUP_VERSION to -1)
     }
 
     fun makeToken(): String = "${token}_&&_${System.currentTimeMillis()}"

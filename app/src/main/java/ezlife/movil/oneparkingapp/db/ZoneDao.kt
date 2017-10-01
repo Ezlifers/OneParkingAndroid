@@ -3,6 +3,7 @@ package ezlife.movil.oneparkingapp.db
 import android.arch.persistence.room.*
 import ezlife.movil.oneparkingapp.providers.ZoneBase
 
+
 @Entity
 class Zone() {
     @PrimaryKey
@@ -15,7 +16,7 @@ class Zone() {
     var lat: Double = 0.0
 
     @Ignore
-    constructor(base:ZoneBase) : this() {
+    constructor(base: ZoneBase) : this() {
         this.zone = base._id
         this.nombre = base.nombre
         this.codigo = base.codigo
