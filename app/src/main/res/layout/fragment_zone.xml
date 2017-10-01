@@ -8,7 +8,7 @@
             alias="V"
             type="android.view.View" />
 
-        <import type="ezlife.movil.oneparkingapp.data.api.model.ZoneState"/>
+        <import type="ezlife.movil.oneparkingapp.data.api.model.ZoneState" />
 
         <variable
             name="zone"
@@ -90,10 +90,10 @@
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/baysState"
-            android:layout_width="@dimen/dialog"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:visibility="@{type == ZoneState.TARIFICATION ? V.VISIBLE : V.GONE}"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/head">
@@ -102,18 +102,15 @@
                 android:id="@+id/labelBays"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="0dp"
                 android:layout_marginLeft="@dimen/medium"
-                android:layout_marginRight="0dp"
                 android:layout_marginStart="@dimen/medium"
-                android:layout_marginTop="@dimen/medium"
+                android:layout_marginTop="16dp"
+                android:text="@string/zone_bays"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/busyBays"
-                app:layout_constraintTop_toTopOf="parent"
-                android:text="@string/zone_bays"
-                />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/busyBays"
@@ -132,26 +129,21 @@
                 android:id="@+id/labelDis"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/medium"
-                android:layout_marginEnd="0dp"
                 android:layout_marginLeft="@dimen/medium"
-                android:layout_marginRight="0dp"
                 android:layout_marginStart="@dimen/medium"
-                android:layout_marginTop="@dimen/xsmall"
+                android:layout_marginTop="8dp"
+                android:text="@string/zone_dis"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 android:visibility="@{state.dis > 0 ? V.VISIBLE : V.GONE}"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/busyDis"
-                app:layout_constraintTop_toBottomOf="@+id/labelBays"
-                android:text="@string/zone_dis"/>
+                app:layout_constraintTop_toBottomOf="@+id/labelBays" />
 
             <TextView
                 android:id="@+id/busyDis"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="0dp"
                 android:layout_marginEnd="@dimen/medium"
                 android:layout_marginRight="@dimen/medium"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
@@ -161,6 +153,17 @@
                 app:layout_constraintBottom_toBottomOf="@+id/labelDis"
                 app:layout_constraintRight_toRightOf="parent"
                 tools:text="0 de 12" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="16dp"
+                android:layout_marginBottom="0dp"
+                android:layout_marginTop="0dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/labelDis" />
         </android.support.constraint.ConstraintLayout>
 
         <android.support.constraint.ConstraintLayout
@@ -217,7 +220,7 @@
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/actions"
-            android:layout_width="@dimen/dialog"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:visibility="@{type == ZoneState.TARIFICATION ? V.VISIBLE : V.GONE}"
             app:layout_constraintHorizontal_bias="0.0"
