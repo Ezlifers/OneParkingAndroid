@@ -1,5 +1,6 @@
 package ezlife.movil.oneparkingapp.ui.main.zone
 
+import android.Manifest
 import android.databinding.BindingAdapter
 import android.databinding.DataBindingUtil
 import android.os.Bundle
@@ -10,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.jakewharton.rxbinding2.view.clicks
+import com.tbruyelle.rxpermissions2.RxPermissions
 import dagger.android.support.AndroidSupportInjection
 import ezlife.movil.oneparkingapp.R
 import ezlife.movil.oneparkingapp.data.api.model.CurrentState
@@ -34,6 +36,8 @@ class ZoneFragment : DialogFragment() {
     lateinit var navigation: MainNavigationController
     @Inject
     lateinit var markObserver: MarkObserver
+    @Inject
+    lateinit var perms: RxPermissions
 
     lateinit var binding: FragmentZoneBinding
     private val state: ZoneViewModel.State by lazy { viewModel.getState(arguments) }
@@ -59,6 +63,9 @@ class ZoneFragment : DialogFragment() {
                 .subscribe { navigation.navigateToInfo(state.id, binding.zone.nombre) }
 
         dis push btnReport.clicks()
+                .compose(perms.ensure(Manifest.permission.CAMERA,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE))
+                .filter { it == true }
                 .subscribe {
                     dismiss()
                     navigation.showDialogReport(state.id, binding.zone.codigo, binding.zone.nombre)

@@ -1,76 +1,90 @@
 package ezlife.movil.oneparkingapp.ui.main.report
 
 import android.app.Activity
-import android.app.ProgressDialog
-import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.support.v4.app.DialogFragment
 import android.support.v4.content.FileProvider
-import android.support.v7.app.AppCompatActivity
-import android.util.Base64
-import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
+import com.jakewharton.rxbinding2.view.clicks
 import com.squareup.picasso.Picasso
+import dagger.android.support.AndroidSupportInjection
 import ezlife.movil.oneparkingapp.R
 import ezlife.movil.oneparkingapp.databinding.FragmentReportBinding
-import ezlife.movil.oneparkingapp.fragments.makeLoading
 import ezlife.movil.oneparkingapp.fragments.setupArgs
 import ezlife.movil.oneparkingapp.fragments.toast
-import ezlife.movil.oneparkingapp.providers.Incident
-import ezlife.movil.oneparkingapp.providers.IncidentProvider
-import ezlife.movil.oneparkingapp.providers.UserIncident
-import ezlife.movil.oneparkingapp.providers.ZoneIncident
-import ezlife.movil.oneparkingapp.util.SessionApp
-import ezlife.movil.oneparkingapp.util.text
-import ezlife.movil.oneparkingauxiliar.util.getBytesFromBitmap
+import ezlife.movil.oneparkingapp.util.*
+import io.reactivex.disposables.CompositeDisposable
+import kotlinx.android.synthetic.main.fragment_report.*
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.concurrent.thread
+import javax.inject.Inject
 
 class ReportFragment : DialogFragment() {
 
-    lateinit var binding: FragmentReportBinding
+    @Inject
+    lateinit var loader: Loader
+    @Inject
+    lateinit var viewModel: ReportViewModel
 
-    val loading: ProgressDialog by lazy { makeLoading() }
-    val provider: IncidentProvider  by lazy { IncidentProvider(activity as AppCompatActivity, loading) }
+    lateinit var binding: FragmentReportBinding
+    val dis: CompositeDisposable = CompositeDisposable()
 
     var width = 0
     var height = 0
-    lateinit var fileImage: File
-    var captured: Boolean = false
+    var fileImage: File? = null
 
-    var name:String = ""
-    var code:Int = 0
-    var id:String = ""
+    val name: String by lazy { arguments.getString(EXTRA_ZONE_NAME) }
+    val code: Int by lazy { arguments.getInt(EXTRA_ZONE_CODE) }
+    val id: String by lazy { arguments.getString(EXTRA_ZONE_ID) }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        AndroidSupportInjection.inject(this)
+    }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_report, container, false)
-        //binding.handler = this
-
-        val windowsManager: WindowManager = activity.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        val display = windowsManager.defaultDisplay
-        val metrics = DisplayMetrics()
-        display.getMetrics(metrics)
-
-        width = metrics.widthPixels
+        binding.loader = loader
+        width = resources.getDimensionPixelSize(R.dimen.dialog)
         height = resources.getDimensionPixelSize(R.dimen.report_img)
 
-        name = arguments.getString(EXTRA_ZONE_NAME)
-        code = arguments.getInt(EXTRA_ZONE_CODE)
-        id = arguments.getString(EXTRA_ZONE_ID)
-
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        dis push btnImg.clicks()
+                .subscribe { takePhoto() }
+
+        dis push btnReport.clicks()
+                .flatMap {
+                    validateForm(R.string.report_form_image, description.text(),
+                            if (fileImage == null) "" else "ready")
+                }
+                .loader(loader)
+                .flatMap { viewModel.notifyIncident(id, code, name, img, it[0]) }
+                .subscribeWithError(
+                        onNext = {
+                            toast(R.string.report_success)
+                            dismiss()
+                        },
+                        onError = { toast(it.message!!) },
+                        onHttpError = this::toast
+                )
+    }
+
+    override fun onStop() {
+        super.onStop()
+        dis.clear()
     }
 
     //region Take Photo
@@ -88,56 +102,16 @@ class ReportFragment : DialogFragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == 101) {
-            if (resultCode == Activity.RESULT_OK) {
-                captured = true
-                Picasso.with(activity).load(fileImage).resize(width, width).centerCrop().into(binding.img)
-            }
+            if (resultCode == Activity.RESULT_OK) Picasso.with(activity)
+                    .load(fileImage)
+                    .resize(width, width)
+                    .centerCrop()
+                    .into(binding.img)
+            else fileImage = null
         }
     }
     //endregion
 
-    //region Send Report
-
-    fun report() {
-        val msg = binding.description.text()
-
-        if (msg == "") {
-            toast(R.string.report_form)
-            return
-        } else if (!captured) {
-            toast(R.string.report_image)
-            return
-        }
-        sendReport(msg)
-    }
-
-
-    fun sendReport(msg: String) {
-        val drawable: BitmapDrawable = binding.img.drawable as BitmapDrawable
-        loading.show()
-        thread {
-            val imageData = getBytesFromBitmap(drawable.bitmap)
-            val img = Base64.encodeToString(imageData, Base64.DEFAULT)
-
-            val zoneIncident: ZoneIncident = ZoneIncident(id, code, name)
-            val user: UserIncident = UserIncident(SessionApp.user.nombre, SessionApp.user.celular)
-            val req: Incident = Incident(img, msg, zoneIncident, user)
-
-            activity.runOnUiThread {
-                provider.notifyIncident(req) { success, _ ->
-                    loading.dismiss()
-                    if (success) {
-                        toast(R.string.report_success)
-                        dismiss()
-                    } else {
-                        toast(R.string.report_fail)
-                    }
-
-                }
-            }
-        }
-    }
-    //endregion
 
     //region Extras
     companion object {

@@ -3,9 +3,11 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
-            name="handler"
-            type="ezlife.movil.oneparkingapp.fragments.ReportFragment" />
+            name="loader"
+            type="ezlife.movil.oneparkingapp.util.Loader" />
     </data>
 
     <FrameLayout
@@ -18,12 +20,13 @@
             android:orientation="vertical">
 
             <FrameLayout
+                android:id="@+id/btnImg"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/report_img"
-                android:onClick="@{()->handler.takePhoto()}">
+                android:layout_height="@dimen/report_img">
 
                 <ImageView
                     android:id="@+id/img"
+                    android:scaleType="centerCrop"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/imgEmpty" />
@@ -33,6 +36,15 @@
                     android:layout_height="@dimen/report_img_icon"
                     android:layout_gravity="center"
                     app:srcCompat="@drawable/ic_add_photo" />
+
+                <ProgressBar
+                    android:id="@+id/progressBar2"
+                    style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|bottom"
+                    android:padding="@dimen/small"
+                    android:visibility="@{loader.loading ? View.VISIBLE: View.GONE}" />
 
             </FrameLayout>
 
@@ -44,11 +56,12 @@
                 android:hint="@string/report_description" />
 
             <TextView
+                android:id="@+id/btnReport"
                 style="@style/ButtonReportNormal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="@{()->handler.report()}"
-                android:text="@string/report" />
+                android:enabled="@{!loader.loading}"
+                android:text="@{loader.loading? @string/sending :@string/report}" />
 
         </LinearLayout>
 

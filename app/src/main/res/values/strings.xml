@@ -16,9 +16,10 @@
     <string name="alert_negative">Cancelar</string>
 
     <string name="report_form">Llena todos los campos para continuar</string>
-    <string name="report_image">Agrega una imagen para completar el reporte</string>
+    <string name="report_form_image">Agrega una imagen y la descripción para completar el reporte</string>
 
     <string name="loading">Cargando…</string>
+    <string name="sending">Enviando…</string>
     <string name="oneparking">OneParking</string>
     <string name="splash_rights">Derechos reservados or EzLife Corporation SAS</string>
 
@@ -114,6 +115,7 @@
     <string name="setup_loading">Cargando Configuración</string>
     <string name="report_success">Reporte enviado exitosamente</string>
     <string name="report_fail">Error al enviar reporte, intenta de nuevo</string>
+    <string name="report_fail_image">Error al cargar imagen, intenta de nuevo</string>
     <string-array name="zone_states">
         <item>Gratuito</item>
         <item>Tarificación</item>

@@ -3,11 +3,13 @@ package ezlife.movil.oneparkingapp.di.modules.main
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
+import com.tbruyelle.rxpermissions2.RxPermissions
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.IntoMap
+import ezlife.movil.oneparkingapp.data.api.IncidentApi
 import ezlife.movil.oneparkingapp.data.observer.MarkObserver
 import ezlife.movil.oneparkingapp.di.util.ActivityScope
 import ezlife.movil.oneparkingapp.di.util.FragmentScope
@@ -25,6 +27,7 @@ import ezlife.movil.oneparkingapp.ui.main.setup.SetupViewModel
 import ezlife.movil.oneparkingapp.ui.main.zone.ZoneFragment
 import ezlife.movil.oneparkingapp.ui.main.zone.ZoneViewModel
 import ezlife.movil.oneparkingapp.util.AppViewModelFactory
+import retrofit2.Retrofit
 import javax.inject.Named
 import javax.inject.Provider
 
@@ -46,6 +49,15 @@ class MainModule {
     @Provides
     fun provideMarkObserver(): MarkObserver
             = MarkObserver()
+
+    @ActivityScope
+    @Provides
+    fun providePermission(activity: MainActivity): RxPermissions = RxPermissions(activity)
+
+    @ActivityScope
+    @Provides
+    fun provideIncidentApi(retrofit: Retrofit): IncidentApi
+            = retrofit.create(IncidentApi::class.java)
 
 
 }

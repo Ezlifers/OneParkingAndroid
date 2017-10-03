@@ -26,7 +26,6 @@ import com.google.android.gms.maps.model.MarkerOptions
 import ezlife.movil.oneparkingapp.R
 import ezlife.movil.oneparkingapp.databinding.MapBinding
 import ezlife.movil.oneparkingapp.db.DB
-import ezlife.movil.oneparkingapp.fragments.ReportFragment
 import ezlife.movil.oneparkingapp.providers.*
 import ezlife.movil.oneparkingapp.util.Preference
 import ezlife.movil.oneparkingapp.util.SessionApp
@@ -35,7 +34,7 @@ import ezlife.movil.oneparkingapp.util.await
 import java.text.NumberFormat
 import java.util.*
 
-class MapActivity : AppCompatActivity(), OnMapReadyCallback{
+class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var binding: MapBinding
     private lateinit var fusedLocationClient: FusedLocationProviderClient

@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders
 import dagger.Module
 import dagger.Provides
 import ezlife.movil.oneparkingapp.di.util.FragmentScope
+import ezlife.movil.oneparkingapp.ui.main.MainActivity
 import ezlife.movil.oneparkingapp.ui.main.report.ReportFragment
 import ezlife.movil.oneparkingapp.ui.main.report.ReportViewModel
 import javax.inject.Named
@@ -16,5 +17,6 @@ class ReportModule {
     @Provides
     fun provideReportVieModel(fragment: ReportFragment, @Named("main") factory: ViewModelProvider.Factory): ReportViewModel
             = ViewModelProviders.of(fragment, factory).get(ReportViewModel::class.java)
+
 
 }

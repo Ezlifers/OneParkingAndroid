@@ -44,7 +44,7 @@ class MainNavigationController @Inject constructor(val activity: MainActivity) {
         val prev = manager.findFragmentByTag("dialog")
         val transaction = manager.beginTransaction()
         if (prev != null) transaction.remove(prev)
-        transaction.addToBackStack(null)
+        //transaction.addToBackStack(null)
         fragment.show(transaction, "dialog")
     }
 

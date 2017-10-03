@@ -29,7 +29,7 @@ android {
 }
 
 androidExtensions {
-    experimental  true
+    experimental true
 }
 
 def support_version = '26.1.0'
@@ -67,10 +67,11 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"
 
+    //compile 'com.google.android.gms:play-services-location:11.0.4'
+
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.google.android.gms:play-services-maps:11.2.0'
     compile 'com.google.maps.android:android-maps-utils:0.5'
-    //compile 'com.google.android.gms:play-services-location:11.0.4'
     compile 'io.nlopez.smartlocation:library:3.3.2'
     compile 'io.nlopez.smartlocation:rx:3.3.2'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -79,7 +80,7 @@ dependencies {
     compile 'io.reactivex.rxjava2:rxkotlin:2.1.0'
     compile 'com.jakewharton.rxbinding2:rxbinding-kotlin:2.0.0'
     compile 'com.jakewharton.rxbinding2:rxbinding-support-v4-kotlin:2.0.0'
-
+    compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.google.code.findbugs:jsr305:3.0.1'
     kapt 'com.android.databinding:compiler:2.3.3'
