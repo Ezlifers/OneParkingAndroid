@@ -10,7 +10,7 @@ import ezlife.movil.oneparkingapp.databinding.TemplateCarBinding
 import ezlife.movil.oneparkingapp.util.inflate
 import io.reactivex.subjects.PublishSubject
 
-class CarAdapter(private val setup: Boolean) : RecyclerView.Adapter<CarHolder>() {
+class CarAdapter(private val setup: Boolean) : RecyclerView.Adapter<CarAdapter.CarHolder>() {
 
     var data: List<Car> = emptyList()
         set(value) {
@@ -33,8 +33,9 @@ class CarAdapter(private val setup: Boolean) : RecyclerView.Adapter<CarHolder>()
 
     override fun getItemCount(): Int = data.size
 
+    class CarHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val binding: TemplateCarBinding = DataBindingUtil.bind(view)
+    }
+
 }
 
-class CarHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val binding: TemplateCarBinding = DataBindingUtil.bind(view)
-}

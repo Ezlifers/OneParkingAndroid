@@ -1,4 +1,4 @@
-package ezlife.movil.oneparkingapp.adapters
+package ezlife.movil.oneparkingapp.ui.adapter
 
 import android.databinding.BindingAdapter
 import android.databinding.DataBindingUtil
@@ -8,11 +8,18 @@ import android.view.ViewGroup
 import android.widget.TextView
 import ezlife.movil.oneparkingapp.R
 import ezlife.movil.oneparkingapp.databinding.TemplatePriceBinding
+import ezlife.movil.oneparkingapp.util.inflate
 import java.text.NumberFormat
 
-class PriceAdapter(val timeMin: Int, val prices: List<Int>) : RecyclerView.Adapter<PriceHolder>() {
+class PriceAdapter : RecyclerView.Adapter<PriceAdapter.PriceHolder>() {
 
-    val format: NumberFormat by lazy { NumberFormat.getCurrencyInstance() }
+    var timeMin: Int = 0
+    var prices: List<Int> = emptyList()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+    private val format: NumberFormat by lazy { NumberFormat.getCurrencyInstance() }
 
     init {
         format.maximumFractionDigits = 0
@@ -29,7 +36,7 @@ class PriceAdapter(val timeMin: Int, val prices: List<Int>) : RecyclerView.Adapt
 
     override fun getItemCount(): Int = prices.size
 
-
+    //region BindingAdapters & ViewHolder
     companion object {
         @JvmStatic
         @BindingAdapter("app:posTime", "app:stepTime")
@@ -39,9 +46,10 @@ class PriceAdapter(val timeMin: Int, val prices: List<Int>) : RecyclerView.Adapt
             view.text = "$from a $to"
         }
     }
-}
 
-class PriceHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val binding: TemplatePriceBinding = DataBindingUtil.bind(view)
+    class PriceHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val binding: TemplatePriceBinding = DataBindingUtil.bind(view)
+    }
+    //endregion
 }
 

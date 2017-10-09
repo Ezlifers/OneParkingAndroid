@@ -4,6 +4,8 @@ import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.Query
 import ezlife.movil.oneparkingapp.data.db.model.Schedule
+import io.reactivex.Flowable
+import io.reactivex.Single
 
 
 @Dao
@@ -19,6 +21,6 @@ interface ScheduleDao {
     fun allByZone(zoneID: String, day: Int): List<Schedule>
 
     @Query("SELECT * FROM schedule WHERE zone == :zoneID")
-    fun all(zoneID: String): List<Schedule>
+    fun all(zoneID: String): Single<List<Schedule>>
 
 }

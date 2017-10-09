@@ -11,14 +11,13 @@ import com.jakewharton.rxbinding2.view.clicks
 import dagger.android.support.AndroidSupportInjection
 import ezlife.movil.oneparkingapp.R
 import ezlife.movil.oneparkingapp.databinding.FragmentPassBinding
-import ezlife.movil.oneparkingapp.fragments.setupArgs
-import ezlife.movil.oneparkingapp.fragments.toast
 import ezlife.movil.oneparkingapp.ui.entry.EntryNavigationController
 import ezlife.movil.oneparkingapp.ui.entry.register.RegisterFragment
 import ezlife.movil.oneparkingapp.util.*
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_pass.*
 import kotlinx.android.synthetic.main.fragment_register.*
+import org.jetbrains.anko.support.v4.toast
 import javax.inject.Inject
 
 class PassFragment : Fragment() {

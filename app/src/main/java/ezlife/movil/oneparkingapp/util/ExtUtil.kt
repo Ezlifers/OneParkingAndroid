@@ -1,7 +1,9 @@
 package ezlife.movil.oneparkingapp.util
 
 import android.content.SharedPreferences
+import android.os.Bundle
 import android.support.design.widget.TextInputLayout
+import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,6 +43,20 @@ fun Int.toHourFormat(onlyMin: Boolean): String {
         val m = this % 60
         "${if (this < 10) "0$h" else "$h"} h ${if (this < 10) "0$m" else "$m"} min"
     }
+}
+
+fun Fragment.setupArgs(vararg args:Pair<String, Any>){
+    val bundle = Bundle()
+    args.forEach {
+        val value = it.second
+        when (value) {
+            is Int -> bundle.putInt(it.first, value)
+            is Boolean -> bundle.putBoolean(it.first, value)
+            is Long -> bundle.putLong(it.first, value)
+            is String -> bundle.putString(it.first, value)
+        }
+    }
+    this.arguments = bundle
 }
 
 fun SharedPreferences.edit(vararg preferences: Pair<String, Any>) {

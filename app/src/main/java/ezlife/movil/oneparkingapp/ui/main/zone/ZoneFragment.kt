@@ -19,9 +19,9 @@ import ezlife.movil.oneparkingapp.data.api.model.ZoneState
 import ezlife.movil.oneparkingapp.data.observer.MarkObserver
 import ezlife.movil.oneparkingapp.data.observer.MarkerState
 import ezlife.movil.oneparkingapp.databinding.FragmentZoneBinding
-import ezlife.movil.oneparkingapp.fragments.setupArgs
 import ezlife.movil.oneparkingapp.ui.main.MainNavigationController
 import ezlife.movil.oneparkingapp.util.push
+import ezlife.movil.oneparkingapp.util.setupArgs
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_zone.*
@@ -107,7 +107,7 @@ class ZoneFragment : DialogFragment() {
 
     override fun onStop() {
         super.onStop()
-        dis.dispose()
+        dis.clear()
     }
 
     private fun updateState(type: Int, dis: Boolean) = when (type) {

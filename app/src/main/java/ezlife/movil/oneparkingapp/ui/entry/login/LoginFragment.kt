@@ -12,11 +12,11 @@ import dagger.android.support.AndroidSupportInjection
 import ezlife.movil.oneparkingapp.R
 import ezlife.movil.oneparkingapp.data.api.model.User
 import ezlife.movil.oneparkingapp.databinding.FragmentLoginBinding
-import ezlife.movil.oneparkingapp.fragments.toast
 import ezlife.movil.oneparkingapp.ui.entry.EntryNavigationController
 import ezlife.movil.oneparkingapp.util.*
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_login.*
+import org.jetbrains.anko.support.v4.toast
 import retrofit2.HttpException
 import javax.inject.Inject
 

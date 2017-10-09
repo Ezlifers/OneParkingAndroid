@@ -45,7 +45,8 @@ dependencies {
     })
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     compile "org.jetbrains.anko:anko-sdk25:$anko_version"
-    compile "org.jetbrains.anko:anko-commons:$anko_version"
+    //compile "org.jetbrains.anko:anko-commons:$anko_version"
+    compile "org.jetbrains.anko:anko-appcompat-v7-commons:$anko_version"
     compile('io.socket:socket.io-client:0.8.3') {
         exclude group: 'org.json', module: 'json'
     }

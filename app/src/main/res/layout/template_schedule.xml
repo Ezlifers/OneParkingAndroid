@@ -10,7 +10,7 @@
 
         <variable
             name="time"
-            type="ezlife.movil.oneparkingapp.db.Schedule" />
+            type="ezlife.movil.oneparkingapp.data.db.model.Schedule" />
     </data>
 
     <FrameLayout
@@ -24,8 +24,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/medium"
             android:padding="@dimen/xsmall"
-            app:scheduleTo = "@{time.ti}"
-            app:scheduleFrom = "@{time.tf}"
+            app:scheduleTo = "@{time.tf}"
+            app:scheduleFrom = "@{time.ti}"
             tools:text="8:00 am a 10:00 pm" />
 
         <TextView

@@ -127,7 +127,7 @@
     <string name="schedule_info">No se realiza cobro en los espacios no especificados</string>
     <string name="schedule_day_0">Lunes a Viernes</string>
     <string name="schedule_day_1">Sabado</string>
-    <string name="schedule_day_2">Doming</string>
+    <string name="schedule_day_2">Domingo</string>
     <string name="action_info">Información</string>
 
     <string-array name="info_titles">

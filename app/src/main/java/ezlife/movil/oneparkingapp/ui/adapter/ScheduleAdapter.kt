@@ -1,28 +1,34 @@
-package ezlife.movil.oneparkingapp.adapters
+package ezlife.movil.oneparkingapp.ui.adapter
 
 import android.databinding.DataBindingUtil
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import ezlife.movil.oneparkingapp.R
+import ezlife.movil.oneparkingapp.data.db.model.Schedule
 import ezlife.movil.oneparkingapp.databinding.TemplateDayBinding
 import ezlife.movil.oneparkingapp.databinding.TemplateScheduleBinding
-import ezlife.movil.oneparkingapp.db.Schedule
+import ezlife.movil.oneparkingapp.util.inflate
 
-class ScheduleAdapter(val data: List<Any>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ScheduleAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    var data: List<Any> = emptyList()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = when (viewType) {
         0 -> DayHolder(parent.inflate(R.layout.template_day))
         else -> ScheduleHolder(parent.inflate(R.layout.template_schedule))
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int){}
-    /*= when (holder) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) = when (holder) {
         is DayHolder -> holder.binding.day = data[position] as Int
         is ScheduleHolder -> holder.binding.time = data[position] as Schedule
         else -> {
         }
-    }*/
+    }
 
     override fun getItemCount(): Int = data.size
 

@@ -12,7 +12,6 @@ import com.jakewharton.rxbinding2.view.clicks
 import dagger.android.support.AndroidSupportInjection
 import ezlife.movil.oneparkingapp.R
 import ezlife.movil.oneparkingapp.databinding.FragmentListCarBinding
-import ezlife.movil.oneparkingapp.fragments.toast
 import ezlife.movil.oneparkingapp.ui.adapter.CarAdapter
 import ezlife.movil.oneparkingapp.ui.cars.CarsNavigationController
 import ezlife.movil.oneparkingapp.util.Loader
@@ -20,6 +19,7 @@ import ezlife.movil.oneparkingapp.util.push
 import ezlife.movil.oneparkingapp.util.subscribeWithError
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_list_car.*
+import org.jetbrains.anko.support.v4.toast
 import javax.inject.Inject
 
 class ListCarFragment : Fragment() {

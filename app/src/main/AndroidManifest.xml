@@ -24,6 +24,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -40,7 +41,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.TimeActivity" />
         <activity android:name=".activities.AddTimeActivity" />
-        <activity android:name=".activities.InfoZoneActivity" />
+        <activity android:name=".ui.infozone.InfoZoneActivity" android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".ui.info.InfoActivity" android:theme="@style/AppTheme.NoActionBar"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -51,6 +53,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+
 
     </application>
 

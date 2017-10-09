@@ -12,12 +12,11 @@ import dagger.android.support.AndroidSupportInjection
 import ezlife.movil.oneparkingapp.R
 import ezlife.movil.oneparkingapp.data.db.model.Car
 import ezlife.movil.oneparkingapp.databinding.FragmentAddCarBinding
-import ezlife.movil.oneparkingapp.fragments.setupArgs
-import ezlife.movil.oneparkingapp.fragments.toast
 import ezlife.movil.oneparkingapp.ui.cars.CarsNavigationController
 import ezlife.movil.oneparkingapp.util.*
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_add_car.*
+import org.jetbrains.anko.support.v4.toast
 import javax.inject.Inject
 
 class AddCarFragment : Fragment() {

@@ -1,42 +1,40 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
 
-    <data></data>
+    >
 
-    <TableLayout
+    <TableRow
+        android:layout_marginBottom="@dimen/small"
+        android:layout_marginTop="@dimen/small">
+
+        <TextView
+            style="@style/Base.TextAppearance.AppCompat.Body2"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="@dimen/small"
+            android:text="@string/price_title_time"
+            android:textColor="@color/priceTitle" />
+
+        <TextView
+            style="@style/Base.TextAppearance.AppCompat.Body2"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="@dimen/small"
+            android:text="@string/price_title_value"
+            android:textColor="@color/priceTitle" />
+    </TableRow>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
-        >
+</TableLayout>
 
-        <TableRow
-            android:layout_marginBottom="@dimen/small"
-            android:layout_marginTop="@dimen/small">
-
-            <TextView
-                style="@style/Base.TextAppearance.AppCompat.Body2"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="@dimen/small"
-                android:text="@string/price_title_time"
-                android:textColor="@color/priceTitle" />
-
-            <TextView
-                style="@style/Base.TextAppearance.AppCompat.Body2"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="@dimen/small"
-                android:text="@string/price_title_value"
-                android:textColor="@color/priceTitle" />
-        </TableRow>
-
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-    </TableLayout>
-</layout>
 

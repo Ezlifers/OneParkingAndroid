@@ -9,12 +9,16 @@ import ezlife.movil.oneparkingapp.di.modules.cars.CarsViewModelBuilder
 import ezlife.movil.oneparkingapp.di.modules.entry.EntryFragmentsBuilder
 import ezlife.movil.oneparkingapp.di.modules.entry.EntryModule
 import ezlife.movil.oneparkingapp.di.modules.entry.EntryViewModelBuilder
+import ezlife.movil.oneparkingapp.di.modules.info.InfoZoneFragmentsBuilder
+import ezlife.movil.oneparkingapp.di.modules.info.InfoZoneModule
+import ezlife.movil.oneparkingapp.di.modules.info.InfoZoneViewModelBuilder
 import ezlife.movil.oneparkingapp.di.modules.main.MainFragmentsBuilder
 import ezlife.movil.oneparkingapp.di.modules.main.MainModule
 import ezlife.movil.oneparkingapp.di.modules.main.MainViewModelBuilder
 import ezlife.movil.oneparkingapp.di.util.ActivityScope
 import ezlife.movil.oneparkingapp.ui.cars.CarsActivity
 import ezlife.movil.oneparkingapp.ui.entry.EntryActivity
+import ezlife.movil.oneparkingapp.ui.infozone.InfoZoneActivity
 import ezlife.movil.oneparkingapp.ui.main.MainActivity
 import ezlife.movil.oneparkingapp.ui.splash.SplashActivity
 
@@ -42,6 +46,12 @@ abstract class ActivityBuilder {
             MainFragmentsBuilder::class,
             MainViewModelBuilder::class))
     abstract fun bindMainActivity(): MainActivity
+
+    @ActivityScope
+    @ContributesAndroidInjector(modules = arrayOf(InfoZoneModule::class,
+            InfoZoneFragmentsBuilder::class,
+            InfoZoneViewModelBuilder::class))
+    abstract fun bindInfoZoneActivity(): InfoZoneActivity
 
 
 }

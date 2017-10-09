@@ -2,10 +2,10 @@ package ezlife.movil.oneparkingapp.ui.main
 
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.FragmentManager
-import ezlife.movil.oneparkingapp.activities.InfoZoneActivity
 import ezlife.movil.oneparkingapp.data.api.model.ZoneState
 import ezlife.movil.oneparkingapp.di.util.ActivityScope
 import ezlife.movil.oneparkingapp.ui.cars.CarsActivity
+import ezlife.movil.oneparkingapp.ui.infozone.InfoZoneActivity
 import ezlife.movil.oneparkingapp.ui.main.cars.CarsFragment
 import ezlife.movil.oneparkingapp.ui.main.report.ReportFragment
 import ezlife.movil.oneparkingapp.ui.main.reserve.ReserveFragment

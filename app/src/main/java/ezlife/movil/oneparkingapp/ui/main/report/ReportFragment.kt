@@ -17,11 +17,10 @@ import com.squareup.picasso.Picasso
 import dagger.android.support.AndroidSupportInjection
 import ezlife.movil.oneparkingapp.R
 import ezlife.movil.oneparkingapp.databinding.FragmentReportBinding
-import ezlife.movil.oneparkingapp.fragments.setupArgs
-import ezlife.movil.oneparkingapp.fragments.toast
 import ezlife.movil.oneparkingapp.util.*
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_report.*
+import org.jetbrains.anko.support.v4.toast
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
