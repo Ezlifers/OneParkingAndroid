@@ -12,23 +12,22 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.jakewharton.rxbinding2.view.clicks
 import com.tbruyelle.rxpermissions2.RxPermissions
-import dagger.android.support.AndroidSupportInjection
 import ezlife.movil.oneparkingapp.R
 import ezlife.movil.oneparkingapp.data.api.model.CurrentState
 import ezlife.movil.oneparkingapp.data.api.model.ZoneState
 import ezlife.movil.oneparkingapp.data.observer.MarkObserver
 import ezlife.movil.oneparkingapp.data.observer.MarkerState
 import ezlife.movil.oneparkingapp.databinding.FragmentZoneBinding
+import ezlife.movil.oneparkingapp.di.Injectable
 import ezlife.movil.oneparkingapp.ui.main.MainNavigationController
-import ezlife.movil.oneparkingapp.util.push
+import ezlife.movil.oneparkingapp.util.LifeDisposable
 import ezlife.movil.oneparkingapp.util.setupArgs
 import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_zone.*
 import javax.inject.Inject
 
 //TODO: Cuando hay un cambio de tipo Free -> trarification no se ocultan bn las partes
-class ZoneFragment : DialogFragment() {
+class ZoneFragment : DialogFragment(), Injectable {
 
     @Inject
     lateinit var viewModel: ZoneViewModel
@@ -41,12 +40,7 @@ class ZoneFragment : DialogFragment() {
 
     lateinit var binding: FragmentZoneBinding
     private val state: ZoneViewModel.State by lazy { viewModel.getState(arguments) }
-    private val dis: CompositeDisposable = CompositeDisposable()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        AndroidSupportInjection.inject(this)
-    }
+    private val dis: LifeDisposable = LifeDisposable(this)
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -59,10 +53,10 @@ class ZoneFragment : DialogFragment() {
     override fun onResume() {
         super.onResume()
 
-        dis push btnInfo.clicks()
+        dis add btnInfo.clicks()
                 .subscribe { navigation.navigateToInfo(state.id, binding.zone.nombre) }
 
-        dis push btnReport.clicks()
+        dis add btnReport.clicks()
                 .compose(perms.ensure(Manifest.permission.CAMERA,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE))
                 .filter { it == true }
@@ -71,24 +65,24 @@ class ZoneFragment : DialogFragment() {
                     navigation.showDialogReport(state.id, binding.zone.codigo, binding.zone.nombre)
                 }
 
-        dis push btnDisability.clicks()
+        dis add btnDisability.clicks()
                 .flatMap { validateBays(state.busyDis, state.dis) }
                 .subscribe {
                     dismiss()
                     navigation.showDialogReserve(state, true)
                 }
 
-        dis push btnReserve.clicks()
+        dis add btnReserve.clicks()
                 .flatMap { validateBays(state.busyBays, state.bays) }
                 .subscribe {
                     dismiss()
                     navigation.showDialogReserve(state, false)
                 }
 
-        dis push viewModel.getZone(state.id)
+        dis add viewModel.getZone(state.id)
                 .subscribe { binding.zone = it }
 
-        dis push viewModel.getTypeAndSateTo(state.id, state.day)
+        dis add viewModel.getTypeAndSateTo(state.id, state.day)
                 .subscribe {
                     boardState.setBackgroundResource(it["color"] as Int)
                     binding.stateTo = it["message"] as String
@@ -99,15 +93,10 @@ class ZoneFragment : DialogFragment() {
                     }
                 }
 
-        dis push markObserver.makerBusy
+        dis add markObserver.makerBusy
                 .subscribe { updateState(it.type, it.dis) }
 
 
-    }
-
-    override fun onStop() {
-        super.onStop()
-        dis.clear()
     }
 
     private fun updateState(type: Int, dis: Boolean) = when (type) {

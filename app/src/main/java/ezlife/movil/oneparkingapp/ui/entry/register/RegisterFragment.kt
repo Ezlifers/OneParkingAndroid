@@ -7,18 +7,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.jakewharton.rxbinding2.view.clicks
-import dagger.android.support.AndroidSupportInjection
 import ezlife.movil.oneparkingapp.R
 import ezlife.movil.oneparkingapp.data.api.model.RegisterReq
 import ezlife.movil.oneparkingapp.databinding.FragmentRegisterBinding
+import ezlife.movil.oneparkingapp.di.Injectable
 import ezlife.movil.oneparkingapp.ui.entry.EntryNavigationController
 import ezlife.movil.oneparkingapp.util.*
-import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_register.*
 import org.jetbrains.anko.support.v4.toast
 import javax.inject.Inject
 
-class RegisterFragment : Fragment() {
+class RegisterFragment : Fragment(), Injectable {
 
     @Inject
     lateinit var viewModel: RegisterViewModel
@@ -27,12 +26,7 @@ class RegisterFragment : Fragment() {
     @Inject
     lateinit var loader: Loader
     lateinit var binding: FragmentRegisterBinding
-    val dis: CompositeDisposable = CompositeDisposable()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        AndroidSupportInjection.inject(this)
-    }
+    val dis: LifeDisposable = LifeDisposable(this)
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -44,14 +38,14 @@ class RegisterFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        dis push btnBack.clicks()
+        dis add btnBack.clicks()
                 .subscribe { binding.secondScreen = false }
 
-        dis push btnNext.clicks()
+        dis add btnNext.clicks()
                 .flatMap { validateForm(R.string.reg_form, name.text(), identity.text(), cel.text()) }
                 .subscribe { binding.secondScreen = true }
 
-        dis push btnReg.clicks()
+        dis add btnReg.clicks()
                 .flatMap { validateForm(R.string.reg_form, email.text(), pass.text(), pass2.text()) }
                 .flatMap { viewModel.validatePasswords(it[1], it[2]) }
                 .loader(loader)
@@ -69,11 +63,6 @@ class RegisterFragment : Fragment() {
     private fun registerSuccess() {
         toast(R.string.reg_success)
         navigation.navigateToAddCar()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        dis.clear()
     }
 
     companion object {

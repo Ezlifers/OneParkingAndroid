@@ -8,10 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 
 import ezlife.movil.oneparkingapp.R
+import ezlife.movil.oneparkingapp.di.Injectable
 import ezlife.movil.oneparkingapp.ui.main.zone.ZoneFragment
 import ezlife.movil.oneparkingapp.ui.main.zone.ZoneViewModel
 
-class ReserveFragment : DialogFragment() {
+class ReserveFragment : DialogFragment(), Injectable {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {

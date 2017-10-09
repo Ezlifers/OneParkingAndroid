@@ -13,7 +13,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.jakewharton.rxbinding2.view.clicks
-import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
@@ -22,12 +21,12 @@ import ezlife.movil.oneparkingapp.activities.toast
 import ezlife.movil.oneparkingapp.data.api.model.ZoneState
 import ezlife.movil.oneparkingapp.data.observer.MarkObserver
 import ezlife.movil.oneparkingapp.databinding.MainBinding
-import ezlife.movil.oneparkingapp.util.push
+import ezlife.movil.oneparkingapp.util.LifeDisposable
 import ezlife.movil.oneparkingapp.util.subscribeWithError
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
+
 //TODO: Crear un observable que revise o emita un cambio de tipo en el marker free->tarification
 class MainActivity : AppCompatActivity(), HasSupportFragmentInjector, OnMapReadyCallback {
 
@@ -45,11 +44,10 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector, OnMapReady
     private var markers: MutableMap<String, Marker> = mutableMapOf()
 
 
-    val dis: CompositeDisposable = CompositeDisposable()
+    val dis: LifeDisposable = LifeDisposable(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AndroidInjection.inject(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.tracing = false
 
@@ -62,33 +60,33 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector, OnMapReady
     override fun onResume() {
         super.onResume()
 
-        dis push btnMoney.clicks()
+        dis add btnMoney.clicks()
                 .subscribe { }
 
-        dis push btnCar.clicks()
+        dis add btnCar.clicks()
                 .subscribe { navigation.showDialogCar() }
 
-        dis push btnLocation.clicks()
+        dis add btnLocation.clicks()
                 .subscribe { }
 
-        dis push viewModel.selectedCar()
+        dis add viewModel.selectedCar()
                 .subscribe { binding.car = it }
 
-        dis push viewModel.getCash()
+        dis add viewModel.getCash()
                 .subscribeWithError(
                         onNext = { binding.money = it },
                         onError = { toast(it.message!!) },
                         onHttpError = this::toast
                 )
 
-        dis push viewModel.verifyCurrentSetup()
+        dis add viewModel.verifyCurrentSetup()
                 .subscribeWithError(
                         onNext = navigation::showDialogSetup,
                         onError = { },
                         onHttpError = { }
                 )
 
-        dis push states
+        dis add states
                 .flatMap(viewModel::currentState)
                 .subscribeWithError(
                         onNext = this::addMarkers,
@@ -96,7 +94,7 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector, OnMapReady
                         onHttpError = this::toast
                 )
 
-        dis push markObserver.markerState
+        dis add markObserver.markerState
                 .subscribe {
                     val marker = markers[it.id]
                     val state = marker?.tag as ZoneState
@@ -104,11 +102,6 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector, OnMapReady
                     changeColor(state, marker)
                 }
 
-    }
-
-    override fun onStop() {
-        super.onStop()
-        dis.clear()
     }
 
     //region Map

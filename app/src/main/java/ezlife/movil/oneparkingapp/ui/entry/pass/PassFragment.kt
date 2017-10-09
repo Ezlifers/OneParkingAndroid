@@ -8,38 +8,32 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.jakewharton.rxbinding2.view.clicks
-import dagger.android.support.AndroidSupportInjection
 import ezlife.movil.oneparkingapp.R
 import ezlife.movil.oneparkingapp.databinding.FragmentPassBinding
+import ezlife.movil.oneparkingapp.di.Injectable
 import ezlife.movil.oneparkingapp.ui.entry.EntryNavigationController
 import ezlife.movil.oneparkingapp.ui.entry.register.RegisterFragment
 import ezlife.movil.oneparkingapp.util.*
-import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_pass.*
 import kotlinx.android.synthetic.main.fragment_register.*
 import org.jetbrains.anko.support.v4.toast
 import javax.inject.Inject
 
-class PassFragment : Fragment() {
+class PassFragment : Fragment(), Injectable {
 
     @Inject
     lateinit var viewModel: PassViewModel
     @Inject
     lateinit var navigation: EntryNavigationController
     @Inject
-    lateinit var loader:Loader
-    lateinit var binding:FragmentPassBinding
+    lateinit var loader: Loader
+    lateinit var binding: FragmentPassBinding
 
     private val hasCars: Boolean by lazy { arguments.getBoolean(EXTRA_CARS, false) }
-    private val dis: CompositeDisposable = CompositeDisposable()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        AndroidSupportInjection.inject(this)
-    }
+    private val dis: LifeDisposable = LifeDisposable(this)
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View?{
+                              savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_pass, container, false)
         binding.loader = loader
         return binding.root
@@ -48,7 +42,7 @@ class PassFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        dis push btnOk.clicks()
+        dis add btnOk.clicks()
                 .flatMap { validateForm(R.string.pass_form, pass.text(), pass1.text()) }
                 .flatMap { form -> viewModel.validatePasswords(form[0], form[1]).map { form[0] } }
                 .loader(loader)
@@ -63,11 +57,6 @@ class PassFragment : Fragment() {
                         onHttpError = this::toast
 
                 )
-    }
-
-    override fun onStop() {
-        super.onStop()
-        dis.clear()
     }
 
     companion object {

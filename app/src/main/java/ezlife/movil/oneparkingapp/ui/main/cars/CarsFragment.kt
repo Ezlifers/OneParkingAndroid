@@ -7,18 +7,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.jakewharton.rxbinding2.view.clicks
-import dagger.android.support.AndroidSupportInjection
 import ezlife.movil.oneparkingapp.R
 import ezlife.movil.oneparkingapp.databinding.FragmentCarsBinding
+import ezlife.movil.oneparkingapp.di.Injectable
 import ezlife.movil.oneparkingapp.ui.adapter.CarAdapter
 import ezlife.movil.oneparkingapp.ui.main.MainNavigationController
-import ezlife.movil.oneparkingapp.util.push
-import io.reactivex.disposables.CompositeDisposable
+import ezlife.movil.oneparkingapp.util.LifeDisposable
 import kotlinx.android.synthetic.main.fragment_cars.*
 import javax.inject.Inject
 
 
-class CarsFragment : DialogFragment(){
+class CarsFragment : DialogFragment(), Injectable {
     @Inject
     lateinit var viewModel: CarsViewModel
     @Inject
@@ -27,12 +26,7 @@ class CarsFragment : DialogFragment(){
     lateinit var navigation: MainNavigationController
     lateinit var binding: FragmentCarsBinding
 
-    val dis: CompositeDisposable = CompositeDisposable()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        AndroidSupportInjection.inject(this)
-    }
+    val dis: LifeDisposable = LifeDisposable(this)
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -44,23 +38,18 @@ class CarsFragment : DialogFragment(){
     override fun onResume() {
         super.onResume()
 
-        dis push btnSetup.clicks()
+        dis add btnSetup.clicks()
                 .subscribe {
                     navigation.navigateToListCars()
                     dismiss()
                 }
 
-        dis push viewModel.getCars()
+        dis add viewModel.getCars()
                 .subscribe { adapter.data = it }
 
-        dis push adapter.onSelectCar
+        dis add adapter.onSelectCar
                 .flatMap(viewModel::selectCar)
                 .subscribe()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        dis.dispose()
     }
 
     companion object {

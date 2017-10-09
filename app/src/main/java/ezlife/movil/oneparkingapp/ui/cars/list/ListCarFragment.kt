@@ -9,20 +9,19 @@ import android.view.View
 import android.view.ViewGroup
 import com.jakewharton.rxbinding2.support.v4.widget.refreshes
 import com.jakewharton.rxbinding2.view.clicks
-import dagger.android.support.AndroidSupportInjection
 import ezlife.movil.oneparkingapp.R
 import ezlife.movil.oneparkingapp.databinding.FragmentListCarBinding
+import ezlife.movil.oneparkingapp.di.Injectable
 import ezlife.movil.oneparkingapp.ui.adapter.CarAdapter
 import ezlife.movil.oneparkingapp.ui.cars.CarsNavigationController
+import ezlife.movil.oneparkingapp.util.LifeDisposable
 import ezlife.movil.oneparkingapp.util.Loader
-import ezlife.movil.oneparkingapp.util.push
 import ezlife.movil.oneparkingapp.util.subscribeWithError
-import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_list_car.*
 import org.jetbrains.anko.support.v4.toast
 import javax.inject.Inject
 
-class ListCarFragment : Fragment() {
+class ListCarFragment : Fragment(), Injectable {
 
     @Inject
     lateinit var viewModel: ListCarViewModel
@@ -34,12 +33,7 @@ class ListCarFragment : Fragment() {
     lateinit var adapter: CarAdapter
     lateinit var binding: FragmentListCarBinding
 
-    val dis: CompositeDisposable = CompositeDisposable()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        AndroidSupportInjection.inject(this)
-    }
+    val dis: LifeDisposable = LifeDisposable(this)
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -51,13 +45,13 @@ class ListCarFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        dis push viewModel.getCars()
+        dis add viewModel.getCars()
                 .subscribe { adapter.data = it }
 
-        dis push btnAdd.clicks()
+        dis add btnAdd.clicks()
                 .subscribe { navigation.navigateToAdd(false) }
 
-        dis push adapter.onClearCar
+        dis add adapter.onClearCar
                 .flatMap { viewModel.deleteCar(it, adapter.data.size) }
                 .subscribeWithError(
                         onNext = { toast(R.string.my_car_remove) },
@@ -65,21 +59,16 @@ class ListCarFragment : Fragment() {
                         onHttpError = this::toast
                 )
 
-        dis push adapter.onSelectCar
+        dis add adapter.onSelectCar
                 .flatMap(viewModel::selectCar)
                 .subscribe()
 
-        dis push swipe.refreshes()
+        dis add swipe.refreshes()
                 .flatMap { viewModel.reloadCars() }
                 .subscribeWithError(
                         onNext = { swipe.isRefreshing = false },
                         onHttpError = this::toast
                 )
-    }
-
-    override fun onStop() {
-        super.onStop()
-        dis.clear()
     }
 
     companion object {

@@ -5,8 +5,8 @@ import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import ezlife.movil.oneparkingapp.App
-import ezlife.movil.oneparkingapp.di.ActivityBuilder
-import ezlife.movil.oneparkingapp.di.ViewModelBuilder
+import ezlife.movil.oneparkingapp.di.modules.ActivityBuilder
+import ezlife.movil.oneparkingapp.di.modules.ViewModelBuilder
 import ezlife.movil.oneparkingapp.di.modules.AppModule
 import javax.inject.Singleton
 

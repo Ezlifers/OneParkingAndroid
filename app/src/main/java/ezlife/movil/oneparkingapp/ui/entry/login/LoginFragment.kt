@@ -12,15 +12,15 @@ import dagger.android.support.AndroidSupportInjection
 import ezlife.movil.oneparkingapp.R
 import ezlife.movil.oneparkingapp.data.api.model.User
 import ezlife.movil.oneparkingapp.databinding.FragmentLoginBinding
+import ezlife.movil.oneparkingapp.di.Injectable
 import ezlife.movil.oneparkingapp.ui.entry.EntryNavigationController
 import ezlife.movil.oneparkingapp.util.*
-import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_login.*
 import org.jetbrains.anko.support.v4.toast
 import retrofit2.HttpException
 import javax.inject.Inject
 
-class LoginFragment : Fragment() {
+class LoginFragment : Fragment(), Injectable {
 
     @Inject
     lateinit var viewModel: LoginViewModel
@@ -30,12 +30,7 @@ class LoginFragment : Fragment() {
     lateinit var loader: Loader
     lateinit var binding: FragmentLoginBinding
 
-    val dis: CompositeDisposable = CompositeDisposable()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        AndroidSupportInjection.inject(this)
-    }
+    val dis: LifeDisposable = LifeDisposable(this)
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -48,10 +43,10 @@ class LoginFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        dis push btnReg.clicks()
+        dis add btnReg.clicks()
                 .subscribe { navigation.navigateToRegister() }
 
-        dis push btnIn.clicks()
+        dis add btnIn.clicks()
                 .flatMap { validateForm(R.string.login_form, username.text(), password.text()) }
                 .loader(loader)
                 .flatMap { viewModel.login(it[0], it[1]) }
@@ -60,11 +55,6 @@ class LoginFragment : Fragment() {
                         onError = this::loginFail,
                         onHttpError = this::toast
                 )
-    }
-
-    override fun onStop() {
-        super.onStop()
-        dis.clear()
     }
 
     private fun loginSuccess(user: User) {

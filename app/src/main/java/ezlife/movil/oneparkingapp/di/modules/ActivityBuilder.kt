@@ -1,4 +1,4 @@
-package ezlife.movil.oneparkingapp.di
+package ezlife.movil.oneparkingapp.di.modules
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector

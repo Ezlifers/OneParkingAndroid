@@ -13,11 +13,12 @@ import ezlife.movil.oneparkingapp.R
 import ezlife.movil.oneparkingapp.activities.MapActivity
 import ezlife.movil.oneparkingapp.activities.startActivity
 import ezlife.movil.oneparkingapp.databinding.SplashBinding
+import ezlife.movil.oneparkingapp.di.Injectable
 import ezlife.movil.oneparkingapp.ui.entry.EntryActivity
 import ezlife.movil.oneparkingapp.ui.main.MainActivity
 import javax.inject.Inject
 
-class SplashActivity : AppCompatActivity(), Animator.AnimatorListener {
+class SplashActivity : AppCompatActivity(), Animator.AnimatorListener, Injectable {
 
     @Inject
     lateinit var viewModel: SplashViewModel
@@ -28,7 +29,6 @@ class SplashActivity : AppCompatActivity(), Animator.AnimatorListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AndroidInjection.inject(this)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
         binding.root.viewTreeObserver.addOnGlobalLayoutListener {

@@ -1,4 +1,4 @@
-package ezlife.movil.oneparkingapp.di
+package ezlife.movil.oneparkingapp.di.modules
 
 import android.arch.lifecycle.ViewModel
 import dagger.Binds

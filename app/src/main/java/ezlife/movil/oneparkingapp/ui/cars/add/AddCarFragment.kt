@@ -8,18 +8,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.jakewharton.rxbinding2.view.clicks
-import dagger.android.support.AndroidSupportInjection
 import ezlife.movil.oneparkingapp.R
 import ezlife.movil.oneparkingapp.data.db.model.Car
 import ezlife.movil.oneparkingapp.databinding.FragmentAddCarBinding
+import ezlife.movil.oneparkingapp.di.Injectable
 import ezlife.movil.oneparkingapp.ui.cars.CarsNavigationController
 import ezlife.movil.oneparkingapp.util.*
-import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_add_car.*
 import org.jetbrains.anko.support.v4.toast
 import javax.inject.Inject
 
-class AddCarFragment : Fragment() {
+class AddCarFragment : Fragment(), Injectable {
 
     @Inject
     lateinit var viewModel: AddCarViewModel
@@ -30,12 +29,7 @@ class AddCarFragment : Fragment() {
     lateinit var binding: FragmentAddCarBinding
     private val firstTime: Boolean by lazy { arguments.getBoolean(EXTRA_FIRST_TIME, false) }
 
-    val dis: CompositeDisposable = CompositeDisposable()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        AndroidSupportInjection.inject(this)
-    }
+    val dis: LifeDisposable = LifeDisposable(this)
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -47,7 +41,7 @@ class AddCarFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        dis push btnAdd.clicks()
+        dis add btnAdd.clicks()
                 .flatMap { validateForm(R.string.report_form, plate.text(), nickname.text(), brand.text()) }
                 .loader(loader)
                 .flatMap { viewModel.insert(Car(it[0], it[1], it[2], firstTime)) }
@@ -60,11 +54,6 @@ class AddCarFragment : Fragment() {
                         onError = { toast(it.message!!) },
                         onHttpError = this::toast
                 )
-    }
-
-    override fun onStop() {
-        super.onStop()
-        dis.dispose()
     }
 
     companion object {

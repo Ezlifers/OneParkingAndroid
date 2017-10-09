@@ -5,25 +5,19 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import dagger.android.support.AndroidSupportInjection
 import ezlife.movil.oneparkingapp.R
+import ezlife.movil.oneparkingapp.di.Injectable
 import ezlife.movil.oneparkingapp.ui.adapter.PriceAdapter
-import ezlife.movil.oneparkingapp.util.push
-import io.reactivex.disposables.CompositeDisposable
+import ezlife.movil.oneparkingapp.util.LifeDisposable
 import kotlinx.android.synthetic.main.fragment_prices.*
 import javax.inject.Inject
 
-class PricesFragment : Fragment() {
+class PricesFragment : Fragment(), Injectable {
 
     @Inject
     lateinit var viewModel: PricesViewModel
-    val dis: CompositeDisposable = CompositeDisposable()
+    val dis: LifeDisposable = LifeDisposable(this)
     val adapter: PriceAdapter = PriceAdapter()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        AndroidSupportInjection.inject(this)
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? =
@@ -32,16 +26,11 @@ class PricesFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         list.adapter = adapter
-        dis push viewModel.getSetupPrice()
+        dis add viewModel.getSetupPrice()
                 .subscribe { (time, prices) ->
                     adapter.timeMin = time
                     adapter.prices = prices
                 }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        dis.clear()
     }
 
     companion object {

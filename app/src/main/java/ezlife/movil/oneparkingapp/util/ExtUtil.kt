@@ -8,8 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 
 
 fun EditText.text(): String = text.toString()
@@ -18,21 +16,15 @@ fun TextInputLayout.text(): String = editText?.text.toString()
 
 fun ViewGroup.inflate(layoutId: Int): View = LayoutInflater.from(context).inflate(layoutId, this, false)
 
-infix fun CompositeDisposable.push(disposable: Disposable) {
-    add(disposable)
-}
-
 fun Int.toTimeFormat(): String {
     var h = this / 60
     val m = this % 60
     val min = if (m < 10) "0$m" else "$m"
 
-    val format: String =
-            if (h > 12) {
-                h -= 12
-                "$h:$min pm"
-            } else "$h:$min am"
-    return format
+    return if (h > 12) {
+        h -= 12
+        "$h:$min pm"
+    } else "$h:$min am"
 }
 
 fun Int.toHourFormat(onlyMin: Boolean): String {
@@ -45,7 +37,7 @@ fun Int.toHourFormat(onlyMin: Boolean): String {
     }
 }
 
-fun Fragment.setupArgs(vararg args:Pair<String, Any>){
+fun Fragment.setupArgs(vararg args: Pair<String, Any>) {
     val bundle = Bundle()
     args.forEach {
         val value = it.second

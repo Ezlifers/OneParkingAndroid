@@ -14,11 +14,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.jakewharton.rxbinding2.view.clicks
 import com.squareup.picasso.Picasso
-import dagger.android.support.AndroidSupportInjection
 import ezlife.movil.oneparkingapp.R
 import ezlife.movil.oneparkingapp.databinding.FragmentReportBinding
+import ezlife.movil.oneparkingapp.di.Injectable
 import ezlife.movil.oneparkingapp.util.*
-import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_report.*
 import org.jetbrains.anko.support.v4.toast
 import java.io.File
@@ -26,7 +25,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
-class ReportFragment : DialogFragment() {
+class ReportFragment : DialogFragment(), Injectable {
 
     @Inject
     lateinit var loader: Loader
@@ -34,7 +33,7 @@ class ReportFragment : DialogFragment() {
     lateinit var viewModel: ReportViewModel
 
     lateinit var binding: FragmentReportBinding
-    val dis: CompositeDisposable = CompositeDisposable()
+    val dis: LifeDisposable = LifeDisposable(this)
 
     var width = 0
     var height = 0
@@ -43,11 +42,6 @@ class ReportFragment : DialogFragment() {
     val name: String by lazy { arguments.getString(EXTRA_ZONE_NAME) }
     val code: Int by lazy { arguments.getInt(EXTRA_ZONE_CODE) }
     val id: String by lazy { arguments.getString(EXTRA_ZONE_ID) }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        AndroidSupportInjection.inject(this)
-    }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -61,10 +55,10 @@ class ReportFragment : DialogFragment() {
 
     override fun onResume() {
         super.onResume()
-        dis push btnImg.clicks()
+        dis add btnImg.clicks()
                 .subscribe { takePhoto() }
 
-        dis push btnReport.clicks()
+        dis add btnReport.clicks()
                 .flatMap {
                     validateForm(R.string.report_form_image, description.text(),
                             if (fileImage == null) "" else "ready")
@@ -79,11 +73,6 @@ class ReportFragment : DialogFragment() {
                         onError = { toast(it.message!!) },
                         onHttpError = this::toast
                 )
-    }
-
-    override fun onStop() {
-        super.onStop()
-        dis.clear()
     }
 
     //region Take Photo

@@ -38,12 +38,13 @@ class ScheduleAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
 
+    class DayHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val binding: TemplateDayBinding = DataBindingUtil.bind(view)
+    }
+
+    class ScheduleHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val binding: TemplateScheduleBinding = DataBindingUtil.bind(view)
+    }
+
 }
 
-class DayHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val binding: TemplateDayBinding = DataBindingUtil.bind(view)
-}
-
-class ScheduleHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val binding: TemplateScheduleBinding = DataBindingUtil.bind(view)
-}
